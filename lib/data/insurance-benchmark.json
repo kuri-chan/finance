@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "title": "過剰保険チェックの判定ベンチマーク",
+    "note": "制度ではなく実務ベンチマーク。想定削減額の推定に用いる係数。すべて『目安・要検証』。断定的な推奨には使わない。金額は円/年。",
+    "sources": [
+      "各社 定期保険の保険料水準（年齢帯別の実勢の目安）",
+      "損害保険の特約構成に関する一般的な重複論点（人身傷害と搭乗者傷害の補償重複、弁護士特約の世帯重複、車両保険の費用対効果）"
+    ]
+  },
+  "term": {
+    "annualPremiumPer10MillionByAgeBand": [
+      { "maxAge": 34, "premium": 18000 },
+      { "maxAge": 44, "premium": 30000 },
+      { "maxAge": 54, "premium": 60000 },
+      { "maxAge": 200, "premium": 120000 }
+    ],
+    "note": "定期保険（掛け捨て）1,000万円あたりの年間保険料の目安。過剰保障の削減額と、貯蓄性保険の掛け捨て置換コストの推定に使用。"
+  },
+  "medical": {
+    "keepBestOnly": true,
+    "note": "同一被保険者に複数の医療保険がある場合、入院日額が最も手厚い1本を残し、残りを重複とみなす。"
+  },
+  "savingsInsurance": {
+    "flagTypes": ["whole", "endowment"],
+    "note": "終身・養老は貯蓄性。保障だけを定期で確保した場合との保険料差を『非効率（見直し余地）』として提示。解約返戻金があるため断定はしない。"
+  },
+  "fire": {
+    "commonlyOverlappingRiders": ["water_leak_extended", "theft_high", "accidental_damage"],
+    "riderAnnualCostEstimate": 4000,
+    "contentsCoveragePerHouseholdMember": 2000000,
+    "contentsPremiumRatePer10Million": 8000,
+    "note": "家財の付保額が『世帯人数 × 200万円』を大きく超える分は過剰の目安。特約は重複しやすいものを列挙。"
+  },
+  "auto": {
+    "passengerInjuryRiderAnnualCost": 3000,
+    "legalRiderAnnualCost": 2500,
+    "vehicleCoverageDropAgeYears": 7,
+    "vehicleCoverageDropValue": 500000,
+    "vehicleCoveragePremiumRatioWhenUnknown": 0.4,
+    "note": "人身傷害があれば搭乗者傷害は補償重複の目安。弁護士特約は世帯で1本に集約可。車齢7年超または車両価値50万円以下なら車両保険の費用対効果が低下する目安。"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "title": "教育費（進路別・年齢別 / 円・年）",
+    "sources": [
+      "文部科学省『令和3年度 子供の学習費調査』（幼稚園〜高校の学習費総額 年額）",
+      "文部科学省『国公私立大学の授業料等の推移』（大学 年額の目安）"
+    ],
+    "note": "path=public は 公立中心＋国立大、path=private は 私立中心＋私立大 の年額目安。年齢は満年齢の目安。要検証。"
+  },
+  "stages": [
+    { "name": "preschool", "ageFrom": 3, "ageTo": 5, "public": 165000, "private": 308000 },
+    { "name": "elementary", "ageFrom": 6, "ageTo": 11, "public": 353000, "private": 1667000 },
+    { "name": "juniorHigh", "ageFrom": 12, "ageTo": 14, "public": 539000, "private": 1436000 },
+    { "name": "highSchool", "ageFrom": 15, "ageTo": 17, "public": 513000, "private": 1054000 },
+    { "name": "university", "ageFrom": 18, "ageTo": 21, "public": 607000, "private": 1400000 }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "title": "NISA（少額投資非課税制度）の制度定数",
+    "fiscalYear": "2024（新NISA）",
+    "sources": [
+      "金融庁『新しいNISA』 https://www.fsa.go.jp/policy/nisa2/",
+      "国税庁『上場株式等の譲渡益・配当等に対する課税（20.315%）』"
+    ],
+    "note": "新NISAの年間投資枠（つみたて120万＋成長240万＝360万/人）、生涯非課税保有限度額1,800万円/人。運用益は非課税。assumedAnnualReturn は試算用の保守的な仮定であり、将来の運用成果を保証しない。"
+  },
+  "annualLimit": { "tsumitate": 1200000, "growth": 2400000, "total": 3600000 },
+  "lifetimeLimit": 18000000,
+  "taxExemptRate": 0.20315,
+  "assumedAnnualReturn": 0.03
+}

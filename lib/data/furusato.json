@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "title": "ふるさと納税の制度定数",
+    "sources": [
+      "総務省『ふるさと納税ポータルサイト（税金の控除について）』 https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/furusato/mechanism/deduction.html",
+      "総務省『ふるさと納税に係る指定制度』（返礼品は寄附額の3割以下）"
+    ],
+    "note": "限度額（自己負担2,000円で寄附できる上限）= 住民税所得割額 × 20% ÷ (90% − 所得税率×1.021) + 2,000。"
+  },
+  "selfPay": 2000,
+  "returnRate": 0.3,
+  "residentTaxSpecialRatio": 0.2
+}

@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "title": "所得税・住民税の制度定数",
+    "fiscalYear": "2024年度（令和6年度）",
+    "sources": [
+      "国税庁『給与所得控除』 https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1410.htm",
+      "国税庁『所得税の税率』 https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/2260.htm",
+      "総務省『個人住民税』（所得割の標準税率10%）",
+      "復興特別所得税（基準所得税額×2.1%）"
+    ],
+    "note": "制度改正時はこのファイルの数値のみ差し替える。社会保険料は概算率（会社員は給与の約15%）で簡易推定。個人事業主は入力年収を事業所得とみなす簡易化。"
+  },
+  "salaryDeduction": {
+    "note": "給与所得控除。type=flat は amount 固定、type=rate は 収入×rate+add。",
+    "brackets": [
+      { "maxIncome": 1625000, "type": "flat", "amount": 550000 },
+      { "maxIncome": 1800000, "type": "rate", "rate": 0.4, "add": -100000 },
+      { "maxIncome": 3600000, "type": "rate", "rate": 0.3, "add": 80000 },
+      { "maxIncome": 6600000, "type": "rate", "rate": 0.2, "add": 440000 },
+      { "maxIncome": 8500000, "type": "rate", "rate": 0.1, "add": 1100000 },
+      { "maxIncome": 999999999999, "type": "flat", "amount": 1950000 }
+    ]
+  },
+  "socialInsuranceRate": {
+    "employee": 0.15,
+    "self_employed": 0.1,
+    "note": "会社員は健康保険+厚生年金+雇用保険の概算率。個人事業主は国民年金+国民健康保険の概算率。"
+  },
+  "basicDeduction": {
+    "incomeTax": 480000,
+    "residentTax": 430000,
+    "note": "合計所得金額2,400万円以下の基礎控除。"
+  },
+  "spouseDeduction": {
+    "incomeTax": 380000,
+    "residentTax": 330000,
+    "taxpayerIncomeLimit": 9000000,
+    "spouseIncomeLimit": 1030000,
+    "note": "配偶者控除（一般）。納税者の給与収入が約900万円以下、配偶者の給与収入が103万円以下のとき満額。段階的減額は簡易化して未考慮。"
+  },
+  "incomeTaxBrackets": [
+    { "maxTaxable": 1950000, "rate": 0.05 },
+    { "maxTaxable": 3300000, "rate": 0.1 },
+    { "maxTaxable": 6950000, "rate": 0.2 },
+    { "maxTaxable": 9000000, "rate": 0.23 },
+    { "maxTaxable": 18000000, "rate": 0.33 },
+    { "maxTaxable": 40000000, "rate": 0.4 },
+    { "maxTaxable": 999999999999, "rate": 0.45 }
+  ],
+  "reconstructionSurtaxRate": 1.021,
+  "residentTaxRate": 0.1
+}

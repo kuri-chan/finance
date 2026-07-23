@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "title": "生活費・前提の既定値",
+    "sources": [
+      "FP実務の一般則：遺族の生活費は現在の生活費の 50%（子独立後）〜70%（子がいる間）が目安",
+      "葬儀費用：全国平均 約110〜200万円（鎌倉新書『お葬式に関する全国調査』等）",
+      "厚生労働省『簡易生命表』（平均余命の目安）"
+    ],
+    "note": "制度定数ではなく実務・統計ベースの前提。input.assumptions で上書き可能。金額は円。"
+  },
+  "livingRatioWithChild": 0.7,
+  "livingRatioNoChild": 0.5,
+  "funeralCost": 2000000,
+  "childIndependenceAge": 22,
+  "ownedMaintenanceAnnual": 200000,
+  "livingCostIncomeRatio": 0.45,
+  "careerStartAge": 22,
+  "retirementAge": 65,
+  "survivorLifeExpectancyAge": { "husband": 84, "wife": 90 },
+  "educationPath": "public",
+  "savingHorizonYears": 30,
+  "takeHomeRatioByIncome": [
+    { "maxIncome": 3000000, "ratio": 0.82 },
+    { "maxIncome": 5000000, "ratio": 0.79 },
+    { "maxIncome": 8000000, "ratio": 0.75 },
+    { "maxIncome": 12000000, "ratio": 0.72 },
+    { "maxIncome": 999999999999, "ratio": 0.68 }
+  ]
+}

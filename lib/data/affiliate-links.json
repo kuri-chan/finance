@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "title": "アフィリエイト送客先の対応データ",
+    "note": "ASP登録後に url を埋めるだけで実リンク化される（コード変更不要）。url が空の間は『提携準備中』として非リンク表示。景表法（ステマ規制）に基づきPR明示・中立性開示を必須とする。",
+    "sources": [
+      "消費者庁『一般消費者が事業者の表示であることを判別することが困難である表示』（ステルスマーケティング告示・2023年10月施行）"
+    ]
+  },
+  "prLabel": "PR",
+  "disclosure": "当サイトはアフィリエイトプログラムにより収益を得ています。掲載する相談・見積もりサービスには広告が含まれますが、診断結果（改善余地・打ち手・効果額）は入力とロジックにもとづき中立に算出しており、広告の有無で内容は変わりません。不要な場合は今のままで問題ありません。",
+  "destinations": {
+    "life_review": {
+      "id": "life_review",
+      "provider": "（ASP登録後に設定）",
+      "label": "保険の見直しを専門家に無料相談",
+      "url": "",
+      "kind": "consultation",
+      "note": "生保・医療・貯蓄性保険の過不足や重複の見直し窓口への送客を想定。"
+    },
+    "fire_estimate": {
+      "id": "fire_estimate",
+      "provider": "（ASP登録後に設定）",
+      "label": "火災保険を一括見積もりする",
+      "url": "",
+      "kind": "estimate",
+      "note": "火災保険の補償・特約の適正化に向けた一括見積もりを想定。"
+    },
+    "auto_estimate": {
+      "id": "auto_estimate",
+      "provider": "（ASP登録後に設定）",
+      "label": "自動車保険を一括見積もりする",
+      "url": "",
+      "kind": "estimate",
+      "note": "自動車保険の重複補償・車両保険の要否見直しに向けた一括見積もりを想定。"
+    },
+    "furusato_portal": {
+      "id": "furusato_portal",
+      "provider": "（ASP登録後に設定）",
+      "label": "ふるさと納税ポータルで寄附先を探す",
+      "url": "",
+      "kind": "estimate",
+      "note": "ふるさと納税ポータルサイトへの送客を想定。低〜中単価。"
+    },
+    "securities_account": {
+      "id": "securities_account",
+      "provider": "（ASP登録後に設定）",
+      "label": "NISA・iDeCoを始められる証券口座を比較する",
+      "url": "",
+      "kind": "estimate",
+      "note": "iDeCo/NISA対応の証券口座開設への送客を想定。高単価。"
+    }
+  },
+  "domainMap": {
+    "life": "life_review",
+    "medical": "life_review",
+    "savings_insurance": "life_review",
+    "fire": "fire_estimate",
+    "auto": "auto_estimate",
+    "furusato": "furusato_portal",
+    "ideco": "securities_account",
+    "nisa": "securities_account"
+  },
+  "gapDestination": "life_review"
+}

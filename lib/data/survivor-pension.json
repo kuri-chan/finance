@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "title": "遺族年金 制度定数",
+    "fiscalYear": "2024年度（令和6年度）",
+    "sources": [
+      "日本年金機構『遺族基礎年金（受給要件・支給開始時期・計算方法）』 https://www.nenkin.go.jp/service/jukyu/izokunenkin/jukyu-yoken/20150401-01.html",
+      "日本年金機構『遺族厚生年金（受給要件・支給開始時期・計算方法）』 https://www.nenkin.go.jp/service/jukyu/izokunenkin/jukyu-yoken/20150401-02.html",
+      "厚生労働省『令和6年度の年金額改定について』"
+    ],
+    "note": "制度改正時はこのファイルの数値のみ差し替える（関数側は変更不要）。金額は円/年。"
+  },
+  "eligibility": {
+    "survivorAnnualIncomeThreshold": 8500000,
+    "note": "生計維持要件。遺族の前年収入が850万円未満（または所得655.5万円未満）であること。これ以上の収入がある遺族は原則として遺族年金（遺族基礎・遺族厚生とも）を受けられない。将来概ね5年以内に基準未満となる見込みの場合の緩和は本エンジンでは未考慮。"
+  },
+  "basicPension": {
+    "annualAmount": 816000,
+    "childAddition": { "firstSecond": 234800, "thirdOnward": 78300 },
+    "childEligibleUntilAge": 18,
+    "note": "遺族基礎年金は『子のある配偶者』または『子』に支給。子は18歳到達年度末まで（障害等は20歳）。本エンジンでは年次モデルのため『満年齢が childEligibleUntilAge 以下の年』を対象とみなす（到達年度末の近似）。子加算は第1・2子 各234,800円、第3子以降 各78,300円。"
+  },
+  "employeesPension": {
+    "multiplierPerMille": 5.481,
+    "minInsuredMonths": 300,
+    "survivorRatio": 0.75,
+    "standardRewardMonthlyCap": 650000,
+    "husbandSurvivorStartAge": 60,
+    "note": "遺族厚生年金 = 報酬比例部分 × 3/4。報酬比例部分 = 平均標準報酬額 × 5.481/1000 × 被保険者月数。短期要件では被保険者月数は最低300月みなし。夫が受給者の場合、遺族基礎年金を受けられない期間は原則60歳から支給（簡易反映）。会社員（厚生年金加入）のみ対象。"
+  },
+  "midAgeWidowAddition": {
+    "annualAmount": 612000,
+    "minAge": 40,
+    "maxAge": 65,
+    "note": "中高齢寡婦加算。夫死亡時、40歳以上65歳未満で遺族基礎年金を受けられない妻に加算。夫死亡時に40歳未満かつ子のない妻は、その後40歳を超えても対象外（＝『夫死亡時に40歳以上』または『子がいた（遺族基礎年金を受けていた）』ことが基礎要件）。金額は2024年度。"
+  }
+}

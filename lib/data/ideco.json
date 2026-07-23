@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "title": "iDeCo（個人型確定拠出年金）の制度定数",
+    "fiscalYear": "2024年度（令和6年度）",
+    "sources": [
+      "iDeCo公式サイト（国民年金基金連合会）『iDeCoの加入資格・掛金』 https://www.ideco-koushiki.jp/",
+      "厚生労働省『確定拠出年金制度の概要』"
+    ],
+    "note": "掛金上限（円/月）。第1号（自営）は国民年金基金等と合算で68,000円。会社員は企業年金の有無で異なる。2024年12月の改正で会社員の上限は変更されるため、改正後はこの値を差し替える。掛金は全額所得控除、原則60歳まで引き出し不可。"
+  },
+  "monthlyLimit": {
+    "self_employed": 68000,
+    "employee_no_corporate_pension": 23000,
+    "employee_with_corporate_dc": 20000
+  }
+}

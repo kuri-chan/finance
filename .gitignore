@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+coverage/
+*.log
+.DS_Store
+.vercel
+
+# env（.env.example は追跡する）
+.env
+.env.local
+.env*.local
+
+# Claude Code のローカル個人設定（launch.json は共有可）
+.claude/settings.local.json
