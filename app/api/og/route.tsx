@@ -35,28 +35,36 @@ export async function GET(req: Request) {
   const fy = Math.max(0, Number(searchParams.get('fy')) || 0);
   const lt = Math.max(0, Number(searchParams.get('lt')) || 0);
   const top = (searchParams.get('top') ?? '').slice(0, 40);
+  const articleTitle = (searchParams.get('t') ?? '').slice(0, 60);
 
-  // v=hero: トップ/共有の汎用カード（数字なし）。既定: 診断結果カード（数字あり）。
-  const isHero = variant === 'hero';
+  // t=記事タイトル: 記事カード。v=hero: 汎用カード。既定: 診断結果カード（数字あり）。
+  const isArticle = articleTitle !== '';
+  const isHero = variant === 'hero' && !isArticle;
 
-  const label = '【二人のお金診断】';
-  const brand = '二人のお金診断';
+  const label = '【手取りラボ】';
+  const brand = '手取りラボ';
   const note = '情報提供・シミュレーション（募集・助言ではありません）';
 
-  const middle = isHero
+  const middle = isArticle
     ? {
-        sub: '結婚・同棲を機に、二人のお金を合算して設計',
-        head: 'あなたたち世帯、',
-        head2: '年いくらの改善余地？',
-        tail: '必要保障額の試算＋過剰保険チェックを、ログイン不要・無料で。',
+        sub: 'お金のガイド',
+        head: articleTitle,
+        tail: '共働き夫婦のための、保険・税・投資のやさしい解説',
       }
-    : {
-        sub: 'あなたたち世帯の改善余地',
-        head: `初年度 約${man(fy)}万円`,
-        perYear: '／年',
-        tail: `生涯では 約${man(lt)}万円 の削減余地`,
-        action: top ? `No.1の打ち手「${top}」` : '',
-      };
+    : isHero
+      ? {
+          sub: '結婚・同棲を機に、二人のお金を合算して設計',
+          head: 'あなたたち世帯、',
+          head2: '年いくらの改善余地？',
+          tail: '必要保障額の試算＋過剰保険チェックを、ログイン不要・無料で。',
+        }
+      : {
+          sub: 'あなたたち世帯の改善余地',
+          head: `初年度 約${man(fy)}万円`,
+          perYear: '／年',
+          tail: `生涯では 約${man(lt)}万円 の削減余地`,
+          action: top ? `No.1の打ち手「${top}」` : '',
+        };
 
   // 使用する全文字を集めてフォントサブセットを最小化
   const allText = [label, brand, note, ...Object.values(middle)].join('') + '0123456789,';
@@ -91,7 +99,11 @@ export async function GET(req: Request) {
           <div style={{ display: 'flex', fontSize: 38, opacity: 0.9, marginBottom: 10 }}>
             {middle.sub}
           </div>
-          {isHero ? (
+          {isArticle ? (
+            <div style={{ display: 'flex', fontSize: 56, fontWeight: 700, lineHeight: 1.3 }}>
+              {middle.head}
+            </div>
+          ) : isHero ? (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', fontSize: 78, fontWeight: 700 }}>{middle.head}</div>
               <div style={{ display: 'flex', fontSize: 78, fontWeight: 700 }}>{middle.head2}</div>

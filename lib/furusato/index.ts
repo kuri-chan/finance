@@ -43,12 +43,14 @@ export function furusatoLimit(person: FurusatoPerson, spouseIncome: number): num
     person.employmentType,
     spouseIncome,
     'incomeTax',
+    person.age,
   );
   const taxableResident = taxableIncome(
     person.annualIncome,
     person.employmentType,
     spouseIncome,
     'residentTax',
+    person.age,
   );
 
   const incomeLevy = residentTaxIncomeLevy(taxableResident);

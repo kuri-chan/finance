@@ -4,6 +4,8 @@ export interface FurusatoPerson {
   role?: string;
   annualIncome: number;
   employmentType: EmploymentType;
+  /** 年齢（介護保険料の判定に使用。省略可） */
+  age?: number;
 }
 
 export interface FurusatoAssumptions {

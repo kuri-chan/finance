@@ -21,10 +21,19 @@
       { "maxIncome": 999999999999, "type": "flat", "amount": 1950000 }
     ]
   },
-  "socialInsuranceRate": {
-    "employee": 0.15,
-    "self_employed": 0.1,
-    "note": "会社員は健康保険+厚生年金+雇用保険の概算率。個人事業主は国民年金+国民健康保険の概算率。"
+  "socialInsurance": {
+    "employee": {
+      "healthRate": 0.0499,
+      "pensionRate": 0.0915,
+      "employmentRate": 0.006,
+      "longTermCareRate": 0.008,
+      "longTermCareMinAge": 40,
+      "pensionMonthlyCap": 650000,
+      "healthMonthlyCap": 1390000,
+      "note": "本人負担分の料率（協会けんぽ・厚生年金の労使折半後の目安）。健保・厚年は標準報酬月額の上限（キャップ）を反映。40歳以上は介護保険料を加算。雇用保険は賃金全額に課金。"
+    },
+    "selfEmployedRate": 0.1,
+    "note": "会社員は上限を考慮した実効負担に近い概算。個人事業主は国民年金+国民健康保険の概算率（簡易）。"
   },
   "basicDeduction": {
     "incomeTax": 480000,

@@ -13,3 +13,6 @@ coverage/
 
 # Claude Code のローカル個人設定（launch.json は共有可）
 .claude/settings.local.json
+
+# TypeScript ビルドキャッシュ
+tsconfig.tsbuildinfo

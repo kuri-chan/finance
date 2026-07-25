@@ -48,6 +48,7 @@ function calcPerson(person: IdecoPerson, spouseIncome: number): IdecoPersonResul
     person.employmentType,
     spouseIncome,
     'incomeTax',
+    person.age,
   );
 
   // 課税所得がなければ節税は生じない（例：収入のない配偶者）

@@ -26,13 +26,28 @@ export function earnedIncome(income: number, employment: EmploymentType): number
   return Math.max(0, income - salaryIncomeDeduction(income));
 }
 
-/** 社会保険料控除の概算（円） */
-export function socialInsurance(income: number, employment: EmploymentType): number {
-  const rate =
-    employment === 'self_employed'
-      ? tax.socialInsuranceRate.self_employed
-      : tax.socialInsuranceRate.employee;
-  return income * rate;
+/**
+ * 社会保険料控除の概算（円）。
+ * 会社員は健保・厚生年金の標準報酬上限（キャップ）を反映し、高所得での過大計上を防ぐ。
+ * age を渡すと40歳以上で介護保険料を加算する（省略時は加算しない）。
+ * 個人事業主は概算率（国民年金＋国保）。
+ */
+export function socialInsurance(
+  income: number,
+  employment: EmploymentType,
+  age?: number,
+): number {
+  if (employment === 'self_employed') {
+    return income * tax.socialInsurance.selfEmployedRate;
+  }
+  const e = tax.socialInsurance.employee;
+  const monthly = income / 12;
+  const pensionBase = Math.min(monthly, e.pensionMonthlyCap);
+  const healthBase = Math.min(monthly, e.healthMonthlyCap);
+  const healthRate = e.healthRate + (age != null && age >= e.longTermCareMinAge ? e.longTermCareRate : 0);
+  const monthlyPremium =
+    healthBase * healthRate + pensionBase * e.pensionRate + monthly * e.employmentRate;
+  return Math.round(monthlyPremium * 12);
 }
 
 /** 配偶者控除（円）。一般・満額のみ（段階減額は未考慮）。 */
@@ -47,15 +62,16 @@ export function spouseDeduction(
   return kind === 'incomeTax' ? s.incomeTax : s.residentTax;
 }
 
-/** 課税所得（円）。kind により基礎控除・配偶者控除の額が変わる。 */
+/** 課税所得（円）。kind により基礎控除・配偶者控除の額が変わる。age は介護保険の判定に使う。 */
 export function taxableIncome(
   income: number,
   employment: EmploymentType,
   spouseIncome: number,
   kind: 'incomeTax' | 'residentTax',
+  age?: number,
 ): number {
   const earned = earnedIncome(income, employment);
-  const social = socialInsurance(income, employment);
+  const social = socialInsurance(income, employment, age);
   const basic = kind === 'incomeTax' ? tax.basicDeduction.incomeTax : tax.basicDeduction.residentTax;
   const spouse = spouseDeduction(income, spouseIncome, kind);
   return Math.max(0, earned - social - basic - spouse);

@@ -4,6 +4,8 @@ export interface IdecoPerson {
   role?: string;
   annualIncome: number;
   employmentType: EmploymentType;
+  /** 年齢（介護保険料の判定に使用。省略可） */
+  age?: number;
   /** 企業型DCに加入しているか（会社員の掛金上限に影響） */
   hasCorporateDC?: boolean;
   /** 現在のiDeCo掛金（円/月）。未加入は0。 */

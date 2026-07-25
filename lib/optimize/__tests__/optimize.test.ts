@@ -47,7 +47,8 @@ describe('optimizeHousehold — レバー横断の統合', () => {
 
   it('ふるさと納税を上限まで実施済みなら、その打ち手は出ない', () => {
     const input = dinksNoInsurance(true);
-    input.furusato = { doing: true, currentAnnualDonation: 240_000 };
+    // 世帯限度額（約24〜25万円）を確実に上回る額を寄付済みとする
+    input.furusato = { doing: true, currentAnnualDonation: 300_000 };
     const r = optimizeHousehold(input);
     expect(r.actions.some((a) => a.domain === 'furusato')).toBe(false);
   });

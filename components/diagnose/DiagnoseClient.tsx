@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
 import type { LifePolicyType, Role } from '@/lib/insurance';
 import { optimizeHousehold } from '@/lib/optimize';
 import { Card, CheckChips, Field, NumberField, Segmented, Toggle } from '@/components/ui';
@@ -47,9 +46,7 @@ export default function DiagnoseClient() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-8">
       <header className="mb-6 flex items-center justify-between">
-        <Link href="/" className="text-sm font-semibold text-brand-600">
-          ← 二人のお金診断
-        </Link>
+        <span className="text-sm font-semibold text-slate-700">二人のお金診断</span>
         <span className="text-xs text-slate-400">
           {step + 1} / {STEPS.length}・{STEPS[step]}
         </span>

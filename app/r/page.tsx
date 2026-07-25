@@ -23,9 +23,9 @@ const man = (yen: number) => Math.round(yen / 10_000).toLocaleString();
 export function generateMetadata({ searchParams }: { searchParams: SearchParams }): Metadata {
   const { fy, lt, top } = parse(searchParams);
   const ogUrl = `/api/og?fy=${fy}&lt=${lt}&top=${encodeURIComponent(top)}`;
-  const title = `うちの世帯、保険の改善余地は初年度 約${man(fy)}万円／年`;
+  const title = `うちの世帯、改善余地は初年度 約${man(fy)}万円／年`;
   const description =
-    `二人のお金診断の結果：初年度 約${man(fy)}万円、生涯 約${man(lt)}万円の改善余地。` +
+    `手取りラボの診断結果：初年度 約${man(fy)}万円、生涯 約${man(lt)}万円の改善余地。` +
     (top ? `No.1の打ち手は「${top}」。` : '') +
     'あなたたち世帯の改善余地も無料で診断（情報提供・シミュレーション）。';
 
@@ -53,8 +53,8 @@ export default function SharePage({ searchParams }: { searchParams: SearchParams
   const { fy, lt, top } = parse(searchParams);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 py-16">
-      <p className="mb-2 text-sm font-semibold text-brand-600">【二人のお金診断】</p>
+    <main className="mx-auto max-w-2xl px-6 py-16">
+      <p className="mb-2 text-sm font-semibold text-brand-600">【手取りラボ】</p>
       <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-md">
         <p className="text-sm font-medium text-brand-100">ある世帯の改善余地</p>
         <p className="mt-1 text-4xl font-bold tabular-nums">
@@ -79,10 +79,6 @@ export default function SharePage({ searchParams }: { searchParams: SearchParams
           自分の世帯を診断する
         </Link>
       </div>
-
-      <p className="mt-8 text-xs leading-relaxed text-slate-400">
-        表示額は一般的な制度・統計にもとづくシミュレーションであり、保険の募集・販売、投資助言、個別の税務相談ではありません。
-      </p>
     </main>
   );
 }

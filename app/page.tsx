@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '@/components/JsonLd';
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, TAGLINE_SUB } from '@/lib/site';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -47,8 +47,8 @@ const faqJsonLd = {
 export default function Home() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
-      <div className="flex min-h-[60vh] flex-col justify-center">
-        <p className="mb-3 text-sm font-semibold text-brand-600">結婚・同棲を機に、二人のお金を合算して設計</p>
+      <div className="flex min-h-[55vh] flex-col justify-center">
+        <p className="mb-3 text-sm font-semibold text-brand-600">{TAGLINE_SUB}</p>
         <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
           あなたたち世帯、
           <br className="sm:hidden" />
@@ -56,21 +56,25 @@ export default function Home() {
         </h1>
         <p className="mt-4 text-slate-600">
           「税額はX円」で終わる計算機ではなく、手取りを増やす打ち手を効果額順に並べる最適化ツール。
-          まずは主砲＝<strong>保険</strong>から。必要保障額の試算と過剰保険チェックで、ムダとモレを同時に見える化します。
+          何も売りません。要らない保険は「解約でいい」、今のままで十分なら「何もしなくていい」と正直に言います。
+          夫婦・世帯のお金を丸ごと見て、改善余地を<strong>“円”</strong>で見える化します。
         </p>
 
         <ul className="mt-6 space-y-2 text-sm text-slate-600">
-          <li>・遺族年金（遺族基礎・遺族厚生・中高齢寡婦加算）まで織り込んだ必要保障額</li>
-          <li>・生保／医療／火災／自動車の過剰・重複チェック（想定削減額つき）</li>
-          <li>・「改善余地：初年度／生涯」＋効果額順の打ち手リスト</li>
+          <li>・必要保障額の試算＋過剰・重複保険チェック（想定削減額つき・遺族年金まで反映）</li>
+          <li>・ふるさと納税／iDeCo／NISAの活用余地を効果額順に</li>
+          <li>・「改善余地：初年度／生涯」を“円”で。打ち手は効果の大きい順に</li>
         </ul>
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <Link
             href="/diagnose"
             className="inline-flex items-center rounded-lg bg-brand-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brand-700"
           >
             無料で診断する（ログイン不要）
+          </Link>
+          <Link href="/articles" className="text-sm font-semibold text-brand-600 hover:text-brand-700">
+            お金のガイドを読む →
           </Link>
         </div>
       </div>
@@ -87,11 +91,6 @@ export default function Home() {
           ))}
         </dl>
       </section>
-
-      <p className="mt-10 text-xs leading-relaxed text-slate-400">
-        本ツールは一般的な制度・統計にもとづく情報提供・シミュレーションであり、保険の募集・販売、投資助言、個別の税務相談ではありません。
-        特定商品の推奨や「加入すべき」等の断定は行いません。
-      </p>
 
       <JsonLd data={softwareJsonLd} />
       <JsonLd data={faqJsonLd} />

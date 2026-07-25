@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Analytics } from '@/components/Analytics';
 import { JsonLd } from '@/components/JsonLd';
+import { SiteFooter } from '@/components/SiteFooter';
+import { SiteHeader } from '@/components/SiteHeader';
 import {
   DEFAULT_OG_IMAGE,
   SITE_DESCRIPTION,
@@ -54,7 +56,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ja">
       <body>
-        {children}
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <div className="flex-1">{children}</div>
+          <SiteFooter />
+        </div>
         <JsonLd data={websiteJsonLd} />
         <Analytics />
       </body>

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import DiagnoseClient from '@/components/diagnose/DiagnoseClient';
 
 export const metadata: Metadata = {
-  title: '二人のお金診断（無料・ログイン不要）',
+  title: '無料で診断（ログイン不要）',
   description:
-    '年齢・年収・保険加入状況を入力するだけで、世帯の必要保障額と過剰保険チェック、効果額順の打ち手を無料で試算します。',
+    '年齢・年収・保険や税制の状況を入力するだけで、世帯の必要保障額・過剰保険チェック・ふるさと納税・iDeCo・NISAの活用余地を、効果額順に無料で試算します。',
   alternates: { canonical: '/diagnose' },
 };
 

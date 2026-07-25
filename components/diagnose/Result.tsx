@@ -110,7 +110,7 @@ export default function Result({
   const disclosure = getDisclosure();
 
   const shareText =
-    `【二人のお金診断】うちの世帯、改善余地は初年度 約${formatMan(summary.firstYearImprovement)}／年。` +
+    `【手取りラボ】うちの世帯、改善余地は初年度 約${formatMan(summary.firstYearImprovement)}／年。` +
     (topAction ? `No.1の打ち手は「${topAction.title}」。` : '') +
     `生涯では約${formatMan(summary.lifetimeImprovement)}。`;
 
@@ -265,7 +265,7 @@ export default function Result({
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           {/* OGカードのプレビュー（実際のSNS展開画像と同じ内容） */}
           <div className="overflow-hidden rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 p-5 text-white">
-            <p className="text-xs opacity-90">【二人のお金診断】あなたたち世帯の改善余地</p>
+            <p className="text-xs opacity-90">【手取りラボ】あなたたち世帯の改善余地</p>
             <p className="mt-1 text-2xl font-bold tabular-nums">
               初年度 約{formatMan(summary.firstYearImprovement)}
               <span className="text-sm font-medium">／年</span>
