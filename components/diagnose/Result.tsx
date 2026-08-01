@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CoverageCaseResult } from '@/lib/insurance';
 import type { HouseholdOptimization, LeverDomain } from '@/lib/optimize';
 import { Card } from '@/components/ui';
@@ -59,6 +59,48 @@ const DOMAIN_COLOR: Record<LeverDomain, string> = {
   nisa: 'bg-teal-50 text-teal-700',
 };
 
+const SHIELD = 'M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z';
+const DOMAIN_ICON: Record<LeverDomain, string> = {
+  life: SHIELD,
+  medical: SHIELD,
+  savings_insurance: SHIELD,
+  fire: SHIELD,
+  auto: SHIELD,
+  furusato: 'M20 12v9H4v-9M2 7h20v5H2zM12 22V7',
+  ideco: 'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',
+  nisa: 'M3 17l6-6 4 4 8-8M21 7v5h-5',
+};
+
+function DomainIcon({ path }: { path: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+      <path d={path} />
+    </svg>
+  );
+}
+
+/** 目標値まで滑らかにカウントアップ（easeOutCubic）。target<=0 は0固定。 */
+function useCountUp(target: number, durationMs = 900): number {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (target <= 0) {
+      setVal(0);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / durationMs);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(Math.round(target * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, durationMs]);
+  return val;
+}
+
 function CaseCard({ c, single }: { c: CoverageCaseResult; single?: boolean }) {
   const who = single ? 'あなた' : c.deceased === 'husband' ? '夫' : '妻';
   return (
@@ -109,6 +151,10 @@ export default function Result({
   const hasSaving = summary.firstYearImprovement > 0;
   const topAction = summary.actions[0];
   const disclosure = getDisclosure();
+
+  // ヒーロー数字のカウントアップ（万円単位）と、打ち手バーの相対幅の基準
+  const animatedMan = useCountUp(Math.round(summary.firstYearImprovement / 10000));
+  const maxImpact = summary.actions.reduce((m, a) => Math.max(m, a.annualImpact), 1);
 
   const subjectLabel = single ? 'あなたの改善余地' : 'あなたたち世帯の改善余地';
   const shareText =
@@ -181,7 +227,7 @@ export default function Result({
         {hasSaving ? (
           <>
             <p className="mt-1 text-4xl font-bold tabular-nums">
-              初年度 約{formatMan(summary.firstYearImprovement)}
+              初年度 約{animatedMan.toLocaleString()}万円
               <span className="text-lg font-medium">／年</span>
             </p>
             <p className="mt-1 text-brand-100">
@@ -238,7 +284,8 @@ export default function Result({
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${DOMAIN_COLOR[a.domain]}`}>
+                      <span className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium ${DOMAIN_COLOR[a.domain]}`}>
+                        <DomainIcon path={DOMAIN_ICON[a.domain]} />
                         {DOMAIN_LABEL[a.domain]}
                       </span>
                       {a.illustrative && (
@@ -249,6 +296,13 @@ export default function Result({
                       <span className="font-semibold text-slate-800">{a.title}</span>
                     </div>
                     <p className="mt-1 text-sm text-slate-500">{a.detail}</p>
+                    {/* 効果額バー（相対的な大きさを可視化） */}
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                      <div
+                        className={`h-full rounded-full ${a.illustrative ? 'bg-slate-300' : 'bg-emerald-400'}`}
+                        style={{ width: `${Math.max(6, Math.round((a.annualImpact / maxImpact) * 100))}%` }}
+                      />
+                    </div>
                     <Cta cta={getAffiliateForDomain(a.domain)} />
                   </div>
                   <div className="shrink-0 text-right">
