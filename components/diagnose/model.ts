@@ -56,6 +56,8 @@ export interface AutoForm {
 }
 
 export interface FormState {
+  /** couple=ふたりで診断（世帯・北極星）／single=ひとりで診断（個人モード） */
+  mode: 'couple' | 'single';
   husband: PersonForm;
   wife: PersonForm;
   housingType: 'rent' | 'owned';
@@ -97,6 +99,7 @@ export const AUTO_RIDER_OPTIONS: { value: string; label: string }[] = [
 
 export function defaultForm(): FormState {
   return {
+    mode: 'couple',
     husband: { age: 32, income: 750, employmentType: 'employee', hasCorporateDC: false, idecoMonthly: 0 },
     wife: { age: 30, income: 550, employmentType: 'employee', hasCorporateDC: false, idecoMonthly: 0 },
     housingType: 'rent',
@@ -136,33 +139,46 @@ export function buildOptimizeInput(f: FormState): OptimizeInput {
           mortgageHolder: f.mortgageHolder,
         };
 
+  const isSingle = f.mode === 'single';
+  // 個人モードでは husband スロットを「あなた」として使い、1人分のみをエンジンへ渡す。
+  const persons = isSingle
+    ? [
+        {
+          role: 'husband' as const,
+          age: f.husband.age,
+          annualIncome: f.husband.income * MAN,
+          employmentType: f.husband.employmentType,
+        },
+      ]
+    : [
+        {
+          role: 'husband' as const,
+          age: f.husband.age,
+          annualIncome: f.husband.income * MAN,
+          employmentType: f.husband.employmentType,
+        },
+        {
+          role: 'wife' as const,
+          age: f.wife.age,
+          annualIncome: f.wife.income * MAN,
+          employmentType: f.wife.employmentType,
+        },
+      ];
+
   return {
-    persons: [
-      {
-        role: 'husband',
-        age: f.husband.age,
-        annualIncome: f.husband.income * MAN,
-        employmentType: f.husband.employmentType,
-      },
-      {
-        role: 'wife',
-        age: f.wife.age,
-        annualIncome: f.wife.income * MAN,
-        employmentType: f.wife.employmentType,
-      },
-    ],
+    persons,
     children,
     housing,
     assets: { savings: f.savings * MAN },
     monthlyLivingExpense: f.monthlyLivingExpense,
     lifePolicies: f.life.map((l) => ({
-      insured: l.insured,
+      insured: isSingle ? ('husband' as const) : l.insured,
       deathBenefit: l.deathBenefit * MAN,
       annualPremium: l.annualPremium,
       type: l.type,
     })),
     medicalPolicies: f.medical.map((m) => ({
-      insured: m.insured,
+      insured: isSingle ? ('husband' as const) : m.insured,
       annualPremium: m.annualPremium,
       dailyHospitalBenefit: m.dailyHospitalBenefit,
     })),
@@ -188,11 +204,13 @@ export function buildOptimizeInput(f: FormState): OptimizeInput {
       currentAnnualDonation: f.furusatoDoing ? f.furusatoCurrentDonation : 0,
     },
     ideco: {
-      // persons と同じ並び順（husband, wife）
-      persons: [
-        { hasCorporateDC: f.husband.hasCorporateDC, currentMonthlyContribution: f.husband.idecoMonthly },
-        { hasCorporateDC: f.wife.hasCorporateDC, currentMonthlyContribution: f.wife.idecoMonthly },
-      ],
+      // persons と同じ並び順（husband[, wife]）
+      persons: isSingle
+        ? [{ hasCorporateDC: f.husband.hasCorporateDC, currentMonthlyContribution: f.husband.idecoMonthly }]
+        : [
+            { hasCorporateDC: f.husband.hasCorporateDC, currentMonthlyContribution: f.husband.idecoMonthly },
+            { hasCorporateDC: f.wife.hasCorporateDC, currentMonthlyContribution: f.wife.idecoMonthly },
+          ],
     },
     nisa: {
       monthlyInvestment: f.nisaMonthlyInvestment,

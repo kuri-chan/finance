@@ -26,7 +26,7 @@ import type {
 const yen = (n: number) => Math.round(n);
 
 function personByRole(input: HouseholdInput, role: Role): Person {
-  return input.persons[0].role === role ? input.persons[0] : input.persons[1];
+  return input.persons.find((p) => p.role === role) ?? input.persons[0];
 }
 
 /** 生保：必要保障額に対する過剰分を定期換算で削減額に落とす */
@@ -147,7 +147,7 @@ function checkFire(input: HouseholdInput, findings: OverInsuranceFinding[]): voi
 
   // 家財の過大付保
   const householdMembers =
-    2 + input.children.filter((c) => (c.age ?? -1) >= 0).length;
+    input.persons.length + input.children.filter((c) => (c.age ?? -1) >= 0).length;
   const contentsCap = householdMembers * b.contentsCoveragePerHouseholdMember;
   if (fire.contentsCoverage > contentsCap) {
     const excess = fire.contentsCoverage - contentsCap;
@@ -221,8 +221,7 @@ export function checkOverInsurance(input: HouseholdInput): OverInsuranceOutput {
   const findings: OverInsuranceFinding[] = [];
   const underInsured: UnderInsuredNote[] = [];
 
-  const cases = [coverage.husbandDies, coverage.wifeDies] as const;
-  for (const c of cases) {
+  for (const c of coverage.cases) {
     // 生保：過剰
     checkLifeSurplus(input, c.deceased, c.requiredCoverage, findings);
     // 生保：不足（削減ではなくリスクとして記録）

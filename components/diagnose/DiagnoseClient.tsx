@@ -46,7 +46,9 @@ export default function DiagnoseClient() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-8">
       <header className="mb-6 flex items-center justify-between">
-        <span className="text-sm font-semibold text-slate-700">二人のお金診断</span>
+        <span className="text-sm font-semibold text-slate-700">
+          {form.mode === 'single' ? 'あなたのお金診断' : '二人のお金診断'}
+        </span>
         <span className="text-xs text-slate-400">
           {step + 1} / {STEPS.length}・{STEPS[step]}
         </span>
@@ -98,14 +100,38 @@ function StepPeople({ form, update }: { form: FormState; update: (p: Partial<For
   const setPerson = (role: Role, patch: Partial<FormState['husband']>) =>
     update(role === 'husband' ? { husband: { ...form.husband, ...patch } } : { wife: { ...form.wife, ...patch } });
 
+  const single = form.mode === 'single';
+  const shownRoles = single ? [ROLE_OPTIONS[0]] : ROLE_OPTIONS;
+
   return (
     <div className="space-y-4">
-      <p className="text-sm text-slate-500">お二人の年齢・年収・働き方を教えてください。</p>
-      {ROLE_OPTIONS.map((r) => {
+      <Card>
+        <Segmented
+          label="診断のしかた"
+          value={form.mode}
+          options={[
+            { value: 'couple' as const, label: 'ふたりで診断' },
+            { value: 'single' as const, label: 'ひとりで診断' },
+          ]}
+          onChange={(v) => update({ mode: v })}
+        />
+        <p className="mt-2 text-xs text-slate-400">
+          {single
+            ? 'あなた一人の情報で診断します。あとでパートナーの分も入れると、世帯での最適化が見えます。'
+            : '二人分を合算して、世帯まるごとで最適化します。'}
+        </p>
+      </Card>
+
+      <p className="text-sm text-slate-500">
+        {single
+          ? 'あなたの年齢・年収・働き方を教えてください。'
+          : 'お二人の年齢・年収・働き方を教えてください。'}
+      </p>
+      {shownRoles.map((r) => {
         const p = person(r.value);
         return (
           <Card key={r.value}>
-            <h3 className="mb-3 font-semibold text-slate-800">{r.label}</h3>
+            <h3 className="mb-3 font-semibold text-slate-800">{single ? 'あなた' : r.label}</h3>
             <div className="grid grid-cols-2 gap-4">
               <NumberField label="年齢" value={p.age} suffix="歳" onChange={(v) => setPerson(r.value, { age: v })} />
               <NumberField
@@ -175,7 +201,7 @@ function StepLife({ form, update }: { form: FormState; update: (p: Partial<FormS
               checked={form.groupCreditLife}
               onChange={(v) => update({ groupCreditLife: v })}
             />
-            {form.groupCreditLife && (
+            {form.mode === 'couple' && form.groupCreditLife && (
               <Segmented
                 label="主債務者（ローンの名義）"
                 value={form.mortgageHolder}
@@ -308,7 +334,11 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
           {form.life.map((l, i) => (
             <Card key={i}>
               <div className="mb-3 flex items-center justify-between">
-                <Segmented value={l.insured} options={ROLE_OPTIONS} onChange={(v) => setLife(i, { insured: v })} />
+                {form.mode === 'couple' ? (
+                  <Segmented value={l.insured} options={ROLE_OPTIONS} onChange={(v) => setLife(i, { insured: v })} />
+                ) : (
+                  <span className="text-sm font-medium text-slate-600">あなたの保険</span>
+                )}
                 <button type="button" onClick={() => removeLife(i)} className="text-sm text-slate-400 hover:text-rose-500">
                   削除
                 </button>
@@ -333,7 +363,11 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
           {form.medical.map((m, i) => (
             <Card key={i}>
               <div className="mb-3 flex items-center justify-between">
-                <Segmented value={m.insured} options={ROLE_OPTIONS} onChange={(v) => setMedical(i, { insured: v })} />
+                {form.mode === 'couple' ? (
+                  <Segmented value={m.insured} options={ROLE_OPTIONS} onChange={(v) => setMedical(i, { insured: v })} />
+                ) : (
+                  <span className="text-sm font-medium text-slate-600">あなたの保険</span>
+                )}
                 <button type="button" onClick={() => removeMedical(i)} className="text-sm text-slate-400 hover:text-rose-500">
                   削除
                 </button>
@@ -439,7 +473,7 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
           掛金は全額が所得控除。お二人それぞれの状況を教えてください（掛金は原則60歳まで引き出せません）。
         </p>
         <div className="space-y-3">
-          {ROLE_OPTIONS.map((r) => {
+          {(form.mode === 'single' ? [ROLE_OPTIONS[0]] : ROLE_OPTIONS).map((r) => {
             const p = r.value === 'husband' ? form.husband : form.wife;
             const setP = (patch: Partial<typeof p>) =>
               update(
@@ -449,7 +483,7 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
               );
             return (
               <Card key={r.value}>
-                <h4 className="mb-3 font-medium text-slate-700">{r.label}</h4>
+                <h4 className="mb-3 font-medium text-slate-700">{form.mode === 'single' ? 'あなた' : r.label}</h4>
                 <div className="flex flex-col gap-3">
                   {p.employmentType === 'employee' && (
                     <Toggle

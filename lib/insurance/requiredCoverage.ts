@@ -46,7 +46,8 @@ function childAgeAtYear(child: Child, t: number): number | null {
 }
 
 /** 主たる稼ぎ手（年収が高い方）の役割 */
-function primaryEarner(persons: [Person, Person]): Role {
+function primaryEarner(persons: Person[]): Role {
+  if (persons.length === 1) return persons[0].role;
   return persons[0].annualIncome >= persons[1].annualIncome ? persons[0].role : persons[1].role;
 }
 
@@ -69,7 +70,7 @@ function housingCostForYear(
 /** 住居費を除く月間生活費（未指定なら世帯年収から推定） */
 function baseMonthlyLiving(input: HouseholdInput, a: CoverageAssumptions): number {
   if (input.monthlyLivingExpense != null) return input.monthlyLivingExpense;
-  const householdGross = input.persons[0].annualIncome + input.persons[1].annualIncome;
+  const householdGross = input.persons.reduce((sum, p) => sum + p.annualIncome, 0);
   return (householdGross * a.livingCostIncomeRatio) / 12;
 }
 
@@ -178,15 +179,122 @@ function computeCase(
   };
 }
 
-export function calcRequiredCoverage(input: HouseholdInput): RequiredCoverageOutput {
-  const a = resolveAssumptions(input.assumptions);
-  const [p0, p1] = input.persons;
-  const husband = p0.role === 'husband' ? p0 : p1;
-  const wife = p0.role === 'wife' ? p0 : p1;
+/**
+ * 個人（単身）モードの必要保障額。
+ * 配偶者の遺族ではなく「扶養する子」の視点で算出する。
+ *   扶養する子がいなければ、必要総支出は葬儀費のみ → 必要保障 ≈ max(0, 葬儀費 − 資産)（＝多くは0）。
+ *   子がいる（ひとり親）場合のみ、子の生活・教育・住居を、子の遺族年金＋資産で差し引く。
+ * 配偶者収入・中高齢寡婦加算は発生しない。
+ */
+function computeSingleCase(
+  input: HouseholdInput,
+  person: Person,
+  a: CoverageAssumptions,
+): CoverageCaseResult {
+  const monthlyLiving = baseMonthlyLiving(input, a);
+  const deceasedReward = estimateStandardRewardMonthly(person.annualIncome);
+  const deceasedInsuredMonths = Math.max(0, person.age - a.careerStartAge) * 12;
+  const primaryRole = primaryEarner(input.persons);
+
+  // 扶養する子が生計内にいる年数だけ投影
+  let coverageYears = 0;
+  for (const child of input.children) {
+    for (let t = 1; t <= 30; t++) {
+      const age = childAgeAtYear(child, t - 1);
+      if (age != null && age < a.childIndependenceAge) coverageYears = Math.max(coverageYears, t);
+    }
+  }
+
+  let living = 0;
+  let housing = 0;
+  let education = 0;
+  let survivorPension = 0;
+
+  for (let t = 0; t < coverageYears; t++) {
+    const childAges = input.children
+      .map((c) => childAgeAtYear(c, t))
+      .filter((age): age is number => age != null);
+    const dependentForPension = childAges.filter(
+      (age) => age <= PENSION.basicPension.childEligibleUntilAge,
+    ).length;
+    const supportedForLiving = childAges.filter((age) => age < a.childIndependenceAge);
+
+    if (supportedForLiving.length > 0) {
+      // 親不在で遺された子の生活費（世帯生活費に「子あり割合」を適用）＋教育費＋住居費
+      living += monthlyLiving * 12 * a.livingRatioWithChild;
+      housing += housingCostForYear(input.housing, person.role, primaryRole, a);
+      for (const age of supportedForLiving) {
+        education += educationCostForAge(age, a.educationPath);
+      }
+    }
+
+    // 遺族年金：子の遺族基礎年金＋（会社員なら）遺族厚生年金。配偶者不在のため寡婦加算なし。
+    survivorPension += annualSurvivorPension({
+      deceasedEmployment: person.employmentType,
+      deceasedAvgStandardRewardMonthly: deceasedReward,
+      deceasedInsuredMonths,
+      survivorRole: person.role,
+      survivorAge: person.age + t,
+      survivorAnnualIncome: 0,
+      dependentChildrenCount: dependentForPension,
+      widowMidAdditionBaseEligible: false,
+    }).total;
+  }
+
+  const funeral = a.funeralCost;
+  const expensesTotal = living + housing + education + funeral;
+
+  const existingAssets = input.assets.savings;
+  const incomeTotal = survivorPension + existingAssets; // 配偶者収入はなし
+
+  const requiredCoverage = Math.max(0, Math.round(expensesTotal - incomeTotal));
+
+  const existingDeathBenefit = input.lifePolicies
+    .filter((p) => p.insured === person.role)
+    .reduce((sum, p) => sum + p.deathBenefit, 0);
+
+  const additionalNeeded = Math.max(0, requiredCoverage - existingDeathBenefit);
+  const surplusCoverage = Math.max(0, existingDeathBenefit - requiredCoverage);
 
   return {
-    husbandDies: computeCase(input, husband, wife, a),
-    wifeDies: computeCase(input, wife, husband, a),
+    deceased: person.role,
+    survivor: person.role, // 単身のため配偶者なし（UIは「あなた」と表示）
+    coverageYears,
+    expenses: {
+      living: Math.round(living),
+      housing: Math.round(housing),
+      education: Math.round(education),
+      funeral,
+      total: Math.round(expensesTotal),
+    },
+    incomes: {
+      survivorPension: Math.round(survivorPension),
+      survivorEmploymentIncome: 0,
+      existingAssets,
+      total: Math.round(incomeTotal),
+    },
+    requiredCoverage,
+    existingDeathBenefit,
+    additionalNeeded,
+    surplusCoverage,
+  };
+}
+
+export function calcRequiredCoverage(input: HouseholdInput): RequiredCoverageOutput {
+  const a = resolveAssumptions(input.assumptions);
+
+  let cases: CoverageCaseResult[];
+  if (input.persons.length === 1) {
+    cases = [computeSingleCase(input, input.persons[0], a)];
+  } else {
+    const [p0, p1] = input.persons;
+    const husband = p0.role === 'husband' ? p0 : p1;
+    const wife = p0.role === 'wife' ? p0 : p1;
+    cases = [computeCase(input, husband, wife, a), computeCase(input, wife, husband, a)];
+  }
+
+  return {
+    cases,
     assumptions: a,
     disclaimer: DISCLAIMER,
     sources: SOURCES,

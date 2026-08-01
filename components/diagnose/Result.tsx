@@ -59,8 +59,8 @@ const DOMAIN_COLOR: Record<LeverDomain, string> = {
   nisa: 'bg-teal-50 text-teal-700',
 };
 
-function CaseCard({ c }: { c: CoverageCaseResult }) {
-  const who = c.deceased === 'husband' ? '夫' : '妻';
+function CaseCard({ c, single }: { c: CoverageCaseResult; single?: boolean }) {
+  const who = single ? 'あなた' : c.deceased === 'husband' ? '夫' : '妻';
   return (
     <Card className="flex-1">
       <div className="flex items-baseline justify-between">
@@ -104,13 +104,15 @@ export default function Result({
   // HouseholdOptimization は改善余地・打ち手・保障不足・免責を保持する。coverage は過不足カード用。
   const summary = optimization;
   const coverage = optimization.coverage;
+  const single = coverage.cases.length === 1;
   const [copied, setCopied] = useState<'text' | 'link' | null>(null);
   const hasSaving = summary.firstYearImprovement > 0;
   const topAction = summary.actions[0];
   const disclosure = getDisclosure();
 
+  const subjectLabel = single ? 'あなたの改善余地' : 'あなたたち世帯の改善余地';
   const shareText =
-    `【手取りラボ】うちの世帯、改善余地は初年度 約${formatMan(summary.firstYearImprovement)}／年。` +
+    `【手取りラボ】${single ? '私の改善余地は' : 'うちの世帯、改善余地は'}初年度 約${formatMan(summary.firstYearImprovement)}／年。` +
     (topAction ? `No.1の打ち手は「${topAction.title}」。` : '') +
     `生涯では約${formatMan(summary.lifetimeImprovement)}。`;
 
@@ -175,7 +177,7 @@ export default function Result({
     <div className="space-y-6">
       {/* 改善余地ヒーロー */}
       <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-md">
-        <p className="text-sm font-medium text-brand-100">あなたたち世帯の改善余地</p>
+        <p className="text-sm font-medium text-brand-100">{subjectLabel}</p>
         {hasSaving ? (
           <>
             <p className="mt-1 text-4xl font-bold tabular-nums">
@@ -195,10 +197,33 @@ export default function Result({
       <section>
         <h3 className="mb-2 text-sm font-semibold text-slate-500">保障の過不足（万一のとき）</h3>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <CaseCard c={coverage.husbandDies} />
-          <CaseCard c={coverage.wifeDies} />
+          {coverage.cases.map((c) => (
+            <CaseCard key={c.deceased} c={c} single={single} />
+          ))}
         </div>
+        {single && (
+          <p className="mt-2 text-xs leading-relaxed text-slate-400">
+            扶養する家族がいない場合、必要な死亡保障は葬儀費用程度で、大きな生命保険は基本的に不要です。今入っている死亡保険があれば、見直し余地として上に表示しています。
+          </p>
+        )}
       </section>
+
+      {/* 世帯モードへの誘導（個人モードのとき） */}
+      {single && (
+        <div className="rounded-lg border border-brand-200 bg-brand-50 p-4">
+          <p className="text-sm font-medium text-brand-800">パートナーがいる場合は、二人で診断するとさらに正確に</p>
+          <p className="mt-1 text-xs text-brand-700">
+            生命保険の必要保障額は、パートナーの収入や遺族年金で変わります。二人分を合算すると、世帯まるごとの最適化（ふるさと納税・iDeCo・NISAの二人分枠など）が見えます。
+          </p>
+          <button
+            type="button"
+            onClick={onReset}
+            className="mt-2 text-sm font-semibold text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+          >
+            ふたりで診断する →
+          </button>
+        </div>
+      )}
 
       {/* 打ち手リスト */}
       {summary.actions.length > 0 && (
@@ -276,7 +301,7 @@ export default function Result({
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           {/* OGカードのプレビュー（実際のSNS展開画像と同じ内容） */}
           <div className="overflow-hidden rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 p-5 text-white">
-            <p className="text-xs opacity-90">【手取りラボ】あなたたち世帯の改善余地</p>
+            <p className="text-xs opacity-90">【手取りラボ】{subjectLabel}</p>
             <p className="mt-1 text-2xl font-bold tabular-nums">
               初年度 約{formatMan(summary.firstYearImprovement)}
               <span className="text-sm font-medium">／年</span>

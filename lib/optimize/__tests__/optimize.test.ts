@@ -55,8 +55,9 @@ describe('optimizeHousehold — レバー横断の統合', () => {
 
   it('保険の過不足カード（coverage）と保障不足（coverageGaps）を保持する', () => {
     const r = optimizeHousehold(dinksNoInsurance());
-    expect(r.coverage.husbandDies).toBeDefined();
-    expect(r.coverage.wifeDies).toBeDefined();
+    expect(r.coverage.cases).toHaveLength(2);
+    expect(r.coverage.cases[0].deceased).toBe('husband');
+    expect(r.coverage.cases[1].deceased).toBe('wife');
     expect(Array.isArray(r.coverageGaps)).toBe(true);
   });
 
@@ -128,5 +129,46 @@ describe('optimizeHousehold — レバー横断の統合', () => {
     const r = optimizeHousehold(dinksNoInsurance());
     expect(r.disclaimer).toMatch(/募集|助言|税務相談/);
     expect(r.sources.length).toBeGreaterThan(0);
+  });
+});
+
+describe('optimizeHousehold — 個人（単身）モード', () => {
+  function single(over: Partial<OptimizeInput> = {}): OptimizeInput {
+    const base: OptimizeInput = {
+      persons: [{ role: 'husband', age: 30, annualIncome: 6_000_000, employmentType: 'employee' }],
+      children: [],
+      housing: { type: 'rent', monthlyRent: 100_000 },
+      assets: { savings: 3_000_000 },
+      monthlyLivingExpense: 200_000,
+      lifePolicies: [],
+      medicalPolicies: [],
+      furusato: { doing: false },
+    };
+    return { ...base, ...over };
+  }
+
+  it('単身の必要保障カードは1件のみ', () => {
+    const r = optimizeHousehold(single());
+    expect(r.coverage.cases).toHaveLength(1);
+    expect(r.coverage.cases[0].deceased).toBe('husband');
+  });
+
+  it('単身でもふるさと納税・iDeCoの打ち手が出る（1人分）', () => {
+    const r = optimizeHousehold(single());
+    expect(r.actions.some((a) => a.domain === 'furusato')).toBe(true);
+    expect(r.actions.some((a) => a.domain === 'ideco')).toBe(true);
+    expect(r.firstYearImprovement).toBeGreaterThan(0);
+  });
+
+  it('NISA枠は単身では1人分（同条件の2人世帯より小さい）', () => {
+    const singleR = optimizeHousehold(single({ nisa: { monthlyInvestment: 30_000, usingNisa: false } }));
+    const coupleR = optimizeHousehold({
+      ...single({ nisa: { monthlyInvestment: 30_000, usingNisa: false } }),
+      persons: [
+        { role: 'husband', age: 30, annualIncome: 6_000_000, employmentType: 'employee' },
+        { role: 'wife', age: 30, annualIncome: 6_000_000, employmentType: 'employee' },
+      ],
+    });
+    expect(singleR.nisa.householdAnnualCapacity).toBeLessThan(coupleR.nisa.householdAnnualCapacity);
   });
 });

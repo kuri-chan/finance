@@ -104,7 +104,8 @@ export interface CoverageAssumptions {
 }
 
 export interface HouseholdInput {
-  persons: [Person, Person];
+  /** 世帯の人（ふたり=世帯モード / ひとり=個人モード）。1〜2人。 */
+  persons: Person[];
   children: Child[];
   housing: Housing;
   assets: Assets;
@@ -154,8 +155,8 @@ export interface CoverageCaseResult {
 }
 
 export interface RequiredCoverageOutput {
-  husbandDies: CoverageCaseResult;
-  wifeDies: CoverageCaseResult;
+  /** 各人が亡くなったケース。世帯モード=2件（夫死亡・妻死亡の順）／個人モード=1件。 */
+  cases: CoverageCaseResult[];
   assumptions: CoverageAssumptions;
   disclaimer: string;
   sources: string[];
