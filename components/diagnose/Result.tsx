@@ -125,6 +125,17 @@ export default function Result({
     return `${origin}/r?${params.toString()}`;
   }, [summary.firstYearImprovement, summary.lifetimeImprovement, topAction]);
 
+  // X（旧Twitter）・LINE への直接シェア（PC・モバイルとも確実に動く導線）
+  const xShareHref = useMemo(() => {
+    const params = new URLSearchParams({ text: `${shareText} #手取りラボ`, url: shareUrl });
+    return `https://twitter.com/intent/tweet?${params.toString()}`;
+  }, [shareText, shareUrl]);
+
+  const lineShareHref = useMemo(
+    () => `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`,
+    [shareUrl],
+  );
+
   const flash = (which: 'text' | 'link') => {
     setCopied(which);
     setTimeout(() => setCopied(null), 2000);
@@ -279,19 +290,35 @@ export default function Result({
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">
+            <a
+              href={xShareHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              Xでポスト
+            </a>
+            <a
+              href={lineShareHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-[#06C755] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-95"
+            >
+              LINEで送る
+            </a>
             <button
               type="button"
               onClick={nativeShare}
-              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+              className="rounded-lg border border-brand-300 bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700 transition hover:bg-brand-100"
             >
-              シェアする
+              その他でシェア
             </button>
             <button
               type="button"
               onClick={copyLink}
-              className="rounded-lg border border-brand-300 bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700 transition hover:bg-brand-100"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
             >
-              {copied === 'link' ? 'リンクをコピーしました' : 'シェアリンクをコピー'}
+              {copied === 'link' ? 'リンクをコピーしました' : 'リンクをコピー'}
             </button>
             <button
               type="button"
