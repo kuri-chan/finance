@@ -75,14 +75,16 @@
 
 ## 3. キーワード・ロードマップ（次に作る記事）
 
-### P1：最優先（収益直結 or 構造の要）
+### P1：最優先（収益直結 or 構造の要）※2026-08-02 全て作成済み ✅
 | slug | タイトル/狙うKW | クラスター | 導線 |
 |---|---|---|---|
-| `hoken-madoguchi-erabikata` | 保険の見直しはどこに相談？無料相談の選び方と注意点 | A | **life_review（主砲・収益直結）** |
-| `hoken-minaoshi-guide` | 【pillar】共働き夫婦の保険見直し完全ガイド | A | life_review |
-| `nisa-ideco-guide` | 【pillar】共働き夫婦のNISA・iDeCo活用ガイド | B | securities_account |
-| `furusato-guide` | 【pillar】共働き夫婦のふるさと納税完全ガイド | C | furusato_portal |
-| `jutaku-loan-guide` | 【pillar】共働き夫婦の住宅・住宅ローンガイド | D | （住宅ローン導線・今後） |
+| ✅ `hoken-madoguchi-erabikata` | 保険の見直しはどこに相談？無料相談の選び方と注意点 | A | **life_review（主砲・収益直結）** |
+| ✅ `hoken-minaoshi-guide` | 【pillar】共働き夫婦の保険見直し完全ガイド | A | life_review |
+| ✅ `nisa-ideco-guide` | 【pillar】共働き夫婦のNISA・iDeCo活用ガイド | B | securities_account |
+| ✅ `furusato-guide` | 【pillar】共働き夫婦のふるさと納税完全ガイド | C | furusato_portal |
+| ✅ `jutaku-loan-guide` | 【pillar】共働き夫婦の住宅・住宅ローンガイド | D | （住宅ローン導線・今後） |
+
+> 次の一手：各クラスター記事から**pillarへの逆リンク**を追記（双方向化）／P2の肉付けへ。
 
 ### P2：クラスター肉付け
 | slug | タイトル/狙うKW | クラスター | 導線 |
