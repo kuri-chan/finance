@@ -19,9 +19,9 @@
     },
     "fire_estimate": {
       "id": "fire_estimate",
-      "provider": "（ASP登録後に設定）",
+      "provider": "保険スクエアbang!（ウェブクルー / A8.net）",
       "label": "火災保険を一括見積もりする",
-      "url": "",
+      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+5GH2EQ+3RU+6S45GI",
       "kind": "estimate",
       "note": "火災保険の補償・特約の適正化に向けた一括見積もりを想定。"
     },
@@ -43,11 +43,11 @@
     },
     "securities_account": {
       "id": "securities_account",
-      "provider": "（ASP登録後に設定）",
+      "provider": "DMM株（DMM.com証券 / A8.net）",
       "label": "NISA・iDeCoを始められる証券口座を比較する",
-      "url": "",
+      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+3SXPWY+1WP2+15QHIA",
       "kind": "estimate",
-      "note": "iDeCo/NISA対応の証券口座開設への送客を想定。高単価。"
+      "note": "iDeCo/NISA対応の証券口座開設への送客を想定。高単価。アクセストレードのSBI証券・マネックス承認後に、より王道の送客先へ差し替え検討。"
     }
   },
   "domainMap": {
