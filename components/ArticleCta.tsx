@@ -6,10 +6,10 @@ export function ArticleCta() {
     <div className="mt-10 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-md">
       <p className="text-sm font-medium text-brand-100">手取りラボ</p>
       <p className="mt-1 text-xl font-bold leading-snug">
-        あなたたち世帯の改善余地は、年いくら？
+        あなたの手取り、年いくら増やせる？
       </p>
       <p className="mt-2 text-sm text-brand-50">
-        必要保障額の試算・過剰保険チェック・ふるさと納税・iDeCo・NISAの活用余地を、効果額順にまとめて見える化。ログイン不要・無料です。
+        保険・ふるさと納税・iDeCo・NISAを横断して、改善余地を効果額順に“円”で見える化。ひとりでも、夫婦でも。ログイン不要・無料です。
       </p>
       <Link
         href="/diagnose"

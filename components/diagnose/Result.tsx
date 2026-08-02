@@ -59,6 +59,18 @@ const DOMAIN_COLOR: Record<LeverDomain, string> = {
   nisa: 'bg-teal-50 text-teal-700',
 };
 
+/** 内訳ミニグラフ用の塗り色 */
+const DOMAIN_BAR: Record<LeverDomain, string> = {
+  life: 'bg-blue-500',
+  medical: 'bg-emerald-500',
+  savings_insurance: 'bg-violet-500',
+  fire: 'bg-orange-500',
+  auto: 'bg-cyan-500',
+  furusato: 'bg-rose-500',
+  ideco: 'bg-amber-500',
+  nisa: 'bg-teal-500',
+};
+
 const SHIELD = 'M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z';
 const DOMAIN_ICON: Record<LeverDomain, string> = {
   life: SHIELD,
@@ -170,6 +182,8 @@ export default function Result({
   // ヒーロー数字のカウントアップ（万円単位）と、打ち手バーの相対幅の基準
   const animatedMan = useCountUp(Math.round(summary.firstYearImprovement / 10000));
   const maxImpact = summary.actions.reduce((m, a) => Math.max(m, a.annualImpact), 1);
+  // 内訳ミニグラフ用：確定的（試算=illustrativeを除く）な打ち手のみ
+  const deterministicActions = summary.actions.filter((a) => !a.illustrative && a.annualImpact > 0);
 
   const subjectLabel = single ? 'あなたの改善余地' : 'あなたたち世帯の改善余地';
   const shareText =
@@ -253,6 +267,32 @@ export default function Result({
           <p className="mt-1 text-2xl font-bold">見直せる大きなムダ・使い残しは見つかりませんでした</p>
         )}
       </div>
+
+      {/* 改善余地の内訳（レバー別・確定分） */}
+      {hasSaving && deterministicActions.length > 0 && (
+        <div>
+          <div className="flex h-3 w-full overflow-hidden rounded-full bg-slate-100">
+            {deterministicActions.map((a) => (
+              <div
+                key={a.rank}
+                className={DOMAIN_BAR[a.domain]}
+                style={{ width: `${(a.annualImpact / summary.firstYearImprovement) * 100}%` }}
+              />
+            ))}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+            {deterministicActions.map((a) => (
+              <span key={a.rank} className="inline-flex items-center gap-1 text-xs text-slate-500">
+                <span className={`h-2 w-2 rounded-full ${DOMAIN_BAR[a.domain]}`} />
+                {DOMAIN_LABEL[a.domain]}
+                <span className="tabular-nums text-slate-400">
+                  {Math.round((a.annualImpact / summary.firstYearImprovement) * 100)}%
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 保障の過不足 */}
       <section>

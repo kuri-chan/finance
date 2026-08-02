@@ -32,6 +32,9 @@ const LIFE_TYPE_OPTIONS: { value: LifePolicyType; label: string }[] = [
   { value: 'endowment', label: '養老' },
 ];
 
+/** 年収の目安プリセット（タップで即入力・入力補助） */
+const INCOME_PRESETS = [400, 500, 600, 800, 1000, 1200];
+
 export default function DiagnoseClient() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(defaultForm);
@@ -78,7 +81,7 @@ export default function DiagnoseClient() {
       )}
 
       {step < 3 && (
-        <div className="mt-8 flex items-center justify-between">
+        <div className="sticky bottom-0 -mx-5 mt-8 flex items-center justify-between border-t border-slate-200 bg-white/90 px-5 py-3 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
           <button
             type="button"
             onClick={() => setStep((s) => Math.max(0, s - 1))}
@@ -147,6 +150,25 @@ function StepPeople({ form, update }: { form: FormState; update: (p: Partial<For
                 step={10}
                 onChange={(v) => setPerson(r.value, { income: v })}
               />
+            </div>
+            <div className="mt-2">
+              <span className="text-xs text-slate-400">年収の目安（タップで入力）</span>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {INCOME_PRESETS.map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setPerson(r.value, { income: v })}
+                    className={`rounded-full border px-2.5 py-0.5 text-xs transition ${
+                      p.income === v
+                        ? 'border-brand-400 bg-brand-50 font-medium text-brand-700'
+                        : 'border-slate-200 text-slate-500 hover:border-brand-300'
+                    }`}
+                  >
+                    {v}万
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="mt-4">
               <Segmented

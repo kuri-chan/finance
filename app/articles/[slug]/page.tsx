@@ -3,8 +3,16 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArticleCta } from '@/components/ArticleCta';
 import { JsonLd } from '@/components/JsonLd';
-import { getAllSlugs, getArticle } from '@/lib/content/articles';
+import { getAllArticleMeta, getAllSlugs, getArticle } from '@/lib/content/articles';
 import { PEN_NAME, SITE_NAME, SITE_URL } from '@/lib/site';
+
+/** 同カテゴリを優先に関連記事を最大4件（自身を除く・不足分は新着で補完） */
+function relatedArticles(slug: string, category?: string) {
+  const others = getAllArticleMeta().filter((m) => m.slug !== slug);
+  const sameCat = category ? others.filter((m) => m.category === category) : [];
+  const rest = others.filter((m) => !sameCat.includes(m));
+  return [...sameCat, ...rest].slice(0, 4);
+}
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -40,6 +48,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const article = getArticle(params.slug);
   if (!article) notFound();
+
+  const related = relatedArticles(article.slug, article.category);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -83,6 +93,26 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           dangerouslySetInnerHTML={{ __html: article.html }}
         />
       </article>
+
+      {related.length > 0 && (
+        <section className="mt-10 border-t border-slate-100 pt-8">
+          <h2 className="text-base font-bold text-slate-800">あわせて読みたい</h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {related.map((a) => (
+              <Link
+                key={a.slug}
+                href={`/articles/${a.slug}`}
+                className="block rounded-xl border border-slate-200 bg-white p-4 transition hover:border-brand-300 hover:shadow-sm"
+              >
+                {a.category && (
+                  <span className="text-xs font-medium text-brand-600">{a.category}</span>
+                )}
+                <h3 className="mt-0.5 text-sm font-bold leading-snug text-slate-800">{a.title}</h3>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <ArticleCta />
 
