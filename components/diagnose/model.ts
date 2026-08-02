@@ -72,9 +72,15 @@ export interface FormState {
   monthlyLivingExpense: number;
   /** 貯蓄（万円） */
   savings: number;
+  /** 生命保険に加入しているか（トグル。offなら life は診断に使わない） */
+  hasLife: boolean;
   life: LifeForm[];
+  /** 医療保険に加入しているか */
+  hasMedical: boolean;
   medical: MedicalForm[];
   fire: FireForm;
+  /** 自動車保険に加入しているか */
+  hasAuto: boolean;
   autos: AutoForm[];
   /** ふるさと納税をしているか */
   furusatoDoing: boolean;
@@ -111,9 +117,12 @@ export function defaultForm(): FormState {
     plannedChildInYears: null,
     monthlyLivingExpense: 300_000,
     savings: 500,
+    hasLife: false,
     life: [],
+    hasMedical: false,
     medical: [],
     fire: { enabled: false, annualPremium: 20_000, contentsCoverage: 600, riders: [] },
+    hasAuto: false,
     autos: [],
     furusatoDoing: false,
     furusatoCurrentDonation: 0,
@@ -171,13 +180,13 @@ export function buildOptimizeInput(f: FormState): OptimizeInput {
     housing,
     assets: { savings: f.savings * MAN },
     monthlyLivingExpense: f.monthlyLivingExpense,
-    lifePolicies: f.life.map((l) => ({
+    lifePolicies: (f.hasLife ? f.life : []).map((l) => ({
       insured: isSingle ? ('husband' as const) : l.insured,
       deathBenefit: l.deathBenefit * MAN,
       annualPremium: l.annualPremium,
       type: l.type,
     })),
-    medicalPolicies: f.medical.map((m) => ({
+    medicalPolicies: (f.hasMedical ? f.medical : []).map((m) => ({
       insured: isSingle ? ('husband' as const) : m.insured,
       annualPremium: m.annualPremium,
       dailyHospitalBenefit: m.dailyHospitalBenefit,
@@ -190,7 +199,7 @@ export function buildOptimizeInput(f: FormState): OptimizeInput {
           riders: f.fire.riders,
         }
       : undefined,
-    autoPolicies: f.autos.map((a) => ({
+    autoPolicies: (f.hasAuto ? f.autos : []).map((a) => ({
       annualPremium: a.annualPremium,
       vehicleAgeYears: a.vehicleAgeYears,
       vehicleValue: a.vehicleValue * MAN,

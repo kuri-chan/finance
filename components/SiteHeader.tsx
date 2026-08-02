@@ -11,8 +11,8 @@ export function SiteHeader() {
           <span className="hidden text-xs text-slate-500 sm:inline">{TAGLINE}</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-          <Link href="/articles" className="text-slate-500 hover:text-slate-800">
-            ガイド
+          <Link href="/articles" className="font-medium text-slate-700 hover:text-brand-700">
+            お金のガイド
           </Link>
           <Link
             href="/diagnose"

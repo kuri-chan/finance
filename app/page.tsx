@@ -2,7 +2,16 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { JsonLd } from '@/components/JsonLd';
+import { getAllArticleMeta, type ArticleMeta } from '@/lib/content/articles';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, TAGLINE_SUB } from '@/lib/site';
+
+/** トップに載せる注目ガイド（存在するものだけ表示） */
+const FEATURED_GUIDES = [
+  'shinkon-okane-minaoshi-5step',
+  'hitori-kurashi-okane-minaoshi',
+  'hoken-minaoshi-guide',
+  'furusato-guide',
+];
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -87,6 +96,11 @@ const STEPS = [
 ];
 
 export default function Home() {
+  const metaBySlug = new Map(getAllArticleMeta().map((m) => [m.slug, m]));
+  const featured = FEATURED_GUIDES.map((s) => metaBySlug.get(s)).filter(
+    (m): m is ArticleMeta => m != null,
+  );
+
   return (
     <main>
       {/* ===== HERO ===== */}
@@ -199,8 +213,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== お金のガイド ===== */}
+      {featured.length > 0 && (
+        <section className="mx-auto max-w-5xl px-6 py-12">
+          <div className="flex items-baseline justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">お金のガイド</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                保険・ふるさと納税・NISA・iDeCoの基本を、元損保営業がやさしく解説。
+              </p>
+            </div>
+            <Link
+              href="/articles"
+              className="shrink-0 text-sm font-semibold text-brand-600 hover:text-brand-700"
+            >
+              すべて見る →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {featured.map((a) => (
+              <Link
+                key={a.slug}
+                href={`/articles/${a.slug}`}
+                className="block rounded-xl border border-slate-200 bg-white p-4 transition hover:border-brand-300 hover:shadow-sm"
+              >
+                {a.category && (
+                  <span className="text-xs font-medium text-brand-600">{a.category}</span>
+                )}
+                <h3 className="mt-0.5 font-bold leading-snug text-slate-800">{a.title}</h3>
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-500">
+                  {a.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* ===== FAQ ===== */}
-      <section className="mx-auto max-w-3xl px-6 py-14">
+      <section className="mx-auto max-w-3xl px-6 py-14 border-t border-slate-100">
         <h2 className="text-xl font-bold text-slate-800">よくある質問</h2>
         <dl className="mt-6 space-y-6">
           {FAQ.map((f) => (

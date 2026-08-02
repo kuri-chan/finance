@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { LifePolicyType, Role } from '@/lib/insurance';
 import { optimizeHousehold } from '@/lib/optimize';
 import { Card, CheckChips, Field, NumberField, Segmented, Toggle } from '@/components/ui';
@@ -37,6 +37,11 @@ export default function DiagnoseClient() {
   const [form, setForm] = useState<FormState>(defaultForm);
 
   const update = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
+
+  // ステップ遷移のたびにページ最上部へ（前ページのボタン位置で止まるのを防ぐ）
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [step]);
 
   const optimization = useMemo(() => {
     if (step !== 3) return null;
@@ -321,6 +326,14 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
   const toggleRider = (list: string[], v: string) =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
 
+  // 「加入している」トグル。onにした時、まだ1件も無ければ既定の入力を1件出す（火災保険と同じ体験）。
+  const toggleLife = (v: boolean) =>
+    v && form.life.length === 0 ? (addLife(), update({ hasLife: true })) : update({ hasLife: v });
+  const toggleMedical = (v: boolean) =>
+    v && form.medical.length === 0 ? (addMedical(), update({ hasMedical: true })) : update({ hasMedical: v });
+  const toggleAuto = (v: boolean) =>
+    v && form.autos.length === 0 ? (addAuto(), update({ hasAuto: true })) : update({ hasAuto: v });
+
   return (
     <div className="space-y-5">
       <p className="text-sm text-slate-500">
@@ -330,7 +343,11 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
       {/* 生命保険 */}
       <section>
         <h3 className="mb-2 font-semibold text-slate-800">生命保険（死亡保障）</h3>
-        <div className="space-y-3">
+        <Card>
+          <Toggle label="生命保険に加入している" checked={form.hasLife} onChange={toggleLife} />
+        </Card>
+        {form.hasLife && (
+        <div className="mt-3 space-y-3">
           {form.life.map((l, i) => (
             <Card key={i}>
               <div className="mb-3 flex items-center justify-between">
@@ -352,14 +369,19 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
               </div>
             </Card>
           ))}
+          <AddButton onClick={addLife} label="生命保険を追加" />
         </div>
-        <AddButton onClick={addLife} label="生命保険を追加" />
+        )}
       </section>
 
       {/* 医療保険 */}
       <section>
         <h3 className="mb-2 font-semibold text-slate-800">医療保険</h3>
-        <div className="space-y-3">
+        <Card>
+          <Toggle label="医療保険に加入している" checked={form.hasMedical} onChange={toggleMedical} />
+        </Card>
+        {form.hasMedical && (
+        <div className="mt-3 space-y-3">
           {form.medical.map((m, i) => (
             <Card key={i}>
               <div className="mb-3 flex items-center justify-between">
@@ -378,8 +400,9 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
               </div>
             </Card>
           ))}
+          <AddButton onClick={addMedical} label="医療保険を追加" />
         </div>
-        <AddButton onClick={addMedical} label="医療保険を追加" />
+        )}
       </section>
 
       {/* 火災保険 */}
@@ -408,7 +431,11 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
       {/* 自動車保険 */}
       <section>
         <h3 className="mb-2 font-semibold text-slate-800">自動車保険</h3>
-        <div className="space-y-3">
+        <Card>
+          <Toggle label="自動車保険に加入している" checked={form.hasAuto} onChange={toggleAuto} />
+        </Card>
+        {form.hasAuto && (
+        <div className="mt-3 space-y-3">
           {form.autos.map((a, i) => (
             <Card key={i}>
               <div className="mb-3 flex items-center justify-between">
@@ -434,8 +461,9 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
               </div>
             </Card>
           ))}
+          <AddButton onClick={addAuto} label="自動車保険を追加" />
         </div>
-        <AddButton onClick={addAuto} label="自動車保険を追加" />
+        )}
       </section>
 
       {/* ふるさと納税 */}
