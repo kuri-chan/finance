@@ -94,16 +94,16 @@
 
 > 次の一手：各クラスター記事から**pillarへの逆リンク**を追記（双方向化）／P2の肉付けへ。
 
-### P2：クラスター肉付け
+### P2：クラスター肉付け（一部作成済み ✅ 2026-08-02）
 | slug | タイトル/狙うKW | クラスター | 導線 |
 |---|---|---|---|
-| `shunyu-hosho-hoken` | 収入保障保険とは？共働きの合理的な保障の作り方 | A | life_review |
+| ✅ `shunyu-hosho-hoken` | 収入保障保険とは？共働きの合理的な保障の作り方 | A | life_review |
 | `hoken-juufuku` | 共働きで起きがちな保険の重複をなくす方法 | A | life_review |
-| `nisa-2waku-tsukaiwake` | つみたて投資枠と成長投資枠の違い・使い分け | B | securities_account |
-| `kigyo-dc-ideco` | 企業型DCとiDeCoは併用できる？ | B | securities_account |
+| ✅ `nisa-2waku-tsukaiwake` | つみたて投資枠と成長投資枠の違い・使い分け | B | securities_account |
+| ✅ `kigyo-dc-ideco` | 企業型DCとiDeCoは併用できる？ | B | securities_account |
 | `pair-loan-chuui` | ペアローンの注意点・落とし穴 | D | 住宅 |
-| `jutaku-loan-kojo` | 住宅ローン控除とは？共働きの使い方 | D | 住宅 |
-| `danshin-seimeihoken` | 団信と生命保険の関係（保障の二重取りを防ぐ） | A×D | life_review |
+| ✅ `jutaku-loan-kojo` | 住宅ローン控除とは？共働きの使い方 | D | 住宅 |
+| ✅ `danshin-seimeihoken` | 団信と生命保険の関係（保障の二重取りを防ぐ） | A×D | life_review |
 | `furusato-henreihin` | ふるさと納税、共働き世帯の返礼品の選び方 | C | furusato_portal（楽天物販リンクも活用可） |
 
 ### P3：制度スパイク（時期物・改正カレンダーで先回り）
