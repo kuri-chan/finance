@@ -55,7 +55,8 @@ export default function DiagnoseClient() {
           {form.mode === 'single' ? 'あなたのお金診断' : '二人のお金診断'}
         </span>
         <span className="text-xs text-slate-400">
-          {step + 1} / {STEPS.length}・{STEPS[step]}
+          {step + 1} / {STEPS.length}・
+          {form.mode === 'single' && step === 0 ? 'あなたのこと' : STEPS[step]}
         </span>
       </header>
 

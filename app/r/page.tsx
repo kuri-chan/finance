@@ -23,11 +23,11 @@ const man = (yen: number) => Math.round(yen / 10_000).toLocaleString();
 export function generateMetadata({ searchParams }: { searchParams: SearchParams }): Metadata {
   const { fy, lt, top } = parse(searchParams);
   const ogUrl = `/api/og?fy=${fy}&lt=${lt}&top=${encodeURIComponent(top)}`;
-  const title = `うちの世帯、改善余地は初年度 約${man(fy)}万円／年`;
+  const title = `手取りの改善余地は初年度 約${man(fy)}万円／年`;
   const description =
     `手取りラボの診断結果：初年度 約${man(fy)}万円、生涯 約${man(lt)}万円の改善余地。` +
     (top ? `No.1の打ち手は「${top}」。` : '') +
-    'あなたたち世帯の改善余地も無料で診断（情報提供・シミュレーション）。';
+    'あなたの改善余地も無料で診断（ひとりでも、夫婦でも）。';
 
   return {
     title,
@@ -56,7 +56,7 @@ export default function SharePage({ searchParams }: { searchParams: SearchParams
     <main className="mx-auto max-w-2xl px-6 py-16">
       <p className="mb-2 text-sm font-semibold text-brand-600">【手取りラボ】</p>
       <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-md">
-        <p className="text-sm font-medium text-brand-100">ある世帯の改善余地</p>
+        <p className="text-sm font-medium text-brand-100">ある人の改善余地</p>
         <p className="mt-1 text-4xl font-bold tabular-nums">
           初年度 約{man(fy)}万円<span className="text-lg font-medium">／年</span>
         </p>
@@ -67,8 +67,8 @@ export default function SharePage({ searchParams }: { searchParams: SearchParams
       </div>
 
       <p className="mt-6 text-slate-600">
-        あなたたち世帯の改善余地は？ 結婚・同棲を機に、二人のお金を合算して設計。
-        必要保障額の試算と過剰保険チェックを、ログイン不要・無料で。
+        あなたの手取り、年いくら増やせる？ 保険・ふるさと納税・iDeCo・NISAを横断して、
+        改善余地を“円”で。ひとりでも、夫婦の世帯合算でも。ログイン不要・無料。
       </p>
 
       <div className="mt-6">
