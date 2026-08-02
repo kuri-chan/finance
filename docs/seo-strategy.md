@@ -54,6 +54,14 @@
   - `chintai-vs-kounyu` 賃貸vs購入
 - 収益導線：（住宅ローン一括審査・不動産査定は今後）＋ fire_estimate（火災保険でクロス接続）
 
+### クラスターF：個人（単身）— 中立×横断ポジションの入口（2026-08-02追加）
+- pillar：`hitori-kurashi-okane-minaoshi`（一人暮らし・独身のお金の見直し5選）
+- 記事：
+  - `dokushin-ideco-setsuzei` 独身のiDeCo節税 → securities_account
+  - `dokushin-seimeihoken` 独身に生命保険は必要？（"基本不要"を正直に）→ life_review
+  - `dokushin-furusato-gendogaku` 独身のふるさと納税 限度額 → furusato_portal
+- 狙い：巨大な個人検索母集団（独身・一人暮らし）を取り、診断の「ひとりで診断」モードへ流入。
+
 ### クラスターE：家計・ライフイベント（土台）
 - pillar：トップpillar（5ステップ）が兼任
 - 記事：

@@ -101,37 +101,52 @@ function useCountUp(target: number, durationMs = 900): number {
   return val;
 }
 
+function BarRow({ label, value, pct, color }: { label: string; value: string; pct: number; color: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="w-16 shrink-0 text-xs text-slate-500">{label}</span>
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
+        <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+      </div>
+      <span className="w-20 shrink-0 text-right text-sm tabular-nums text-slate-700">{value}</span>
+    </div>
+  );
+}
+
 function CaseCard({ c, single }: { c: CoverageCaseResult; single?: boolean }) {
   const who = single ? 'あなた' : c.deceased === 'husband' ? '夫' : '妻';
+  const shortfall = c.additionalNeeded > 0;
+  const max = Math.max(c.requiredCoverage, c.existingDeathBenefit, 1);
+  const reqPct = Math.round((c.requiredCoverage / max) * 100);
+  const havePct = Math.round((c.existingDeathBenefit / max) * 100);
   return (
     <Card className="flex-1">
       <div className="flex items-baseline justify-between">
         <h4 className="font-semibold text-slate-800">{who}が亡くなった場合</h4>
         <span className="text-xs text-slate-400">{c.coverageYears}年で試算</span>
       </div>
-      <dl className="mt-3 space-y-1.5 text-sm">
-        <div className="flex justify-between">
-          <dt className="text-slate-500">必要保障額</dt>
-          <dd className="font-semibold tabular-nums">{formatMan(c.requiredCoverage)}</dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-slate-500">今の死亡保障</dt>
-          <dd className="tabular-nums">{formatMan(c.existingDeathBenefit)}</dd>
-        </div>
-        <div className="mt-1 flex justify-between border-t border-slate-100 pt-2">
-          {c.additionalNeeded > 0 ? (
-            <>
-              <dt className="font-medium text-rose-600">不足</dt>
-              <dd className="font-bold tabular-nums text-rose-600">{formatMan(c.additionalNeeded)}</dd>
-            </>
-          ) : (
-            <>
-              <dt className="font-medium text-emerald-600">過剰（見直し余地）</dt>
-              <dd className="font-bold tabular-nums text-emerald-600">{formatMan(c.surplusCoverage)}</dd>
-            </>
-          )}
-        </div>
-      </dl>
+      <div className="mt-3 space-y-2">
+        <BarRow label="必要保障額" value={formatMan(c.requiredCoverage)} pct={reqPct} color="bg-slate-400" />
+        <BarRow
+          label="今の保障"
+          value={formatMan(c.existingDeathBenefit)}
+          pct={havePct}
+          color={shortfall ? 'bg-rose-400' : 'bg-emerald-400'}
+        />
+      </div>
+      <div className="mt-2 flex justify-between border-t border-slate-100 pt-2 text-sm">
+        {shortfall ? (
+          <>
+            <span className="font-medium text-rose-600">不足</span>
+            <span className="font-bold tabular-nums text-rose-600">{formatMan(c.additionalNeeded)}</span>
+          </>
+        ) : (
+          <>
+            <span className="font-medium text-emerald-600">過剰（見直し余地）</span>
+            <span className="font-bold tabular-nums text-emerald-600">{formatMan(c.surplusCoverage)}</span>
+          </>
+        )}
+      </div>
     </Card>
   );
 }
