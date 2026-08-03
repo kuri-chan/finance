@@ -9,6 +9,7 @@ import {
   FIRE_RIDER_OPTIONS,
   buildOptimizeInput,
   defaultForm,
+  formatMan,
   type AutoForm,
   type FormState,
   type LifeForm,
@@ -17,6 +18,9 @@ import {
 import Result from './Result';
 
 const STEPS = ['二人のこと', '暮らし', '保険・税', '結果'] as const;
+
+/** 前回の診断（入力＋日時）をこの端末に保存するキー（#6：ログイン不要で見返し） */
+const STORAGE_KEY = 'tedorilab:lastDiagnosis:v1';
 
 const ROLE_OPTIONS: { value: Role; label: string }[] = [
   { value: 'husband', label: '夫' },
@@ -38,6 +42,8 @@ const INCOME_PRESETS = [400, 500, 600, 800, 1000, 1200];
 export default function DiagnoseClient() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(defaultForm);
+  // #6：前回の保存（この端末のみ・ログイン不要）
+  const [saved, setSaved] = useState<{ form: FormState; at: string } | null>(null);
 
   const update = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
 
@@ -46,10 +52,46 @@ export default function DiagnoseClient() {
     window.scrollTo({ top: 0 });
   }, [step]);
 
+  // マウント時：前回の診断を読み込む（バナーで「結果を見る」を提示。自動復元はしない）
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.form) setSaved(parsed);
+      }
+    } catch {
+      /* localStorage不可の環境では無視 */
+    }
+  }, []);
+
+  // 結果に到達したら、入力内容をこの端末に保存（生入力は端末外に出ない）
+  useEffect(() => {
+    if (step === 3) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ form, at: new Date().toISOString() }));
+      } catch {
+        /* 無視 */
+      }
+    }
+  }, [step, form]);
+
   const optimization = useMemo(() => {
     if (step !== 3) return null;
     return optimizeHousehold(buildOptimizeInput(form));
   }, [step, form]);
+
+  // #1：入力途中の「概算」改善余地（確定分のみ）。入力が進むほど正確になる。
+  const liveEstimate = useMemo(() => {
+    if (step === 3) return 0;
+    return optimizeHousehold(buildOptimizeInput(form)).firstYearImprovement;
+  }, [step, form]);
+
+  const restoreSaved = () => {
+    if (!saved) return;
+    setForm(saved.form);
+    setStep(3);
+  };
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-8">
@@ -72,6 +114,36 @@ export default function DiagnoseClient() {
           />
         ))}
       </div>
+
+      {/* #6：前回の診断結果バナー（この端末に保存・ログイン不要） */}
+      {step === 0 && saved && (
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-brand-200 bg-brand-50 p-4">
+          <div>
+            <p className="text-sm font-medium text-brand-800">前回の診断結果を保存しています</p>
+            <p className="text-xs text-brand-700">
+              {new Date(saved.at).toLocaleDateString('ja-JP')} に診断・この端末のみに保存
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={restoreSaved}
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+          >
+            結果を見る →
+          </button>
+        </div>
+      )}
+
+      {/* #1：入力途中の概算改善余地（進めるほど正確に） */}
+      {step < 3 && liveEstimate > 0 && (
+        <div className="mb-5 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 px-4 py-3 text-white">
+          <p className="text-xs text-brand-100">今の入力での概算・改善余地（＝手取りを増やせる目安）</p>
+          <p className="mt-0.5 text-2xl font-bold tabular-nums">
+            年 約{formatMan(liveEstimate)}
+            <span className="ml-1 text-xs font-medium text-brand-100">入力を進めるほど正確に</span>
+          </p>
+        </div>
+      )}
 
       {step === 0 && <StepPeople form={form} update={update} />}
       {step === 1 && <StepLife form={form} update={update} />}
@@ -359,9 +431,12 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-slate-500">
-        今入っている保険を入れると、過不足・重複・過剰をチェックします（分かる範囲でOK）。
-      </p>
+      <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm leading-relaxed text-slate-500">
+        今入っている保険を入れると、過不足・重複・過剰をチェックします。
+        <strong className="text-slate-700">保険料しか分からなくてもOK</strong>
+        ——「保険金額」や「入院日額」は、保険会社のアプリ・マイページや保険証券で確認できます。
+        分からない項目は空欄（0）のままでも診断できます（貯蓄型は保険料だけでも見直し余地を試算します）。
+      </div>
 
       {/* 生命保険 */}
       <section>
@@ -384,7 +459,7 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
                 </button>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <NumberField label="死亡保険金" value={l.deathBenefit} suffix="万円" step={100} onChange={(v) => setLife(i, { deathBenefit: v })} />
+                <NumberField label="死亡保険金" hint="分からなければ空欄でOK" value={l.deathBenefit} suffix="万円" step={100} onChange={(v) => setLife(i, { deathBenefit: v })} />
                 <NumberField label="保険料" value={l.annualPremium} suffix="円/年" step={1000} onChange={(v) => setLife(i, { annualPremium: v })} />
               </div>
               <div className="mt-3">
@@ -419,7 +494,7 @@ function StepInsurance({ form, update }: { form: FormState; update: (p: Partial<
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <NumberField label="保険料" value={m.annualPremium} suffix="円/年" step={1000} onChange={(v) => setMedical(i, { annualPremium: v })} />
-                <NumberField label="入院日額" value={m.dailyHospitalBenefit} suffix="円/日" step={1000} onChange={(v) => setMedical(i, { dailyHospitalBenefit: v })} />
+                <NumberField label="入院日額" hint="分からなければ空欄でOK" value={m.dailyHospitalBenefit} suffix="円/日" step={1000} onChange={(v) => setMedical(i, { dailyHospitalBenefit: v })} />
               </div>
             </Card>
           ))}
