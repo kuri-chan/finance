@@ -35,11 +35,11 @@
     },
     "furusato_portal": {
       "id": "furusato_portal",
-      "provider": "（ASP登録後に設定）",
+      "provider": "ふるなび（アイモバイル / バリューコマース）",
       "label": "ふるさと納税ポータルで寄附先を探す",
-      "url": "",
+      "url": "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816",
       "kind": "estimate",
-      "note": "ふるさと納税ポータルサイトへの送客を想定。低〜中単価。"
+      "note": "ふるさと納税ポータル（ふるなび）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。承認率89%。A8ふるさとチョイス承認後は選択肢増。"
     },
     "securities_account": {
       "id": "securities_account",
