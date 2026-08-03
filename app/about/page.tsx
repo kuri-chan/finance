@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '@/components/JsonLd';
-import { CONTACT_EMAIL, PEN_NAME, SITE_NAME, SITE_URL, TAGLINE } from '@/lib/site';
+import { CONTACT_EMAIL, NOTE_URL, PEN_NAME, SITE_NAME, SITE_URL, TAGLINE, X_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '運営者情報',
-  description: `「${SITE_NAME}」を運営する${PEN_NAME}（元・大手損保の営業）について。何も売らず、夫婦の手取りがいちばん増える順番で打ち手を並べます。`,
+  description: `「${SITE_NAME}」を運営する${PEN_NAME}（元・大手損保の営業）について。何も売らず、手取りがいちばん増える順番で打ち手を並べます。`,
   alternates: { canonical: '/about' },
 };
 
@@ -19,6 +19,7 @@ const jsonLd = {
     '@type': 'Person',
     name: PEN_NAME,
     description: '元・大手損害保険会社の営業出身。手取りラボの書き手・運営者（匿名）。',
+    sameAs: [NOTE_URL, X_URL].filter(Boolean),
   },
 };
 
@@ -37,11 +38,11 @@ export default function AboutPage() {
           新卒で大手損害保険会社に入り、保険の営業をしていました。売る側にいたからこそ分かります——世の中には、必要のない保障や、割高なまま放置された保険がたくさんあります。
         </p>
         <p>
-          だから僕は、何も売りません。代わりに、夫婦・世帯のお金を丸ごと見て、「手取りがいちばん増える順番」で打ち手を並べます。
+          だから僕は、何も売りません。代わりに、保険・ふるさと納税・iDeCo・NISAを横断してお金を丸ごと見て、「手取りがいちばん増える順番」で打ち手を並べます。
           要らない保険は「解約でいい」、今のままで十分なら「何もしなくていい」と正直に言います。
         </p>
         <p>
-          結婚は、二人のお金を初めて一つにする大きなタイミング。ここで土台を整えるだけで、生涯の手取りは大きく変わります。
+          ひとりでも、夫婦で世帯を合算しても使えます。特に結婚は、二人のお金を初めて一つにする大きなタイミング。ここで土台を整えるだけで、生涯の手取りは大きく変わります。
           「{SITE_NAME}」は、その最適化を“円”で見える化するツールです。
         </p>
       </div>
@@ -54,6 +55,16 @@ export default function AboutPage() {
             当サイトは一般的な情報提供・シミュレーションであり、特定商品の勧誘や個別の投資・税務の助言ではありません。
           </li>
           {CONTACT_EMAIL && <li>お問い合わせ：{CONTACT_EMAIL}</li>}
+          <li>
+            運営者の発信：
+            <a href={NOTE_URL} target="_blank" rel="noopener noreferrer" className="text-brand-700 underline underline-offset-2">
+              note
+            </a>
+            <span className="mx-1">/</span>
+            <a href={X_URL} target="_blank" rel="noopener noreferrer" className="text-brand-700 underline underline-offset-2">
+              X
+            </a>
+          </li>
         </ul>
       </div>
 

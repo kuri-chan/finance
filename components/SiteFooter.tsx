@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Disclaimer } from '@/components/Disclaimer';
-import { PEN_NAME, SITE_NAME, TAGLINE } from '@/lib/site';
+import { NOTE_URL, PEN_NAME, SITE_NAME, TAGLINE, X_URL } from '@/lib/site';
 
 /** 全ページ共通フッター。ブランド・運営者プロフィール抜粋・リンク・免責＋PR。 */
 export function SiteFooter() {
@@ -14,8 +14,26 @@ export function SiteFooter() {
             <p className="mt-0.5 text-sm text-brand-700">{TAGLINE}</p>
             <p className="mt-3 text-sm leading-relaxed text-slate-500">
               「{SITE_NAME}」の中の人＝{PEN_NAME}（元・大手損保の営業）。
-              何も売らず、夫婦・世帯のお金を丸ごと見て「手取りがいちばん増える順番」で打ち手を並べます。
+              何も売らず、あなたのお金を丸ごと見て「手取りがいちばん増える順番」で打ち手を並べます。ひとりでも、夫婦でも。
             </p>
+            <div className="mt-4 flex gap-3 text-sm">
+              <a
+                href={NOTE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-600 hover:text-brand-700"
+              >
+                note
+              </a>
+              <a
+                href={X_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-600 hover:text-brand-700"
+              >
+                X
+              </a>
+            </div>
           </div>
           <nav className="flex flex-col gap-2 text-sm">
             <Link href="/diagnose" className="text-slate-600 hover:text-slate-900">
