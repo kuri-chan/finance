@@ -43,11 +43,19 @@
     },
     "securities_account": {
       "id": "securities_account",
-      "provider": "DMM株（DMM.com証券 / A8.net）",
-      "label": "NISA・iDeCoを始められる証券口座を比較する",
-      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+3SXPWY+1WP2+15QHIA",
+      "provider": "松井証券（A8.net）",
+      "label": "NISAを始められるネット証券を見る",
+      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+3TJ5IQ+3XCC+6AZAQ",
       "kind": "estimate",
-      "note": "iDeCo/NISA対応の証券口座開設への送客を想定。高単価。アクセストレードのSBI証券・マネックス承認後に、より王道の送客先へ差し替え検討。"
+      "note": "NISA導線。老舗ネット証券の松井証券へ。代替候補=DMM株（https://px.a8.net/svt/ejp?a8mat=4B8COV+3SXPWY+1WP2+15QHIA・EPC4.74）。CVRを見て差し替え可。"
+    },
+    "ideco_account": {
+      "id": "ideco_account",
+      "provider": "松井証券のiDeCo（A8.net）",
+      "label": "iDeCoを始められる証券口座を見る",
+      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+402X6A+3XCC+BXQOI",
+      "kind": "estimate",
+      "note": "iDeCo導線。iDeCo専用ページへ送客（DMM株はiDeCo非対応のため分離）。"
     }
   },
   "domainMap": {
@@ -57,7 +65,7 @@
     "fire": "fire_estimate",
     "auto": "auto_estimate",
     "furusato": "furusato_portal",
-    "ideco": "securities_account",
+    "ideco": "ideco_account",
     "nisa": "securities_account"
   },
   "gapDestination": "life_review"

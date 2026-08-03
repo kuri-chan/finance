@@ -37,10 +37,14 @@ describe('affiliate 対応層', () => {
     expect(cta!.destination.id).toBe('furusato_portal');
   });
 
-  it('iDeCoは証券口座送客に対応する', () => {
-    const cta = getAffiliateForDomain('ideco');
-    expect(cta).not.toBeNull();
-    expect(cta!.destination.id).toBe('securities_account');
+  it('iDeCoはiDeCo口座、NISAはNISA証券口座と別導線に対応する', () => {
+    const ideco = getAffiliateForDomain('ideco');
+    expect(ideco).not.toBeNull();
+    expect(ideco!.destination.id).toBe('ideco_account');
+
+    const nisa = getAffiliateForDomain('nisa');
+    expect(nisa).not.toBeNull();
+    expect(nisa!.destination.id).toBe('securities_account');
   });
 
   it('保障不足は保険相談導線に対応する', () => {
