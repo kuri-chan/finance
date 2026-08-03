@@ -25,7 +25,7 @@ function Cta({ cta }: { cta: AffiliateCTA | null }) {
         <a
           href={destination.url}
           target="_blank"
-          rel="sponsored noopener noreferrer"
+          rel="sponsored noopener"
           className="text-sm font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
         >
           {destination.label} →
@@ -46,6 +46,18 @@ const DOMAIN_LABEL: Record<LeverDomain, string> = {
   furusato: 'ふるさと納税',
   ideco: 'iDeCo',
   nisa: 'NISA',
+};
+
+/** #5：打ち手ごとの「次にやること」（具体アクション。CTAへの橋渡し） */
+const DOMAIN_ACTION: Record<LeverDomain, string> = {
+  life: '必要保障額と今の保障を照らし、過剰な掛け捨て分を見直す',
+  medical: '医療保険を最も手厚い1本に集約する',
+  savings_insurance: '保障と貯蓄を分け、貯蓄性保険を見直す',
+  fire: '同じ補償で他社の保険料を一括見積もりで比較する',
+  auto: '運転者範囲・等級を見直し、一括見積もりで比較する',
+  furusato: 'ポータルで寄附し、ワンストップ特例か確定申告で控除手続き',
+  ideco: 'iDeCo口座を開き、無理のない掛金を設定する',
+  nisa: 'NISA口座で、まずは少額のつみたてを設定する',
 };
 
 const DOMAIN_COLOR: Record<LeverDomain, string> = {
@@ -285,12 +297,13 @@ export default function Result({
               <span key={a.rank} className="inline-flex items-center gap-1 text-xs text-slate-500">
                 <span className={`h-2 w-2 rounded-full ${DOMAIN_BAR[a.domain]}`} />
                 {DOMAIN_LABEL[a.domain]}
-                <span className="tabular-nums text-slate-400">
-                  {Math.round((a.annualImpact / summary.firstYearImprovement) * 100)}%
-                </span>
+                <span className="tabular-nums text-slate-400">+{formatMan(a.annualImpact)}</span>
               </span>
             ))}
           </div>
+          <p className="mt-1.5 text-xs text-slate-400">
+            この合計が「初年度 約{formatMan(summary.firstYearImprovement)}」の内訳です（試算のNISAは含みません）。
+          </p>
         </div>
       )}
 
@@ -358,6 +371,11 @@ export default function Result({
                         style={{ width: `${Math.max(6, Math.round((a.annualImpact / maxImpact) * 100))}%` }}
                       />
                     </div>
+                    {/* #5：次にやること（具体アクション）＋CTA */}
+                    <p className="mt-2.5 text-xs text-slate-500">
+                      <span className="font-semibold text-slate-700">次にやること：</span>
+                      {DOMAIN_ACTION[a.domain]}
+                    </p>
                     <Cta cta={getAffiliateForDomain(a.domain)} />
                   </div>
                   <div className="shrink-0 text-right">
