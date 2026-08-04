@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import type { CoverageCaseResult } from '@/lib/insurance';
 import type { HouseholdOptimization, LeverDomain } from '@/lib/optimize';
 import { Card } from '@/components/ui';
@@ -58,6 +59,18 @@ const DOMAIN_ACTION: Record<LeverDomain, string> = {
   furusato: 'ポータルで寄附し、ワンストップ特例か確定申告で控除手続き',
   ideco: 'iDeCo口座を開き、無理のない掛金を設定する',
   nisa: 'NISA口座で、まずは少額のつみたてを設定する',
+};
+
+/** #1(寄り添い)：打ち手ごとの「やり方（手順）」記事。学ぶ→やるの橋渡し。 */
+const DOMAIN_GUIDE: Record<LeverDomain, string> = {
+  life: 'hoken-madoguchi-erabikata',
+  medical: 'iryohoken-hitsuyo-kougaku',
+  savings_insurance: 'hoken-minaoshi-guide',
+  fire: 'chintai-kasai-hoken',
+  auto: 'kekkon-jidoshahoken-minaoshi',
+  furusato: 'furusato-yarikata-onestop',
+  ideco: 'ideco-hajimekata',
+  nisa: 'nisa-hajimekata',
 };
 
 const DOMAIN_COLOR: Record<LeverDomain, string> = {
@@ -196,6 +209,7 @@ export default function Result({
   const maxImpact = summary.actions.reduce((m, a) => Math.max(m, a.annualImpact), 1);
   // 内訳ミニグラフ用：確定的（試算=illustrativeを除く）な打ち手のみ
   const deterministicActions = summary.actions.filter((a) => !a.illustrative && a.annualImpact > 0);
+  const hasNisaAction = summary.actions.some((a) => a.domain === 'nisa');
 
   const subjectLabel = single ? 'あなたの改善余地' : 'あなたたち世帯の改善余地';
   const shareText =
@@ -302,7 +316,10 @@ export default function Result({
             ))}
           </div>
           <p className="mt-1.5 text-xs text-slate-400">
-            この合計が「初年度 約{formatMan(summary.firstYearImprovement)}」の内訳です（試算のNISAは含みません）。
+            この合計が「初年度 約{formatMan(summary.firstYearImprovement)}」の内訳（確定分）です。
+            {hasNisaAction
+              ? ' NISAの非課税メリットは運用成果しだいのため、"試算"として下の打ち手に別途表示しています（＋の余地です）。'
+              : ''}
           </p>
         </div>
       )}
@@ -371,10 +388,17 @@ export default function Result({
                         style={{ width: `${Math.max(6, Math.round((a.annualImpact / maxImpact) * 100))}%` }}
                       />
                     </div>
-                    {/* #5：次にやること（具体アクション）＋CTA */}
-                    <p className="mt-2.5 text-xs text-slate-500">
+                    {/* #5：次にやること（具体アクション）＋やり方記事＋CTA */}
+                    <p className="mt-2.5 text-xs leading-relaxed text-slate-500">
                       <span className="font-semibold text-slate-700">次にやること：</span>
                       {DOMAIN_ACTION[a.domain]}
+                      <Link
+                        href={`/articles/${DOMAIN_GUIDE[a.domain]}`}
+                        target="_blank"
+                        className="ml-1 whitespace-nowrap font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+                      >
+                        やり方を見る →
+                      </Link>
                     </p>
                     <Cta cta={getAffiliateForDomain(a.domain)} />
                   </div>
