@@ -211,6 +211,17 @@ export default function Result({
   const deterministicActions = summary.actions.filter((a) => !a.illustrative && a.annualImpact > 0);
   const hasNisaAction = summary.actions.some((a) => a.domain === 'nisa');
 
+  // 税制メリットの可視化（#A：これから始めるなら／iDeCo節税・NISA非課税）
+  const idecoUnusedAnnual = summary.ideco.perPerson.reduce((s, p) => s + p.unusedAnnual, 0);
+  const idecoSaving = summary.ideco.annualImprovement;
+  const idecoRatePct = idecoUnusedAnnual > 0 ? Math.round((idecoSaving / idecoUnusedAnnual) * 100) : 0;
+  const showIdecoBenefit = idecoSaving > 0 && idecoUnusedAnnual > 0;
+  const taxExemptPct = Math.round(summary.nisa.assumptions.taxExemptRate * 1000) / 10; // 20.3
+  const nisaAfterTaxPct = Math.round((1 - summary.nisa.assumptions.taxExemptRate) * 100); // 約80
+  const nisaBenefit = summary.nisa.illustrativeLifetimeBenefit;
+  const nisaHorizon = summary.nisa.assumptions.horizonYears;
+  const nisaReturnPct = Math.round(summary.nisa.assumptions.assumedAnnualReturn * 100);
+
   const subjectLabel = single ? 'あなたの改善余地' : 'あなたたち世帯の改善余地';
   const shareText =
     `【手取りラボ】${single ? '私の改善余地は' : 'うちの世帯、改善余地は'}初年度 約${formatMan(summary.firstYearImprovement)}／年。` +
@@ -423,6 +434,78 @@ export default function Result({
           見直せる大きなムダや使い残しは見つかりませんでした。無理に変える必要はなく、今のままで問題ない可能性が高いです。
         </div>
       )}
+
+      {/* NISA・iDeCoの税制メリット（これから始めるなら）— #A＋可視化 */}
+      <section>
+        <h3 className="mb-2 text-sm font-semibold text-slate-500">NISA・iDeCoで、税金はこう変わる</h3>
+        <div className="space-y-3">
+          {showIdecoBenefit && (
+            <Card>
+              <div className="flex items-center gap-2">
+                <span className="rounded bg-amber-50 px-1.5 py-0.5 text-xs font-medium text-amber-700">iDeCo</span>
+                <span className="font-semibold text-slate-800">掛金がまるごと所得控除</span>
+              </div>
+              <p className="mt-1.5 text-sm text-slate-500">
+                あと年 約{formatMan(idecoUnusedAnnual)}まで拠出でき、満額なら
+                <strong className="text-slate-700"> 年約{idecoSaving.toLocaleString()}円の節税</strong>
+                （掛金の約{idecoRatePct}%が税金から軽くなる）。
+              </p>
+              <div className="mt-2">
+                <div className="flex justify-between text-[11px] text-slate-400">
+                  <span>掛金 年約{formatMan(idecoUnusedAnnual)}</span>
+                  <span className="text-amber-600">うち節税 約{idecoSaving.toLocaleString()}円</span>
+                </div>
+                <div className="mt-1 h-3 w-full overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full bg-amber-400" style={{ width: `${idecoRatePct}%` }} />
+                </div>
+              </div>
+              <p className="mt-2 text-xs text-slate-400">※原則60歳まで引き出せません（老後資金の先取り）。</p>
+              <p className="mt-2 text-xs">
+                <Link
+                  href="/articles/ideco-hajimekata"
+                  target="_blank"
+                  className="font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+                >
+                  iDeCoの始め方を見る →
+                </Link>
+              </p>
+              <Cta cta={getAffiliateForDomain('ideco')} />
+            </Card>
+          )}
+
+          <Card>
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-teal-50 px-1.5 py-0.5 text-xs font-medium text-teal-700">NISA</span>
+              <span className="font-semibold text-slate-800">運用益が非課税</span>
+            </div>
+            <p className="mt-1.5 text-sm text-slate-500">
+              同じ運用でも、課税口座は運用益の
+              <strong className="text-slate-700"> 約{taxExemptPct}%が税金</strong>、NISAなら
+              <strong className="text-slate-700"> 0円</strong>。
+              {nisaBenefit > 0
+                ? `あなたの入力なら、${nisaHorizon}年で約${nisaBenefit.toLocaleString()}円の非課税メリット（試算）。`
+                : `（年利${nisaReturnPct}%・${nisaHorizon}年の保守的な試算）`}
+            </p>
+            <div className="mt-2 space-y-1.5">
+              <BarRow label="課税口座" value={`手取り約${nisaAfterTaxPct}%`} pct={nisaAfterTaxPct} color="bg-slate-400" />
+              <BarRow label="NISA" value="手取り100%" pct={100} color="bg-teal-400" />
+            </div>
+            <p className="mt-2 text-xs text-slate-400">
+              ※投資には元本割れの可能性があります。まず生活防衛資金を確保し、余裕資金で。
+            </p>
+            <p className="mt-2 text-xs">
+              <Link
+                href="/articles/nisa-hajimekata"
+                target="_blank"
+                className="font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+              >
+                NISAの始め方を見る →
+              </Link>
+            </p>
+            <Cta cta={getAffiliateForDomain('nisa')} />
+          </Card>
+        </div>
+      </section>
 
       {/* 保障不足の注意喚起 */}
       {summary.coverageGaps.length > 0 && (
