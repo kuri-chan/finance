@@ -350,6 +350,50 @@ export default function Result({
         )}
       </section>
 
+      {/* #3：参考平均との比較（生命・医療保険料） */}
+      {summary.insuranceBenchmark && (
+        <section>
+          <h3 className="mb-2 text-sm font-semibold text-slate-500">
+            参考：平均との比較（生命・医療保険料）
+          </h3>
+          <Card>
+            {(() => {
+              const b = summary.insuranceBenchmark!;
+              const max = Math.max(b.userAnnual, b.avgAnnual, 1);
+              const msg =
+                b.verdict === 'high'
+                  ? `参考平均より、年 約${formatMan(b.diffAnnual)} 高めです。過剰・重複がないか、見直す余地があるかもしれません。`
+                  : b.verdict === 'low'
+                    ? '参考平均より低めです。必要な保障が不足していないかは、上の「保障の過不足」もご確認ください。'
+                    : '参考平均に近い水準です。';
+              return (
+                <>
+                  <div className="space-y-1.5">
+                    <BarRow
+                      label="あなた"
+                      value={`年${formatMan(b.userAnnual)}`}
+                      pct={Math.round((b.userAnnual / max) * 100)}
+                      color={b.verdict === 'high' ? 'bg-rose-400' : 'bg-brand-500'}
+                    />
+                    <BarRow
+                      label="参考平均"
+                      value={`年${formatMan(b.avgAnnual)}`}
+                      pct={Math.round((b.avgAnnual / max) * 100)}
+                      color="bg-slate-300"
+                    />
+                  </div>
+                  <p className="mt-2 text-sm text-slate-600">{msg}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-400">
+                    ※{b.mode === 'single' ? '単身' : '世帯'}の参考平均（生命＋医療保険料。損保は含みません）。
+                    年齢・家族構成・年収で大きく変わるため、あくまで目安です。出典：{b.source}
+                  </p>
+                </>
+              );
+            })()}
+          </Card>
+        </section>
+      )}
+
       {/* 世帯モードへの誘導（個人モードのとき） */}
       {single && (
         <div className="rounded-lg border border-brand-200 bg-brand-50 p-4">

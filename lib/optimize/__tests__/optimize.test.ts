@@ -130,6 +130,21 @@ describe('optimizeHousehold — レバー横断の統合', () => {
     expect(r.disclaimer).toMatch(/募集|助言|税務相談/);
     expect(r.sources.length).toBeGreaterThan(0);
   });
+
+  it('保険料ベンチマーク：未入力ならnull、高額な生命保険料ならhigh判定', () => {
+    expect(optimizeHousehold(dinksNoInsurance()).insuranceBenchmark).toBeNull();
+
+    const input = dinksNoInsurance();
+    input.lifePolicies = [
+      { insured: 'husband', deathBenefit: 30_000_000, annualPremium: 600_000, type: 'whole' },
+    ];
+    const r = optimizeHousehold(input);
+    expect(r.insuranceBenchmark).not.toBeNull();
+    expect(r.insuranceBenchmark!.mode).toBe('household');
+    expect(r.insuranceBenchmark!.verdict).toBe('high');
+    expect(r.insuranceBenchmark!.diffAnnual).toBeGreaterThan(0);
+    expect(r.insuranceBenchmark!.source).toMatch(/生命保険文化センター/);
+  });
 });
 
 describe('optimizeHousehold — 個人（単身）モード', () => {

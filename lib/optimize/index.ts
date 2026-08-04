@@ -10,7 +10,44 @@ import {
 import { calcFurusato } from '@/lib/furusato';
 import { calcIdeco } from '@/lib/ideco';
 import { calcNisa } from '@/lib/nisa';
-import type { HouseholdAction, HouseholdOptimization, OptimizeInput } from './types';
+import benchmarkData from '@/lib/data/benchmark.json';
+import type {
+  HouseholdAction,
+  HouseholdOptimization,
+  InsuranceBenchmark,
+  OptimizeInput,
+} from './types';
+
+/**
+ * 生命・医療保険料の「参考平均」との比較（#3 ベンチマーク）。
+ * 参考値（出典明示）であり確定的な比較ではない。保険料未入力なら null。
+ * 高め/低めの判定は 1.3倍以上/0.7倍以下（境界のブレを避ける）。損保は含めない。
+ */
+function computeInsuranceBenchmark(input: OptimizeInput): InsuranceBenchmark | null {
+  const userAnnual =
+    input.lifePolicies.reduce((s, p) => s + p.annualPremium, 0) +
+    input.medicalPolicies.reduce((s, p) => s + p.annualPremium, 0);
+  if (userAnnual <= 0) return null;
+
+  const single = input.persons.length === 1;
+  const b = single
+    ? benchmarkData.lifeMedicalAnnualPremium.single
+    : benchmarkData.lifeMedicalAnnualPremium.household;
+  const avgAnnual = b.avg;
+  const ratio = userAnnual / avgAnnual;
+  const verdict: InsuranceBenchmark['verdict'] =
+    ratio >= 1.3 ? 'high' : ratio <= 0.7 ? 'low' : 'average';
+
+  return {
+    userAnnual,
+    avgAnnual,
+    diffAnnual: userAnnual - avgAnnual,
+    ratio,
+    verdict,
+    mode: single ? 'single' : 'household',
+    source: b.source,
+  };
+}
 
 const yen = (n: number) => Math.round(n).toLocaleString();
 const man = (n: number) => Math.round(n / 10_000).toLocaleString();
@@ -143,6 +180,7 @@ export function optimizeHousehold(input: OptimizeInput): HouseholdOptimization {
     furusato,
     ideco,
     nisa,
+    insuranceBenchmark: computeInsuranceBenchmark(input),
     disclaimer: over.disclaimer,
     sources,
   };

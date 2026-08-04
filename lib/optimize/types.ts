@@ -48,6 +48,23 @@ export interface OptimizeInput extends HouseholdInput {
   };
 }
 
+/** 参考平均との比較（生命・医療保険料）。参考値であり確定的な比較ではない。 */
+export interface InsuranceBenchmark {
+  /** あなたの生命＋医療保険料の年間合計（円） */
+  userAnnual: number;
+  /** 参考平均（円） */
+  avgAnnual: number;
+  /** 差（円）＝ あなた − 平均。正なら平均より高い。 */
+  diffAnnual: number;
+  /** あなた ÷ 平均 */
+  ratio: number;
+  /** high=平均より高め / average=平均的 / low=平均より低め */
+  verdict: 'high' | 'average' | 'low';
+  mode: 'single' | 'household';
+  /** 出典（参考値の根拠） */
+  source: string;
+}
+
 export interface HouseholdOptimization {
   /** 改善余地：初年度（円/年） */
   firstYearImprovement: number;
@@ -65,6 +82,8 @@ export interface HouseholdOptimization {
   ideco: IdecoResult;
   /** NISAの詳細（試算） */
   nisa: NisaResult;
+  /** 生命・医療保険料の参考平均との比較（保険料未入力なら null） */
+  insuranceBenchmark: InsuranceBenchmark | null;
   disclaimer: string;
   sources: string[];
 }
