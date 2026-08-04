@@ -446,6 +446,31 @@ export default function Result({
         </section>
       )}
 
+      {/* これから始めるなら（NISA未活用の人向け・情報提供）。改善余地の確定額には含めない。 */}
+      {!hasNisaAction && (
+        <section className="rounded-xl border border-teal-200 bg-teal-50/60 p-4">
+          <h3 className="text-sm font-semibold text-teal-800">💡 NISAをこれから始めるなら</h3>
+          <p className="mt-1 text-sm leading-relaxed text-teal-900">
+            投資で増えた利益（運用益）には、通常 <strong>約20%</strong> の税金がかかります。
+            <strong>NISAなら、その税金が非課税</strong>に。
+            iDeCoは掛金が全額所得控除で節税になります（上の打ち手に節税額を表示しています）。
+          </p>
+          <p className="mt-2 text-xs leading-relaxed text-teal-700">
+            ※投資には元本割れの可能性があります。まず生活防衛資金を確保し、無理のない額で。手取りラボは情報提供であり、投資を勧めるものではありません。
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link
+              href="/articles/nisa-hajimekata"
+              target="_blank"
+              className="text-sm font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+            >
+              NISAの始め方を見る →
+            </Link>
+            <Cta cta={getAffiliateForDomain('nisa')} />
+          </div>
+        </section>
+      )}
+
       {/* シェアカード */}
       <section>
         <h3 className="mb-2 text-sm font-semibold text-slate-500">結果をシェア</h3>
