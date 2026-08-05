@@ -13,7 +13,7 @@ export function SiteFooter() {
             <p className="text-base font-bold text-slate-900">{SITE_NAME}</p>
             <p className="mt-0.5 text-sm text-brand-700">{TAGLINE}</p>
             <p className="mt-3 text-sm leading-relaxed text-slate-500">
-              「{SITE_NAME}」の中の人＝{PEN_NAME}（元・大手損保の営業）。
+              「{SITE_NAME}」の中の人＝{PEN_NAME}（元・大手保険会社の営業）。
               何も売らず、あなたのお金を丸ごと見て「手取りがいちばん増える順番」で打ち手を並べます。ひとりでも、夫婦でも。
             </p>
             <div className="mt-4 flex gap-3 text-sm">

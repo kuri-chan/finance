@@ -133,7 +133,7 @@ export default function Home() {
 
             <div className="mt-6 flex flex-wrap gap-2">
               <Chip>
-                <span className="text-brand-500">●</span> 元損保営業が設計
+                <span className="text-brand-500">●</span> 元保険会社の営業が設計
               </Chip>
               <Chip>情報提供・シミュレーション</Chip>
               <Chip>無料</Chip>
@@ -220,7 +220,7 @@ export default function Home() {
             <div>
               <h2 className="text-xl font-bold text-slate-800">お金のガイド</h2>
               <p className="mt-1 text-sm text-slate-500">
-                保険・ふるさと納税・NISA・iDeCoの基本を、元損保営業がやさしく解説。
+                保険・ふるさと納税・NISA・iDeCoの基本を、元保険会社の営業がやさしく解説。
               </p>
             </div>
             <Link

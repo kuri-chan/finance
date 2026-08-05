@@ -5,7 +5,7 @@ import { CONTACT_EMAIL, NOTE_URL, PEN_NAME, SITE_NAME, SITE_URL, TAGLINE, X_URL 
 
 export const metadata: Metadata = {
   title: '運営者情報',
-  description: `「${SITE_NAME}」を運営する${PEN_NAME}（元・大手損保の営業）について。何も売らず、手取りがいちばん増える順番で打ち手を並べます。`,
+  description: `「${SITE_NAME}」を運営する${PEN_NAME}（元・大手保険会社の営業）について。何も売らず、手取りがいちばん増える順番で打ち手を並べます。`,
   alternates: { canonical: '/about' },
 };
 
@@ -18,7 +18,7 @@ const jsonLd = {
   about: {
     '@type': 'Person',
     name: PEN_NAME,
-    description: '元・大手損害保険会社の営業出身。手取りラボの書き手・運営者（匿名）。',
+    description: '元・大手保険会社の営業出身。手取りラボの書き手・運営者（匿名）。',
     sameAs: [NOTE_URL, X_URL].filter(Boolean),
   },
 };
@@ -35,7 +35,7 @@ export default function AboutPage() {
       <div className="prose prose-slate mt-8 max-w-none">
         <p>「{SITE_NAME}」を運営している、{PEN_NAME}です。</p>
         <p>
-          新卒で大手損害保険会社に入り、保険の営業をしていました。売る側にいたからこそ分かります——世の中には、必要のない保障や、割高なまま放置された保険がたくさんあります。
+          新卒で大手の保険会社に入り、保険の営業をしていました。売る側にいたからこそ分かります——世の中には、必要のない保障や、割高なまま放置された保険がたくさんあります。
         </p>
         <p>
           だから僕は、何も売りません。代わりに、保険・ふるさと納税・iDeCo・NISAを横断してお金を丸ごと見て、「手取りがいちばん増える順番」で打ち手を並べます。
@@ -50,7 +50,7 @@ export default function AboutPage() {
       <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
         <p className="font-medium text-slate-600">運営について</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>書き手・運営者：{PEN_NAME}（元・大手損害保険会社の営業出身。実名・旧社名は非公開＝匿名で運営）</li>
+          <li>書き手・運営者：{PEN_NAME}（元・大手保険会社の営業出身。実名・旧社名は非公開＝匿名で運営）</li>
           <li>
             当サイトは一般的な情報提供・シミュレーションであり、特定商品の勧誘や個別の投資・税務の助言ではありません。
           </li>

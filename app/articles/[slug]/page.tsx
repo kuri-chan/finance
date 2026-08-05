@@ -60,7 +60,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     dateModified: article.updated ?? article.date,
     inLanguage: 'ja',
     mainEntityOfPage: `${SITE_URL}/articles/${article.slug}`,
-    author: { '@type': 'Person', name: PEN_NAME, description: '元・大手損害保険会社の営業出身' },
+    author: { '@type': 'Person', name: PEN_NAME, description: '元・大手保険会社の営業出身' },
     publisher: { '@type': 'Organization', name: SITE_NAME },
     keywords: article.keywords.join(', '),
   };
@@ -82,7 +82,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             {article.title}
           </h1>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
-            <span>文：{PEN_NAME}（元・大手損保の営業）</span>
+            <span>文：{PEN_NAME}（元・大手保険会社の営業）</span>
             {article.date && <time>{article.date}</time>}
             <span>約{article.readingMinutes}分で読めます</span>
           </div>

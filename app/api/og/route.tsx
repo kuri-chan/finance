@@ -49,7 +49,7 @@ export async function GET(req: Request) {
     ? {
         sub: 'お金のガイド',
         head: articleTitle,
-        tail: '保険・ふるさと納税・NISAを、やさしく解説（元損保営業）',
+        tail: '保険・ふるさと納税・NISAを、やさしく解説（元保険会社の営業）',
       }
     : isHero
       ? {

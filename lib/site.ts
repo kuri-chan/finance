@@ -7,7 +7,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3
 /** プロダクト/サイト名 */
 export const SITE_NAME = '手取りラボ';
 
-/** 書き手/運営者（ペンネーム）。元・大手損保の営業出身（実名・旧社名は出さない＝匿名運用） */
+/** 書き手/運営者（ペンネーム）。元・大手保険会社の営業出身（実名・旧社名は出さない＝匿名運用） */
 export const PEN_NAME = '手取りの番人';
 
 /** お問い合わせ用メール（専用Gmail。空なら「準備中」表示）。公開情報。 */

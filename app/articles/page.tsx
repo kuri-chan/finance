@@ -7,7 +7,7 @@ import { SITE_NAME } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'お金のガイド記事一覧',
   description:
-    '保険・ふるさと納税・iDeCo・NISAなどのお金の基礎知識を、元損保営業がやさしく解説（情報提供・シミュレーション）。ひとりでも、夫婦でも。',
+    '保険・ふるさと納税・iDeCo・NISAなどのお金の基礎知識を、元保険会社の営業がやさしく解説（情報提供・シミュレーション）。ひとりでも、夫婦でも。',
   alternates: { canonical: '/articles' },
 };
 

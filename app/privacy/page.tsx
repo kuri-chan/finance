@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold">
         <h2>1. 運営者</h2>
         <p>
-          「{SITE_NAME}」（以下「当サイト」）は、{PEN_NAME}（元・大手損害保険会社の営業出身。実名・旧社名は非公開）が運営しています。
+          「{SITE_NAME}」（以下「当サイト」）は、{PEN_NAME}（元・大手保険会社の営業出身。実名・旧社名は非公開）が運営しています。
           連絡先は本ポリシー末尾に記載します。
         </p>
 
