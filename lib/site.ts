@@ -46,6 +46,8 @@ export const SITE_KEYWORDS = [
  */
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?v=hero&rev=2`;
 
-/** SNS（運営者の発信）。空なら非表示。 */
-export const NOTE_URL = 'https://note.com/tedori_labo';
-export const X_URL = 'https://x.com/tedorilabo';
+/** SNS（運営者の発信）。ハンドルは全チャネル `tedori__lab` に統一。空なら非表示。 */
+export const NOTE_URL = 'https://note.com/tedori__lab';
+export const X_URL = 'https://x.com/tedori__lab';
+export const THREADS_URL = 'https://www.threads.net/@tedori__lab';
+export const INSTAGRAM_URL = 'https://www.instagram.com/tedori__lab';

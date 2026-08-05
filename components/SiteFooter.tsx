@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Disclaimer } from '@/components/Disclaimer';
-import { NOTE_URL, PEN_NAME, SITE_NAME, TAGLINE, X_URL } from '@/lib/site';
+import { NOTE_URL, PEN_NAME, SITE_NAME, TAGLINE, THREADS_URL, X_URL } from '@/lib/site';
 
 /** 全ページ共通フッター。ブランド・運営者プロフィール抜粋・リンク・免責＋PR。 */
 export function SiteFooter() {
@@ -32,6 +32,14 @@ export function SiteFooter() {
                 className="font-medium text-slate-600 hover:text-brand-700"
               >
                 X
+              </a>
+              <a
+                href={THREADS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-600 hover:text-brand-700"
+              >
+                Threads
               </a>
             </div>
           </div>

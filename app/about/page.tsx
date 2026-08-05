@@ -1,7 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '@/components/JsonLd';
-import { CONTACT_EMAIL, NOTE_URL, PEN_NAME, SITE_NAME, SITE_URL, TAGLINE, X_URL } from '@/lib/site';
+import {
+  CONTACT_EMAIL,
+  NOTE_URL,
+  PEN_NAME,
+  SITE_NAME,
+  SITE_URL,
+  TAGLINE,
+  THREADS_URL,
+  X_URL,
+} from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '運営者情報',
@@ -19,7 +28,7 @@ const jsonLd = {
     '@type': 'Person',
     name: PEN_NAME,
     description: '元・大手保険会社の営業出身。手取りラボの書き手・運営者（匿名）。',
-    sameAs: [NOTE_URL, X_URL].filter(Boolean),
+    sameAs: [NOTE_URL, X_URL, THREADS_URL].filter(Boolean),
   },
 };
 
@@ -63,6 +72,10 @@ export default function AboutPage() {
             <span className="mx-1">/</span>
             <a href={X_URL} target="_blank" rel="noopener noreferrer" className="text-brand-700 underline underline-offset-2">
               X
+            </a>
+            <span className="mx-1">/</span>
+            <a href={THREADS_URL} target="_blank" rel="noopener noreferrer" className="text-brand-700 underline underline-offset-2">
+              Threads
             </a>
           </li>
         </ul>
