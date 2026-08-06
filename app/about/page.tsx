@@ -36,8 +36,12 @@ const jsonLd = {
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
-      <p className="text-sm font-semibold text-brand-600">運営者情報</p>
-      <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">
+      <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.14em] text-slate-500">
+        <span className="truncate">手取りラボ ── 運営者情報</span>
+        <span className="shrink-0 font-bold text-brand-600">ABOUT</span>
+      </div>
+      <div className="mt-3 h-px bg-slate-200" />
+      <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl">
         <span className="font-mincho">{PEN_NAME}</span>について
       </h1>
       <p className="mt-2 text-brand-700">{TAGLINE}</p>

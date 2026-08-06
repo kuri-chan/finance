@@ -131,21 +131,17 @@ export default function Home() {
                 </span>
               </h1>
               <p className="mt-6 max-w-[36em] text-lg leading-relaxed text-slate-600">
-                保険もふるさと納税もNISAも——単発の計算機ではなく、
+                保険もふるさと納税もNISAも——
+                <br />
+                単発の計算機ではなく、
                 <br />
                 <strong className="font-semibold text-slate-800">まとめて“適正”をチェック</strong>。
                 <br />
                 手取りを増やす打ち手を効果額順に並べます。
                 <br />
-                売らないから、
-                <br />
                 要らないものは「今のままでいい」と正直に。
                 <br />
-                <span className="text-slate-500">
-                  ひとりでも、
-                  <br />
-                  夫婦の世帯合算でも。
-                </span>
+                <span className="text-slate-500">ひとりでも、夫婦の世帯合算でも。</span>
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">

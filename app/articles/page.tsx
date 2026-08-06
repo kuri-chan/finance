@@ -23,10 +23,15 @@ export default function ArticlesIndex() {
         </Link>
       </nav>
 
-      <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+      <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.14em] text-slate-500">
+        <span className="truncate">手取りラボ ── 記事一覧</span>
+        <span className="shrink-0 font-bold text-brand-600">INDEX / GUIDE</span>
+      </div>
+      <div className="mt-3 h-px bg-slate-200" />
+      <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl">
         お金の<BrushUnderline>ガイド</BrushUnderline>
       </h1>
-      <p className="mt-2 text-slate-600">
+      <p className="mt-3 text-slate-600">
         保険・税・投資のやさしい解説。気になるテーマから読めます（制度にもとづく情報提供）。
       </p>
 
