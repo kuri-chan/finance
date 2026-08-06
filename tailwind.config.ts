@@ -34,11 +34,17 @@ const config: Config = {
           '0%': { strokeDashoffset: '1' },
           '100%': { strokeDashoffset: '0' },
         },
+        // 筆で左→右に一気に引く（塗り形状を左からリベール）
+        swipe: {
+          '0%': { clipPath: 'inset(0 100% 0 0)' },
+          '100%': { clipPath: 'inset(0 0 0 0)' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.6s ease-out both',
         float: 'float 6s ease-in-out infinite',
         draw: 'draw 0.9s ease-out 0.35s both',
+        swipe: 'swipe 0.55s cubic-bezier(0.6,0,0.2,1) 0.35s both',
       },
     },
   },

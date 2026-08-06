@@ -125,23 +125,16 @@ export default function Home() {
               年いくら
               <span className="relative inline-block whitespace-nowrap text-brand-600">
                 増やせる
-                {/* 手描きの丸：描き始めは下から・緩めに囲む（線が自分で描かれる） */}
+                {/* 筆で引いた抜きのあるアンダーライン（左→右に一気に） */}
                 <svg
                   aria-hidden
-                  viewBox="0 0 240 120"
+                  viewBox="0 0 240 34"
                   preserveAspectRatio="none"
-                  className="pointer-events-none absolute -left-4 -right-4 -top-1 -bottom-3"
+                  className="animate-swipe pointer-events-none absolute -bottom-2 left-0 h-[0.34em] w-full"
                 >
                   <path
-                    d="M40,104 C12,92 8,44 34,24 C64,2 132,4 168,12 C214,22 240,40 230,66 C222,90 160,108 104,102 C76,99 52,98 40,90"
-                    fill="none"
-                    stroke="#34d399"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                    pathLength={1}
-                    className="animate-draw"
-                    style={{ strokeDasharray: 1, strokeDashoffset: 1 }}
+                    d="M4,20 C66,9 158,7 233,3 C238,3 238,9 233,11 C160,17 68,21 12,30 C6,31 2,25 4,20 Z"
+                    fill="#34d399"
                   />
                 </svg>
               </span>
