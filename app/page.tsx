@@ -99,68 +99,78 @@ export default function Home() {
 
   return (
     <main>
-      {/* ===== HERO ===== */}
+      {/* ===== HERO（エディトリアル） ===== */}
       <section className="relative overflow-hidden">
-        {/* 背景：やわらかいグラデ＋グロー（奥行き） */}
+        {/* 背景：やわらかいグラデ＋グロー＋極薄の巨大¥ */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
-          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
-          <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
+          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/20 blur-3xl" />
+          <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/15 blur-3xl" />
+          <span className="absolute -top-20 right-0 select-none text-[clamp(220px,32vw,420px)] font-bold leading-none text-brand-100/70">
+            ¥
+          </span>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
-          {/* 左：コピー */}
-          <div className="animate-fade-up">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white/70 px-3 py-1 text-xs font-semibold text-brand-600 shadow-sm backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              {TAGLINE_SUB}
-            </span>
-            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
-              あなたの<span className="font-mincho font-semibold">手取り</span>、
-              <br />
-              年いくら
-              <BrushUnderline className="text-brand-600">増やせる</BrushUnderline>
-              ？
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-slate-600">
-              保険もふるさと納税もNISAも——単発の計算機ではなく、
-              <strong className="font-semibold text-slate-800">まとめて“適正”をチェック</strong>。
-              手取りを増やす打ち手を効果額順に並べます。売らないから、要らないものは「今のままでいい」と正直に。
-              <span className="text-slate-500">ひとりでも、夫婦の世帯合算でも。</span>
-            </p>
+        <div className="mx-auto max-w-5xl px-6 pb-16 pt-8">
+          {/* インデックス行（雑誌的な章番号＋罫線） */}
+          <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.14em] text-slate-500">
+            <span className="truncate">手取りラボ ── {TAGLINE_SUB}</span>
+            <span className="shrink-0 font-bold text-brand-600">No.01 / LAB</span>
+          </div>
+          <div className="mt-3 h-px bg-slate-200" />
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/diagnose"
-                className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
-              >
-                無料で診断する
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+          <div className="grid items-center gap-10 py-14 md:grid-cols-[1.35fr_1fr] md:py-20">
+            {/* 左：コピー */}
+            <div className="animate-fade-up">
+              <h1 className="text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.12] tracking-tight text-slate-900">
+                あなたの<span className="font-mincho font-semibold">手取り</span>、
+                <br />
+                年いくら
+                <BrushUnderline className="text-brand-600">増やせる</BrushUnderline>
+                ？
+              </h1>
+              <p className="mt-6 max-w-[34em] text-lg leading-relaxed text-slate-600">
+                保険もふるさと納税もNISAも——単発の計算機ではなく、
+                <strong className="font-semibold text-slate-800">まとめて“適正”をチェック</strong>。
+                手取りを増やす打ち手を効果額順に並べます。売らないから、要らないものは「今のままでいい」と正直に。
+                <span className="text-slate-500">ひとりでも、夫婦の世帯合算でも。</span>
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/diagnose"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
                 >
-                  <path d="M4 10h11M11 5l5 5-5 5" />
-                </svg>
-              </Link>
-              <span className="text-xs text-slate-400">ログイン不要・数分・ひとりでもOK</span>
+                  無料で診断する
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  >
+                    <path d="M4 10h11M11 5l5 5-5 5" />
+                  </svg>
+                </Link>
+                <span className="text-xs text-slate-400">ログイン不要・数分・ひとりでもOK</span>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Chip>
+                  <span className="text-brand-500">●</span> 元保険会社の営業が設計
+                </Chip>
+                <Chip>情報提供・シミュレーション</Chip>
+                <Chip>無料</Chip>
+              </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Chip>
-                <span className="text-brand-500">●</span> 元保険会社の営業が設計
-              </Chip>
-              <Chip>情報提供・シミュレーション</Chip>
-              <Chip>無料</Chip>
-            </div>
+            {/* 右：改善余地カード（“生きた”デモ／例の人物を循環＋カウントアップ） */}
+            <HeroDemoCard />
           </div>
 
-          {/* 右：改善余地カード（“生きた”デモ／例の人物を循環＋カウントアップ） */}
-          <HeroDemoCard />
+          <div className="h-px bg-slate-200" />
         </div>
       </section>
 
