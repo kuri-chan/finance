@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { BrushUnderline } from '@/components/BrushUnderline';
 import { JsonLd } from '@/components/JsonLd';
 import { getAllArticleMeta, type ArticleMeta } from '@/lib/content/articles';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, TAGLINE_SUB } from '@/lib/site';
@@ -123,21 +124,7 @@ export default function Home() {
               あなたの<span className="font-mincho font-semibold">手取り</span>、
               <br />
               年いくら
-              <span className="relative inline-block whitespace-nowrap text-brand-600">
-                増やせる
-                {/* 筆で引いた抜きのあるアンダーライン（左→右に一気に） */}
-                <svg
-                  aria-hidden
-                  viewBox="0 0 240 34"
-                  preserveAspectRatio="none"
-                  className="animate-swipe pointer-events-none absolute -bottom-2 left-0 h-[0.34em] w-full"
-                >
-                  <path
-                    d="M4,20 C66,9 158,7 233,3 C238,3 238,9 233,11 C160,17 68,21 12,30 C6,31 2,25 4,20 Z"
-                    fill="#34d399"
-                  />
-                </svg>
-              </span>
+              <BrushUnderline className="text-brand-600">増やせる</BrushUnderline>
               ？
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-slate-600">

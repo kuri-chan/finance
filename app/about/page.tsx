@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BrushUnderline } from '@/components/BrushUnderline';
 import { JsonLd } from '@/components/JsonLd';
 import {
   CONTACT_EMAIL,
@@ -37,7 +38,7 @@ export default function AboutPage() {
     <main className="mx-auto max-w-2xl px-6 py-12">
       <p className="text-sm font-semibold text-brand-600">運営者情報</p>
       <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">
-        {PEN_NAME}について
+        <span className="font-mincho">{PEN_NAME}</span>について
       </h1>
       <p className="mt-2 text-brand-700">{TAGLINE}</p>
 
@@ -47,7 +48,7 @@ export default function AboutPage() {
           新卒で大手の保険会社に入り、保険の営業をしていました。売る側にいたからこそ分かります——世の中には、必要のない保障や、割高なまま放置された保険がたくさんあります。
         </p>
         <p>
-          だから僕は、何も売りません。代わりに、保険・ふるさと納税・iDeCo・NISAを横断してお金を丸ごと見て、「手取りがいちばん増える順番」で打ち手を並べます。
+          だから僕は、<BrushUnderline className="text-slate-900">何も売りません</BrushUnderline>。代わりに、保険・ふるさと納税・iDeCo・NISAを横断してお金を丸ごと見て、「手取りがいちばん増える順番」で打ち手を並べます。
           要らない保険は「解約でいい」、今のままで十分なら「何もしなくていい」と正直に言います。
         </p>
         <p>
@@ -56,7 +57,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+      <div className="reveal-on-scroll mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
         <p className="font-medium text-slate-600">運営について</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
           <li>書き手・運営者：{PEN_NAME}（元・大手保険会社の営業出身。実名・旧社名は非公開＝匿名で運営）</li>
@@ -84,9 +85,20 @@ export default function AboutPage() {
       <div className="mt-8">
         <Link
           href="/diagnose"
-          className="inline-flex items-center rounded-lg bg-brand-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brand-700"
+          className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
         >
-          無料で診断する →
+          無料で診断する
+          <svg
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+          >
+            <path d="M4 10h11M11 5l5 5-5 5" />
+          </svg>
         </Link>
       </div>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArticleBrowser } from '@/components/ArticleBrowser';
+import { BrushUnderline } from '@/components/BrushUnderline';
 import { getAllArticleMeta } from '@/lib/content/articles';
 import { SITE_NAME } from '@/lib/site';
 
@@ -22,7 +23,9 @@ export default function ArticlesIndex() {
         </Link>
       </nav>
 
-      <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">お金のガイド</h1>
+      <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+        お金の<BrushUnderline>ガイド</BrushUnderline>
+      </h1>
       <p className="mt-2 text-slate-600">
         保険・税・投資のやさしい解説。気になるテーマから読めます（制度にもとづく情報提供）。
       </p>
