@@ -16,3 +16,4 @@ coverage/
 
 # TypeScript ビルドキャッシュ
 tsconfig.tsbuildinfo
+.DS_Store

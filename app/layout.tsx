@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: SITE_KEYWORDS,
+  icons: {
+    icon: [{ url: '/brand/logo_main.png', type: 'image/png' }],
+    shortcut: ['/brand/logo_main.png'],
+    apple: [{ url: '/brand/logo_main.png' }],
+  },
   robots: { index: true, follow: true },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }

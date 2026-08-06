@@ -1,12 +1,21 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { SITE_NAME, TAGLINE } from '@/lib/site';
 
-/** 全ページ共通ヘッダー。ロゴ（サイト名）＋タグライン。 */
+/** 全ページ共通ヘッダー。ロゴ画像＋サイト名＋タグライン。 */
 export function SiteHeader() {
   return (
     <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
-        <Link href="/" className="flex items-baseline gap-2">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image
+            src="/brand/logo_main.png"
+            alt={SITE_NAME}
+            width={36}
+            height={36}
+            priority
+            className="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200"
+          />
           <span className="text-lg font-bold tracking-tight text-slate-900">{SITE_NAME}</span>
           <span className="hidden text-xs text-slate-500 sm:inline">{TAGLINE}</span>
         </Link>
