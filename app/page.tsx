@@ -122,18 +122,30 @@ export default function Home() {
           <div className="grid items-center gap-10 py-14 md:grid-cols-[1.35fr_1fr] md:py-20">
             {/* 左：コピー */}
             <div className="animate-fade-up">
-              <h1 className="text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.12] tracking-tight text-slate-900">
-                あなたの<span className="font-mincho font-semibold">手取り</span>、
-                <br />
-                年いくら
-                <BrushUnderline className="text-brand-600">増やせる</BrushUnderline>
-                ？
+              <h1 className="text-[clamp(2rem,5.2vw,3.6rem)] font-bold leading-[1.16] tracking-tight text-slate-900">
+                <span className="block whitespace-nowrap">
+                  あなたの<span className="font-mincho font-semibold">手取り</span>、
+                </span>
+                <span className="block whitespace-nowrap">
+                  年いくら<BrushUnderline className="text-brand-600">増やせる</BrushUnderline>？
+                </span>
               </h1>
-              <p className="mt-6 max-w-[34em] text-lg leading-relaxed text-slate-600">
+              <p className="mt-6 max-w-[36em] text-lg leading-relaxed text-slate-600">
                 保険もふるさと納税もNISAも——単発の計算機ではなく、
+                <br />
                 <strong className="font-semibold text-slate-800">まとめて“適正”をチェック</strong>。
-                手取りを増やす打ち手を効果額順に並べます。売らないから、要らないものは「今のままでいい」と正直に。
-                <span className="text-slate-500">ひとりでも、夫婦の世帯合算でも。</span>
+                <br />
+                手取りを増やす打ち手を効果額順に並べます。
+                <br />
+                売らないから、
+                <br />
+                要らないものは「今のままでいい」と正直に。
+                <br />
+                <span className="text-slate-500">
+                  ひとりでも、
+                  <br />
+                  夫婦の世帯合算でも。
+                </span>
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
