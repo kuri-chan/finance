@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ArticleConsultCta } from '@/components/ArticleConsultCta';
 import { ArticleCta } from '@/components/ArticleCta';
 import { JsonLd } from '@/components/JsonLd';
 import { getAllArticleMeta, getAllSlugs, getArticle } from '@/lib/content/articles';
@@ -114,6 +115,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </section>
       )}
 
+      {article.category === '保険' && <ArticleConsultCta />}
       <ArticleCta />
 
       <JsonLd data={jsonLd} />

@@ -25,6 +25,11 @@ export function getAffiliateForDomain(domain: string): AffiliateCTA | null {
   return toCTA(destId ? DESTINATIONS[destId] : undefined);
 }
 
+/** 送客先IDを直接指定して導線を取得（記事内CTA等で使用） */
+export function getAffiliateById(id: string): AffiliateCTA | null {
+  return toCTA(DESTINATIONS[id]);
+}
+
 /** 保障不足（増やす方向）に対応する相談導線 */
 export function getAffiliateForGap(): AffiliateCTA | null {
   return toCTA(DESTINATIONS[affiliate.gapDestination]);
