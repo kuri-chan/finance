@@ -75,16 +75,19 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </nav>
 
       <article>
-        <header className="mb-6">
-          {article.category && (
-            <span className="text-xs font-medium text-brand-600">{article.category}</span>
-          )}
-          <h1 className="mt-1 text-2xl font-bold leading-snug text-slate-900 sm:text-3xl">
+        <header className="mb-8">
+          <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.12em] text-slate-500">
+            <span className="truncate">
+              お金のガイド{article.category ? ` ── ${article.category}` : ''}
+            </span>
+            {article.date && <time className="shrink-0">{article.date}</time>}
+          </div>
+          <div className="mt-3 h-px bg-slate-200" />
+          <h1 className="mt-6 text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-[2rem]">
             {article.title}
           </h1>
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
             <span>文：{PEN_NAME}（元・大手保険会社の営業）</span>
-            {article.date && <time>{article.date}</time>}
             <span>約{article.readingMinutes}分で読めます</span>
           </div>
         </header>
@@ -96,7 +99,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </article>
 
       {related.length > 0 && (
-        <section className="mt-10 border-t border-slate-100 pt-8">
+        <section className="reveal-on-scroll mt-12 border-t border-slate-100 pt-8">
           <h2 className="text-base font-bold text-slate-800">あわせて読みたい</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {related.map((a) => (
