@@ -10,6 +10,32 @@ body {
   @apply bg-slate-50 text-ink antialiased;
 }
 
+/* 明朝アクセント（編集的な手触り。見出しの一部に使う） */
+.font-mincho {
+  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', YuMincho, 'Noto Serif JP', serif;
+}
+
+/* スクロールで“ふわり”登場。view()対応ブラウザのみ適用＝非対応は常時表示でSEO安全 */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal-on-scroll {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+
 /* モーション過敏設定を尊重（アニメ・トランジションを無効化） */
 @media (prefers-reduced-motion: reduce) {
   *,

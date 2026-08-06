@@ -105,11 +105,38 @@ export default function Home() {
     <main>
       {/* ===== HERO ===== */}
       <section className="relative overflow-hidden">
-        {/* 背景：やわらかいグラデ＋グロー（奥行き） */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        {/* 背景：やわらかいグラデ＋グロー＋手描きインク（奥行き＋作品的な手触り） */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
           <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
+          {/* 手描きの¥コイン（薄いインク） */}
+          <svg
+            viewBox="0 0 100 100"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute right-6 top-24 h-16 w-16 text-slate-400/25 sm:right-16 sm:top-12 sm:h-24 sm:w-24"
+          >
+            <path d="M50 17 C68 17 84 32 84 50 C84 69 68 84 50 84 C31 84 17 69 17 50 C17 32 31 17 50 17" />
+            <path d="M40 35 L50 50 L60 35 M50 50 V70 M41 56 H59 M41 63 H59" />
+          </svg>
+          {/* 手描きの新芽（薄いインク） */}
+          <svg
+            viewBox="0 0 80 80"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute -bottom-2 left-6 hidden h-16 w-16 text-emerald-500/25 sm:block"
+          >
+            <path d="M40 72 C40 56 40 48 40 40" />
+            <path d="M40 52 C28 52 20 44 20 32 C34 32 40 40 40 52" />
+            <path d="M40 46 C52 44 60 36 61 26 C48 27 41 34 40 46" />
+          </svg>
         </div>
 
         <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
@@ -120,15 +147,29 @@ export default function Home() {
               {TAGLINE_SUB}
             </span>
             <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
-              あなたの手取り、
+              あなたの<span className="font-mincho font-semibold">手取り</span>、
               <br />
               年いくら
-              <span className="relative whitespace-nowrap text-brand-600">
+              <span className="relative inline-block whitespace-nowrap text-brand-600">
                 増やせる
-                <span
+                {/* 手描きの丸：線が自分で描かれる */}
+                <svg
                   aria-hidden
-                  className="absolute -bottom-1 left-0 h-1.5 w-full rounded-full bg-emerald-400/50"
-                />
+                  viewBox="0 0 260 110"
+                  preserveAspectRatio="none"
+                  className="pointer-events-none absolute -inset-x-3 -inset-y-2 h-[1.5em] w-[calc(100%+1.5rem)]"
+                >
+                  <path
+                    d="M30,58 C16,26 74,13 134,15 C198,17 238,33 232,57 C227,79 168,95 96,91 C34,88 12,76 24,50"
+                    fill="none"
+                    stroke="#34d399"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    pathLength={1}
+                    className="animate-draw"
+                    style={{ strokeDasharray: 1, strokeDashoffset: 1 }}
+                  />
+                </svg>
               </span>
               ？
             </h1>
@@ -213,7 +254,7 @@ export default function Home() {
       </section>
 
       {/* ===== レバー ===== */}
-      <section className="mx-auto max-w-5xl px-6 py-12">
+      <section className="reveal-on-scroll mx-auto max-w-5xl px-6 py-12">
         <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-slate-400">
           ひとつのツールで、横断して最適化
         </h2>
@@ -231,7 +272,7 @@ export default function Home() {
       </section>
 
       {/* ===== 使い方 3ステップ ===== */}
-      <section className="border-y border-slate-100 bg-slate-50/60">
+      <section className="reveal-on-scroll border-y border-slate-100 bg-slate-50/60">
         <div className="mx-auto max-w-5xl px-6 py-12">
           <h2 className="text-xl font-bold text-slate-800">3ステップで、改善余地が“円”で分かる</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -261,7 +302,7 @@ export default function Home() {
 
       {/* ===== お金のガイド ===== */}
       {featured.length > 0 && (
-        <section className="mx-auto max-w-5xl px-6 py-12">
+        <section className="reveal-on-scroll mx-auto max-w-5xl px-6 py-12">
           <div className="flex items-baseline justify-between">
             <div>
               <h2 className="text-xl font-bold text-slate-800">お金のガイド</h2>
@@ -297,7 +338,7 @@ export default function Home() {
       )}
 
       {/* ===== FAQ ===== */}
-      <section className="mx-auto max-w-3xl px-6 py-14 border-t border-slate-100">
+      <section className="reveal-on-scroll mx-auto max-w-3xl px-6 py-14 border-t border-slate-100">
         <h2 className="text-xl font-bold text-slate-800">よくある質問</h2>
         <dl className="mt-6 space-y-6">
           {FAQ.map((f) => (

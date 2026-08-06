@@ -29,10 +29,16 @@ const config: Config = {
           '0%,100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-6px)' },
         },
+        // 手描き線が“描かれる”（pathLength=1 前提で dashoffset を 1→0）
+        draw: {
+          '0%': { strokeDashoffset: '1' },
+          '100%': { strokeDashoffset: '0' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.6s ease-out both',
         float: 'float 6s ease-in-out infinite',
+        draw: 'draw 0.9s ease-out 0.35s both',
       },
     },
   },
