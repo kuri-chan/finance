@@ -15,6 +15,68 @@ body {
   font-family: 'Hiragino Mincho ProN', 'Yu Mincho', YuMincho, 'Noto Serif JP', serif;
 }
 
+/* 記事本文（prose）のエディトリアル微調整。
+   Tailwind Typographyは :where() で低詳細度なので、素の .prose 要素セレクタで上書きできる。 */
+.prose {
+  line-height: 1.9;
+}
+/* リード（最初の段落）を少し大きく・濃く */
+.prose > p:first-of-type {
+  font-size: 1.075rem;
+  color: #334155;
+}
+/* 見出し：下罫線でセクションを区切る（マガジン的な佇まい） */
+.prose h2 {
+  margin-top: 2.6rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.45rem;
+  font-size: 1.35rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid #e2e8f0;
+}
+.prose h3 {
+  margin-top: 1.9rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.12rem;
+  letter-spacing: -0.01em;
+}
+/* 強調・リンク */
+.prose strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+.prose a {
+  font-weight: 500;
+  text-decoration-thickness: 1px;
+}
+/* リストの詰まり具合 */
+.prose ul,
+.prose ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.prose li {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+/* 引用＝免責・注釈は“注釈ボックス”として控えめに（イタリック解除・引用符なし） */
+.prose blockquote {
+  font-style: normal;
+  font-weight: 400;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  border-left: 3px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.65rem 1rem;
+}
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after {
+  content: none;
+}
+
 /* スクロールで“ふわり”登場。view()対応ブラウザのみ適用＝非対応は常時表示でSEO安全 */
 @keyframes reveal-up {
   from {
