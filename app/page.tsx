@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { BrushUnderline } from '@/components/BrushUnderline';
+import { HeroDemoCard } from '@/components/HeroDemoCard';
 import { JsonLd } from '@/components/JsonLd';
 import { getAllArticleMeta, type ArticleMeta } from '@/lib/content/articles';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, TAGLINE_SUB } from '@/lib/site';
@@ -84,12 +85,6 @@ const LEVERS = [
   { name: 'NISA', desc: '運用益を非課税に。二人分の枠もまとめて活用', color: 'text-teal-600 bg-teal-50', icon: 'M3 17l6-6 4 4 8-8M21 7v5h-5' },
 ];
 
-const ACTIONS = [
-  { rank: 1, domain: 'iDeCo', title: 'iDeCo満額で節税', yen: '+8.4万' },
-  { rank: 2, domain: '保険', title: '医療保険の重複を解消', yen: '+3.6万' },
-  { rank: 3, domain: 'ふるさと納税', title: '限度額をフル活用', yen: '+3.4万' },
-];
-
 const STEPS = [
   { n: 1, title: '数分で入力', desc: '年収・保険・投資の状況を、分かる範囲で（ログイン不要）' },
   { n: 2, title: '改善余地を“円”で', desc: '初年度／生涯で、手取りをいくら増やせるかを表示' },
@@ -111,6 +106,28 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
           <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
+          {/* 右肩上がりの成長曲線（ゆらめく・薄い） */}
+          <svg
+            viewBox="0 0 1200 400"
+            preserveAspectRatio="none"
+            className="absolute inset-x-0 bottom-0 h-56 w-full animate-float text-emerald-400/40 sm:h-64"
+          >
+            <defs>
+              <linearGradient id="growthLine" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="currentColor" stopOpacity="0" />
+                <stop offset="0.5" stopColor="currentColor" stopOpacity="0.9" />
+                <stop offset="1" stopColor="currentColor" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0,360 C200,340 380,300 560,240 C760,175 940,150 1200,60"
+              fill="none"
+              stroke="url(#growthLine)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
         </div>
 
         <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
@@ -164,46 +181,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 右：改善余地カード（製品プレビュー・浮遊＋積層で奥行き） */}
-          <div className="relative animate-fade-up [animation-delay:120ms]">
-            {/* グロー */}
-            <div
-              aria-hidden
-              className="absolute -inset-5 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-500/25 to-emerald-300/20 blur-2xl"
-            />
-            {/* 背面カード（積層） */}
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10 rotate-3 rounded-2xl bg-brand-100/70 ring-1 ring-brand-100"
-            />
-            <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-xl ring-1 ring-brand-700/20">
-              <p className="text-xs font-medium text-brand-100">【手取りラボ診断】改善余地</p>
-              <p className="mt-1 text-3xl font-bold tabular-nums">
-                初年度 約24万円<span className="text-base font-medium">／年</span>
-              </p>
-              <p className="text-sm text-brand-100">生涯では 約720万円 の改善余地</p>
-              <div className="mt-4 space-y-2">
-                {ACTIONS.map((a) => (
-                  <div key={a.rank} className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/25 text-[11px] font-bold">
-                      {a.rank}
-                    </span>
-                    <span className="rounded bg-white/15 px-1.5 py-0.5 text-[10px]">{a.domain}</span>
-                    <span className="flex-1 truncate text-sm">{a.title}</span>
-                    <span className="text-sm font-bold tabular-nums text-emerald-200">{a.yen}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] text-brand-200">※ 表示は入力例のイメージです</p>
-            </div>
-            {/* 浮遊バッジ：No.1の打ち手 */}
-            <div className="absolute -right-3 -top-4 animate-float rounded-xl bg-white px-3 py-2 shadow-card ring-1 ring-slate-100">
-              <p className="text-[10px] font-medium text-slate-500">No.1の打ち手</p>
-              <p className="text-sm font-bold tabular-nums text-emerald-600">
-                {ACTIONS[0].yen}<span className="text-[10px] font-medium text-slate-400">／年</span>
-              </p>
-            </div>
-          </div>
+          {/* 右：改善余地カード（“生きた”デモ／例の人物を循環＋カウントアップ） */}
+          <HeroDemoCard />
         </div>
       </section>
 
