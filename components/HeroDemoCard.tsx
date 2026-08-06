@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { type MouseEvent, useEffect, useRef, useState } from 'react';
 
 /**
  * ヒーロー右の“生きた”改善余地カード。
  * 例の人物（世帯／ひとり／新婚）を数秒ごとに循環し、数字はカウントアップ。
- * ツールの守備範囲（個人も世帯も）を、動きで伝える。
+ * マウスに合わせてカードが立体的に傾く（作り込まれた手触り）。
  * SSRは先頭プロファイルの実数字を描画＝SEO/no-JSでも内容が見える。
  * 表示はすべて「入力例のイメージ」（断定・推奨ではない）。
  */
@@ -75,6 +75,7 @@ export function HeroDemoCard() {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduce, setReduce] = useState(false);
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
   useEffect(() => {
     const m = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -90,80 +91,101 @@ export function HeroDemoCard() {
     return () => clearInterval(id);
   }, [reduce, paused]);
 
+  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ rx: -py * 6, ry: px * 6 });
+  };
+  const reset = () => setTilt({ rx: 0, ry: 0 });
+
   const p = PROFILES[i];
   const fy = useCountUp(p.firstYear, reduce);
   const lt = useCountUp(p.lifetime, reduce);
 
   return (
     <div
-      className="relative animate-fade-up [animation-delay:120ms]"
+      className="relative animate-fade-up [animation-delay:120ms] [perspective:900px]"
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseMove={handleMove}
+      onMouseLeave={() => {
+        setPaused(false);
+        reset();
+      }}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      {/* グロー */}
+      {/* グロー（静止） */}
       <div
         aria-hidden
         className="absolute -inset-5 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-500/25 to-emerald-300/20 blur-2xl"
       />
-      {/* 背面カード（積層） */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 rotate-3 rounded-2xl bg-brand-100/70 ring-1 ring-brand-100"
-      />
 
-      <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-xl ring-1 ring-brand-700/20">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-xs font-medium text-brand-100">【手取りラボ診断】改善余地</p>
-          <span className="shrink-0 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-medium">
+      {/* 傾く本体（マウス追従の3Dティルト） */}
+      <div
+        className="relative transition-transform duration-150 ease-out [transform-style:preserve-3d]"
+        style={{ transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)` }}
+      >
+        {/* 背面カード（積層） */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 rotate-3 rounded-2xl bg-brand-100/70 ring-1 ring-brand-100"
+        />
+
+        <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-xl ring-1 ring-brand-700/20">
+          <p className="pr-16 text-xs font-medium text-brand-100">【手取りラボ診断】改善余地</p>
+          <p className="mt-1 text-3xl font-bold tabular-nums">
+            初年度 約{fy}万円<span className="text-base font-medium">／年</span>
+          </p>
+          <p className="text-sm text-brand-100 tabular-nums">生涯では 約{lt}万円 の改善余地</p>
+          <span
+            key={`persona-${i}`}
+            className="mt-2 inline-block animate-fade-up rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-medium text-brand-50"
+          >
             {p.persona}
           </span>
-        </div>
-        <p className="mt-1 text-3xl font-bold tabular-nums">
-          初年度 約{fy}万円<span className="text-base font-medium">／年</span>
-        </p>
-        <p className="text-sm text-brand-100 tabular-nums">生涯では 約{lt}万円 の改善余地</p>
 
-        <div key={i} className="mt-4 animate-fade-up space-y-2">
-          {p.actions.map((a) => (
-            <div key={a.rank} className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/25 text-[11px] font-bold">
-                {a.rank}
-              </span>
-              <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px]">
-                {a.domain}
-              </span>
-              <span className="flex-1 truncate text-sm">{a.title}</span>
-              <span className="shrink-0 text-sm font-bold tabular-nums text-emerald-200">
-                {a.yen}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-3 flex items-center justify-between">
-          <p className="text-[11px] text-brand-200">※ 表示は入力例のイメージです</p>
-          <div className="flex gap-1.5" aria-hidden>
-            {PROFILES.map((_, idx) => (
-              <span
-                key={idx}
-                className={`h-1.5 rounded-full transition-all ${
-                  idx === i ? 'w-4 bg-white' : 'w-1.5 bg-white/40'
-                }`}
-              />
+          <div key={i} className="mt-3 animate-fade-up space-y-2">
+            {p.actions.map((a) => (
+              <div key={a.rank} className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/25 text-[11px] font-bold">
+                  {a.rank}
+                </span>
+                <span className="shrink-0 rounded bg-white/15 px-1.5 py-0.5 text-[10px]">
+                  {a.domain}
+                </span>
+                <span className="flex-1 truncate text-sm">{a.title}</span>
+                <span className="shrink-0 text-sm font-bold tabular-nums text-emerald-200">
+                  {a.yen}
+                </span>
+              </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* 浮遊バッジ：No.1の打ち手 */}
-      <div className="absolute -right-3 -top-4 animate-float rounded-xl bg-white px-3 py-2 shadow-card ring-1 ring-slate-100">
-        <p className="text-[10px] font-medium text-slate-500">No.1の打ち手</p>
-        <p className="text-sm font-bold tabular-nums text-emerald-600">
-          {p.actions[0].yen}
-          <span className="text-[10px] font-medium text-slate-400">／年</span>
-        </p>
+          <div className="mt-3 flex items-center justify-between">
+            <p className="text-[11px] text-brand-200">※ 表示は入力例のイメージです</p>
+            <div className="flex gap-1.5" aria-hidden>
+              {PROFILES.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all ${
+                    idx === i ? 'w-4 bg-white' : 'w-1.5 bg-white/40'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 浮遊バッジ：No.1の打ち手（カード上部・手前に浮かせる） */}
+        <div className="absolute -right-3 -top-4 rounded-xl bg-white px-3 py-2 shadow-card ring-1 ring-slate-100 [transform:translateZ(40px)]">
+          <p className="text-[10px] font-medium text-slate-500">No.1の打ち手</p>
+          <p className="text-sm font-bold tabular-nums text-emerald-600">
+            {p.actions[0].yen}
+            <span className="text-[10px] font-medium text-slate-400">／年</span>
+          </p>
+        </div>
       </div>
     </div>
   );

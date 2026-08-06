@@ -106,28 +106,6 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
           <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
-          {/* 右肩上がりの成長曲線（ゆらめく・薄い） */}
-          <svg
-            viewBox="0 0 1200 400"
-            preserveAspectRatio="none"
-            className="absolute inset-x-0 bottom-0 h-56 w-full animate-float text-emerald-400/40 sm:h-64"
-          >
-            <defs>
-              <linearGradient id="growthLine" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="currentColor" stopOpacity="0" />
-                <stop offset="0.5" stopColor="currentColor" stopOpacity="0.9" />
-                <stop offset="1" stopColor="currentColor" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M0,360 C200,340 380,300 560,240 C760,175 940,150 1200,60"
-              fill="none"
-              stroke="url(#growthLine)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
         </div>
 
         <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
