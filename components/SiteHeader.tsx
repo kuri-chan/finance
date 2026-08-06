@@ -9,12 +9,12 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
         <Link href="/" className="flex items-center gap-2.5">
           <Image
-            src="/brand/logo_main.png"
+            src="/brand/logo_main_clear.png"
             alt={SITE_NAME}
-            width={36}
-            height={36}
+            width={56}
+            height={56}
             priority
-            className="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-200"
+            className="h-12 w-12 object-contain sm:h-14 sm:w-14"
           />
           <span className="text-lg font-bold tracking-tight text-slate-900">{SITE_NAME}</span>
           <span className="hidden text-xs text-slate-500 sm:inline">{TAGLINE}</span>
