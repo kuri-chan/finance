@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { CoverageCaseResult } from '@/lib/insurance';
 import type { HouseholdOptimization, LeverDomain } from '@/lib/optimize';
+import { BrushUnderline } from '@/components/BrushUnderline';
 import { Card } from '@/components/ui';
 import {
   getAffiliateForDomain,
@@ -305,11 +306,15 @@ export default function Result({
     <div className="space-y-6">
       {/* 改善余地ヒーロー */}
       <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-md">
-        <p className="text-sm font-medium text-brand-100">{subjectLabel}</p>
+        <div className="flex items-baseline justify-between gap-3">
+          <p className="text-sm font-medium text-brand-100">{subjectLabel}</p>
+          <span className="shrink-0 text-xs font-bold tracking-[0.14em] text-brand-200">診断結果</span>
+        </div>
         {hasSaving ? (
           <>
             <p className="mt-1 text-4xl font-bold tabular-nums">
-              初年度 約{animatedMan.toLocaleString()}万円
+              初年度{' '}
+              <BrushUnderline>約{animatedMan.toLocaleString()}万円</BrushUnderline>
               <span className="text-lg font-medium">／年</span>
             </p>
             <p className="mt-1 text-brand-100">
