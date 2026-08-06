@@ -184,8 +184,9 @@ export default function Home() {
 
       {/* ===== レバー ===== */}
       <section className="reveal-on-scroll mx-auto max-w-5xl px-6 py-12">
-        <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-slate-400">
-          ひとつのツールで、横断して最適化
+        <p className="text-xs font-bold tracking-[0.14em] text-brand-600">No.02 / LEVERS</p>
+        <h2 className="mt-2 text-xl font-bold text-slate-800">
+          ひとつのツールで、横断して<span className="font-mincho">最適化</span>
         </h2>
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           {LEVERS.map((l) => (
@@ -203,7 +204,10 @@ export default function Home() {
       {/* ===== 使い方 3ステップ ===== */}
       <section className="reveal-on-scroll border-y border-slate-100 bg-slate-50/60">
         <div className="mx-auto max-w-5xl px-6 py-12">
-          <h2 className="text-xl font-bold text-slate-800">3ステップで、改善余地が“円”で分かる</h2>
+          <p className="text-xs font-bold tracking-[0.14em] text-brand-600">No.03 / STEPS</p>
+          <h2 className="mt-2 text-xl font-bold text-slate-800">
+            3ステップで、改善余地が“円”で分かる
+          </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {STEPS.map((s) => (
               <div key={s.n} className="rounded-xl border border-slate-200 bg-white p-5">
@@ -240,9 +244,12 @@ export default function Home() {
       {/* ===== お金のガイド ===== */}
       {featured.length > 0 && (
         <section className="reveal-on-scroll mx-auto max-w-5xl px-6 py-12">
-          <div className="flex items-baseline justify-between">
+          <p className="text-xs font-bold tracking-[0.14em] text-brand-600">No.04 / GUIDE</p>
+          <div className="mt-2 flex items-baseline justify-between">
             <div>
-              <h2 className="text-xl font-bold text-slate-800">お金のガイド</h2>
+              <h2 className="text-xl font-bold text-slate-800">
+                お金の<BrushUnderline>ガイド</BrushUnderline>
+              </h2>
               <p className="mt-1 text-sm text-slate-500">
                 保険・ふるさと納税・NISA・iDeCoの基本を、元保険会社の営業がやさしく解説。
               </p>
@@ -275,8 +282,9 @@ export default function Home() {
       )}
 
       {/* ===== FAQ ===== */}
-      <section className="reveal-on-scroll mx-auto max-w-3xl px-6 py-14 border-t border-slate-100">
-        <h2 className="text-xl font-bold text-slate-800">よくある質問</h2>
+      <section className="reveal-on-scroll mx-auto max-w-3xl border-t border-slate-100 px-6 py-14">
+        <p className="text-xs font-bold tracking-[0.14em] text-brand-600">No.05 / FAQ</p>
+        <h2 className="mt-2 text-xl font-bold text-slate-800">よくある質問</h2>
         <dl className="mt-6 space-y-6">
           {FAQ.map((f) => (
             <div key={f.q}>
