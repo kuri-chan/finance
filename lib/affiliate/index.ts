@@ -9,6 +9,8 @@ import type { AffiliateCTA, AffiliateDestination, AffiliateDisclosure } from './
 
 const DESTINATIONS = affiliate.destinations as Record<string, AffiliateDestination>;
 const DOMAIN_MAP = affiliate.domainMap as Record<string, string>;
+const SECONDARY_DOMAIN_MAP = ((affiliate as { secondaryDomainMap?: Record<string, string> })
+  .secondaryDomainMap ?? {}) as Record<string, string>;
 
 function toCTA(destination: AffiliateDestination | undefined): AffiliateCTA | null {
   if (!destination) return null;
@@ -28,6 +30,12 @@ export function getAffiliateForDomain(domain: string): AffiliateCTA | null {
 /** 送客先IDを直接指定して導線を取得（記事内CTA等で使用） */
 export function getAffiliateById(id: string): AffiliateCTA | null {
   return toCTA(DESTINATIONS[id]);
+}
+
+/** domain に2枚目の導線がある場合に取得（例: furusato = ふるなび＋ふるさとチョイス） */
+export function getSecondaryAffiliateForDomain(domain: string): AffiliateCTA | null {
+  const destId = SECONDARY_DOMAIN_MAP[domain];
+  return toCTA(destId ? DESTINATIONS[destId] : undefined);
 }
 
 /** 保障不足（増やす方向）に対応する相談導線 */

@@ -36,10 +36,18 @@
     "furusato_portal": {
       "id": "furusato_portal",
       "provider": "ふるなび（アイモバイル / バリューコマース）",
-      "label": "ふるさと納税ポータルで寄附先を探す",
+      "label": "ふるなびで寄附先を探す",
       "url": "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816",
       "kind": "estimate",
-      "note": "ふるさと納税ポータル（ふるなび）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。承認率89%。A8ふるさとチョイス承認後は選択肢増。"
+      "note": "ふるさと納税ポータル（ふるなび）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。承認率89%。secondaryDomainMapでふるさとチョイスと2枚並列。"
+    },
+    "furusato_choice": {
+      "id": "furusato_choice",
+      "provider": "ふるさとチョイス（バリューコマース）",
+      "label": "ふるさとチョイスで寄附先を探す",
+      "url": "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892673897",
+      "kind": "estimate",
+      "note": "ふるさと納税ポータル（ふるさとチョイス）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。2026-08-06承認・接続。furusato の2枚目として併記。"
     },
     "securities_account": {
       "id": "securities_account",
@@ -67,6 +75,9 @@
     "furusato": "furusato_portal",
     "ideco": "ideco_account",
     "nisa": "securities_account"
+  },
+  "secondaryDomainMap": {
+    "furusato": "furusato_choice"
   },
   "gapDestination": "life_review"
 }

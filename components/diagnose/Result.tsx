@@ -8,13 +8,14 @@ import { Card } from '@/components/ui';
 import {
   getAffiliateForDomain,
   getAffiliateForGap,
+  getSecondaryAffiliateForDomain,
   getDisclosure,
   type AffiliateCTA,
 } from '@/lib/affiliate';
 import { formatMan } from './model';
 
 /** 打ち手・保障不足に接続する送客導線（PR明示・景表法対応）。未提携時は非リンク表示。 */
-function Cta({ cta }: { cta: AffiliateCTA | null }) {
+function Cta({ cta, extra }: { cta: AffiliateCTA | null; extra?: AffiliateCTA | null }) {
   if (!cta) return null;
   const { destination, available, prLabel } = cta;
   return (
@@ -33,6 +34,21 @@ function Cta({ cta }: { cta: AffiliateCTA | null }) {
         </a>
       ) : (
         <span className="text-sm text-slate-400">{destination.label}（提携準備中）</span>
+      )}
+      {extra?.available && (
+        <>
+          <span className="text-slate-300" aria-hidden>
+            ／
+          </span>
+          <a
+            href={extra.destination.url}
+            target="_blank"
+            rel="sponsored noopener"
+            className="text-sm font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+          >
+            {extra.destination.label} →
+          </a>
+        </>
       )}
     </div>
   );
@@ -455,7 +471,10 @@ export default function Result({
                         やり方を見る →
                       </Link>
                     </p>
-                    <Cta cta={getAffiliateForDomain(a.domain)} />
+                    <Cta
+                      cta={getAffiliateForDomain(a.domain)}
+                      extra={getSecondaryAffiliateForDomain(a.domain)}
+                    />
                   </div>
                   <div className="shrink-0 text-right">
                     <div className="font-bold tabular-nums text-emerald-600">
