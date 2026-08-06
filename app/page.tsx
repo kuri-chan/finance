@@ -105,38 +105,11 @@ export default function Home() {
     <main>
       {/* ===== HERO ===== */}
       <section className="relative overflow-hidden">
-        {/* 背景：やわらかいグラデ＋グロー＋手描きインク（奥行き＋作品的な手触り） */}
+        {/* 背景：やわらかいグラデ＋グロー（奥行き） */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
           <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
-          {/* 手描きの¥コイン（薄いインク） */}
-          <svg
-            viewBox="0 0 100 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="absolute right-6 top-24 h-16 w-16 text-slate-400/25 sm:right-16 sm:top-12 sm:h-24 sm:w-24"
-          >
-            <path d="M50 17 C68 17 84 32 84 50 C84 69 68 84 50 84 C31 84 17 69 17 50 C17 32 31 17 50 17" />
-            <path d="M40 35 L50 50 L60 35 M50 50 V70 M41 56 H59 M41 63 H59" />
-          </svg>
-          {/* 手描きの新芽（薄いインク） */}
-          <svg
-            viewBox="0 0 80 80"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="absolute -bottom-2 left-6 hidden h-16 w-16 text-emerald-500/25 sm:block"
-          >
-            <path d="M40 72 C40 56 40 48 40 40" />
-            <path d="M40 52 C28 52 20 44 20 32 C34 32 40 40 40 52" />
-            <path d="M40 46 C52 44 60 36 61 26 C48 27 41 34 40 46" />
-          </svg>
         </div>
 
         <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
@@ -152,19 +125,20 @@ export default function Home() {
               年いくら
               <span className="relative inline-block whitespace-nowrap text-brand-600">
                 増やせる
-                {/* 手描きの丸：線が自分で描かれる */}
+                {/* 手描きの丸：描き始めは下から・緩めに囲む（線が自分で描かれる） */}
                 <svg
                   aria-hidden
-                  viewBox="0 0 260 110"
+                  viewBox="0 0 240 120"
                   preserveAspectRatio="none"
-                  className="pointer-events-none absolute -inset-x-3 -inset-y-2 h-[1.5em] w-[calc(100%+1.5rem)]"
+                  className="pointer-events-none absolute -left-4 -right-4 -top-1 -bottom-3"
                 >
                   <path
-                    d="M30,58 C16,26 74,13 134,15 C198,17 238,33 232,57 C227,79 168,95 96,91 C34,88 12,76 24,50"
+                    d="M40,104 C12,92 8,44 34,24 C64,2 132,4 168,12 C214,22 240,40 230,66 C222,90 160,108 104,102 C76,99 52,98 40,90"
                     fill="none"
                     stroke="#34d399"
-                    strokeWidth="4"
+                    strokeWidth="3"
                     strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
                     pathLength={1}
                     className="animate-draw"
                     style={{ strokeDasharray: 1, strokeDashoffset: 1 }}
@@ -289,12 +263,20 @@ export default function Home() {
           <div className="mt-8">
             <Link
               href="/diagnose"
-              className="inline-flex items-center rounded-lg bg-brand-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brand-700"
+              className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
             >
               無料で診断する（ログイン不要）
-            </Link>
-            <Link href="/articles" className="ml-4 text-sm font-semibold text-brand-600 hover:text-brand-700">
-              お金のガイドを読む →
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+              >
+                <path d="M4 10h11M11 5l5 5-5 5" />
+              </svg>
             </Link>
           </div>
         </div>
