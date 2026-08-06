@@ -104,29 +104,58 @@ export default function Home() {
   return (
     <main>
       {/* ===== HERO ===== */}
-      <section className="bg-gradient-to-b from-brand-50/60 to-transparent">
-        <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:py-20">
+      <section className="relative overflow-hidden">
+        {/* 背景：やわらかいグラデ＋グロー（奥行き） */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
+          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl" />
+          <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
+        </div>
+
+        <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
           {/* 左：コピー */}
-          <div>
-            <p className="mb-3 text-sm font-semibold text-brand-600">{TAGLINE_SUB}</p>
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">
+          <div className="animate-fade-up">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white/70 px-3 py-1 text-xs font-semibold text-brand-600 shadow-sm backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              {TAGLINE_SUB}
+            </span>
+            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
               あなたの手取り、
               <br />
-              年いくら<span className="text-brand-600">増やせる</span>？
+              年いくら
+              <span className="relative whitespace-nowrap text-brand-600">
+                増やせる
+                <span
+                  aria-hidden
+                  className="absolute -bottom-1 left-0 h-1.5 w-full rounded-full bg-emerald-400/50"
+                />
+              </span>
+              ？
             </h1>
-            <p className="mt-4 text-slate-600">
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
               保険もふるさと納税もNISAも——単発の計算機ではなく、
-              <strong className="text-slate-800">まとめて“適正”をチェック</strong>。
+              <strong className="font-semibold text-slate-800">まとめて“適正”をチェック</strong>。
               手取りを増やす打ち手を効果額順に並べます。売らないから、要らないものは「今のままでいい」と正直に。
               <span className="text-slate-500">ひとりでも、夫婦の世帯合算でも。</span>
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/diagnose"
-                className="inline-flex items-center rounded-lg bg-brand-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brand-700"
+                className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
               >
                 無料で診断する
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                >
+                  <path d="M4 10h11M11 5l5 5-5 5" />
+                </svg>
               </Link>
               <span className="text-xs text-slate-400">ログイン不要・数分・ひとりでもOK</span>
             </div>
@@ -140,8 +169,18 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 右：改善余地カード（製品プレビュー） */}
-          <div className="relative">
+          {/* 右：改善余地カード（製品プレビュー・浮遊＋積層で奥行き） */}
+          <div className="relative animate-fade-up [animation-delay:120ms]">
+            {/* グロー */}
+            <div
+              aria-hidden
+              className="absolute -inset-5 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-500/25 to-emerald-300/20 blur-2xl"
+            />
+            {/* 背面カード（積層） */}
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-10 rotate-3 rounded-2xl bg-brand-100/70 ring-1 ring-brand-100"
+            />
             <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 p-6 text-white shadow-xl ring-1 ring-brand-700/20">
               <p className="text-xs font-medium text-brand-100">【手取りラボ診断】改善余地</p>
               <p className="mt-1 text-3xl font-bold tabular-nums">
@@ -161,6 +200,13 @@ export default function Home() {
                 ))}
               </div>
               <p className="mt-3 text-[11px] text-brand-200">※ 表示は入力例のイメージです</p>
+            </div>
+            {/* 浮遊バッジ：No.1の打ち手 */}
+            <div className="absolute -right-3 -top-4 animate-float rounded-xl bg-white px-3 py-2 shadow-card ring-1 ring-slate-100">
+              <p className="text-[10px] font-medium text-slate-500">No.1の打ち手</p>
+              <p className="text-sm font-bold tabular-nums text-emerald-600">
+                {ACTIONS[0].yen}<span className="text-[10px] font-medium text-slate-400">／年</span>
+              </p>
             </div>
           </div>
         </div>
