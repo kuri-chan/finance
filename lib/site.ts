@@ -44,7 +44,7 @@ export const SITE_KEYWORDS = [
  * OGカードの既定画像（トップ・共有の汎用ヒーロー）。
  * rev はキャッシュ無効化用。OGのコピー/デザインを変えたら rev を上げる（SNS/CDNの再取得を促す）。
  */
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?v=hero&rev=2`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/api/og?v=hero&rev=3`;
 
 /** SNS（運営者の発信）。ハンドルは全チャネル `tedori__lab` に統一。空なら非表示。 */
 export const NOTE_URL = 'https://note.com/tedori__lab';

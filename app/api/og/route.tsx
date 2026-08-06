@@ -30,7 +30,8 @@ async function loadJapaneseFont(text: string): Promise<ArrayBuffer> {
 }
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams, origin } = new URL(req.url);
+  const logoUrl = `${origin}/brand/logo_main_clear.png`;
   const variant = searchParams.get('v');
   const fy = Math.max(0, Number(searchParams.get('fy')) || 0);
   const lt = Math.max(0, Number(searchParams.get('lt')) || 0);
@@ -93,7 +94,23 @@ export async function GET(req: Request) {
           fontFamily: 'Noto Sans JP',
         }}
       >
-        <div style={{ display: 'flex', fontSize: 34, opacity: 0.9 }}>{label}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+          <div
+            style={{
+              display: 'flex',
+              width: 76,
+              height: 76,
+              borderRadius: 18,
+              background: '#ffffff',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logoUrl} width={62} height={62} alt="" />
+          </div>
+          <div style={{ display: 'flex', fontSize: 38, fontWeight: 700 }}>{brand}</div>
+        </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', fontSize: 38, opacity: 0.9, marginBottom: 10 }}>
