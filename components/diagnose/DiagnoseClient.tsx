@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { LifePolicyType, Role } from '@/lib/insurance';
 import { optimizeHousehold } from '@/lib/optimize';
+import { BrushUnderline } from '@/components/BrushUnderline';
 import { Card, CheckChips, Field, NumberField, Segmented, Toggle } from '@/components/ui';
 import {
   AUTO_RIDER_OPTIONS,
@@ -95,12 +96,13 @@ export default function DiagnoseClient() {
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-8">
-      <header className="mb-6 flex items-center justify-between">
-        <span className="text-sm font-semibold text-slate-700">
-          {form.mode === 'single' ? 'あなたのお金診断' : '二人のお金診断'}
+      <header className="mb-4 flex items-baseline justify-between gap-3 text-xs tracking-[0.12em]">
+        <span className="font-bold text-brand-600">
+          無料診断
+          <span className="font-normal text-slate-400"> / {form.mode === 'single' ? 'ひとり' : '世帯'}</span>
         </span>
-        <span className="text-xs text-slate-400">
-          {step + 1} / {STEPS.length}・
+        <span className="shrink-0 text-slate-400">
+          STEP {step + 1}/{STEPS.length}・
           {form.mode === 'single' && step === 0 ? 'あなたのこと' : STEPS[step]}
         </span>
       </header>
@@ -139,15 +141,19 @@ export default function DiagnoseClient() {
         <div className="mb-5 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 px-4 py-3 text-white">
           <p className="text-xs text-brand-100">今の入力での概算・改善余地（＝手取りを増やせる目安）</p>
           <p className="mt-0.5 text-2xl font-bold tabular-nums">
-            年 約{formatMan(liveEstimate)}
+            年 <BrushUnderline>約{formatMan(liveEstimate)}</BrushUnderline>
             <span className="ml-1 text-xs font-medium text-brand-100">入力を進めるほど正確に</span>
           </p>
         </div>
       )}
 
-      {step === 0 && <StepPeople form={form} update={update} />}
-      {step === 1 && <StepLife form={form} update={update} />}
-      {step === 2 && <StepInsurance form={form} update={update} />}
+      {step < 3 && (
+        <div key={step} className="animate-fade-up">
+          {step === 0 && <StepPeople form={form} update={update} />}
+          {step === 1 && <StepLife form={form} update={update} />}
+          {step === 2 && <StepInsurance form={form} update={update} />}
+        </div>
+      )}
       {step === 3 && optimization && (
         <Result optimization={optimization} onReset={() => setStep(0)} />
       )}
@@ -165,9 +171,20 @@ export default function DiagnoseClient() {
           <button
             type="button"
             onClick={() => setStep((s) => s + 1)}
-            className="rounded-lg bg-brand-600 px-6 py-2.5 font-semibold text-white shadow-sm transition hover:bg-brand-700"
+            className="group inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-2.5 font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-700"
           >
             {step === 2 ? '診断する' : '次へ'}
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+            >
+              <path d="M4 10h11M11 5l5 5-5 5" />
+            </svg>
           </button>
         </div>
       )}
