@@ -11,11 +11,19 @@
   "destinations": {
     "life_review": {
       "id": "life_review",
-      "provider": "（ASP登録後に設定）",
-      "label": "保険の見直しを専門家に無料相談",
-      "url": "",
+      "provider": "みんなの生命保険アドバイザー（アクセストレード）",
+      "label": "保険の見直しを無料で相談する",
+      "url": "https://h.accesstrade.net/sp/cc?rk=0100pfk700owhe",
       "kind": "consultation",
-      "note": "生保・医療・貯蓄性保険の過不足や重複の見直し窓口への送客を想定。"
+      "note": "主砲＝保険相談。みんなの生命保険アドバイザー（FP無料相談マッチング）。2026-08-07承認・接続。rr(ピクセル)は省略しcc(click)のみ。rel=sponsored noopenerで参照元を送信。secondaryDomainMapでガーデン(life_review2)と2枚。承認で保険カテゴリ全記事＋診断結果に自動点灯。"
+    },
+    "life_review2": {
+      "id": "life_review2",
+      "provider": "保険の無料相談「ガーデン」（アクセストレード）",
+      "label": "別の窓口でも無料相談する",
+      "url": "https://h.accesstrade.net/sp/cc?rk=0100ped000owhe",
+      "kind": "consultation",
+      "note": "保険相談の2枚目。保険の無料相談サイト「ガーデン」。2026-08-07承認・接続。診断結果の保険レバーで life_review と併記（ユーザーが窓口を選べる）。"
     },
     "fire_estimate": {
       "id": "fire_estimate",
@@ -37,17 +45,17 @@
       "id": "furusato_portal",
       "provider": "ふるなび（アイモバイル / バリューコマース）",
       "label": "ふるなびで寄附先を探す",
-      "url": "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816",
+      "url": "",
       "kind": "estimate",
-      "note": "ふるさと納税ポータル（ふるなび）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。承認率89%。secondaryDomainMapでふるさとチョイスと2枚並列。"
+      "note": "ふるさと納税ポータル（ふるなび）。2026-08-07時点でVCの提携審査が未了＝リンク無効のため url を空に戻し『準備中』表示。審査承認後に https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816 を再投入。"
     },
     "furusato_choice": {
       "id": "furusato_choice",
       "provider": "ふるさとチョイス（バリューコマース）",
       "label": "ふるさとチョイスで寄附先を探す",
-      "url": "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892673897",
+      "url": "",
       "kind": "estimate",
-      "note": "ふるさと納税ポータル（ふるさとチョイス）への送客。VCのMyLink（click計測URL・imgピクセルは省略）。2026-08-06承認・接続。furusato の2枚目として併記。"
+      "note": "ふるさと納税ポータル（ふるさとチョイス）。2026-08-07時点でVCの提携審査が未了＝リンク無効のため url を空に。審査承認後に https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892673897 を再投入。"
     },
     "securities_account": {
       "id": "securities_account",
@@ -77,6 +85,9 @@
     "nisa": "securities_account"
   },
   "secondaryDomainMap": {
+    "life": "life_review2",
+    "medical": "life_review2",
+    "savings_insurance": "life_review2",
     "furusato": "furusato_choice"
   },
   "gapDestination": "life_review"
