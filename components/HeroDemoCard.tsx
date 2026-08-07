@@ -117,7 +117,7 @@ export function HeroDemoCard() {
         {/* ヘッダー：ラベル（左）＋ No.1の打ち手（右上余白に格納） */}
         <div className="flex items-start justify-between gap-2">
           <p className="text-xs font-medium text-brand-100">【手取りラボ診断】改善余地</p>
-          <div className="shrink-0 rounded-lg bg-white/15 px-2.5 py-1 text-right">
+          <div className="shrink-0 rounded-lg bg-white/15 px-2.5 py-1 text-center">
             <p className="text-[9px] leading-none text-brand-100">No.1の打ち手</p>
             <p className="mt-0.5 text-sm font-bold leading-none tabular-nums text-emerald-200">
               {p.actions[0].yen}

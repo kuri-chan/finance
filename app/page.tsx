@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BrushUnderline } from '@/components/BrushUnderline';
 import { HeroDemoCard } from '@/components/HeroDemoCard';
@@ -106,16 +107,21 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white" />
           <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-400/20 blur-3xl" />
           <div className="absolute -left-24 top-28 h-72 w-72 rounded-full bg-emerald-300/15 blur-3xl" />
-          <span className="absolute -top-20 right-0 select-none text-[clamp(220px,32vw,420px)] font-bold leading-none text-brand-100/70">
-            ¥
-          </span>
+          <Image
+            src="/brand/logo_main_clear.png"
+            alt=""
+            aria-hidden
+            width={460}
+            height={460}
+            className="absolute -top-10 -right-6 h-auto w-[clamp(220px,32vw,440px)] opacity-[0.07]"
+          />
         </div>
 
         <div className="mx-auto max-w-5xl px-6 pb-16 pt-8">
           {/* インデックス行（雑誌的な章番号＋罫線） */}
-          <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.14em] text-slate-500">
-            <span className="truncate">手取りラボ ── {TAGLINE_SUB}</span>
+          <div className="flex items-baseline gap-3 text-xs tracking-[0.14em] text-slate-500">
             <span className="shrink-0 font-bold text-brand-600">No.01 / LAB</span>
+            <span className="truncate">── {TAGLINE_SUB}</span>
           </div>
           <div className="mt-3 h-px bg-slate-200" />
 

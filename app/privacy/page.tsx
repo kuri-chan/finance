@@ -11,7 +11,12 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
-      <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">プライバシーポリシー</h1>
+      <div className="flex items-baseline justify-between gap-4 text-xs tracking-[0.14em] text-slate-500">
+        <span className="truncate">手取りラボ ── プライバシーポリシー</span>
+        <span className="shrink-0 font-bold text-brand-600">PRIVACY</span>
+      </div>
+      <div className="mt-3 h-px bg-slate-200" />
+      <h1 className="mt-6 text-2xl font-bold text-slate-900 sm:text-3xl">プライバシーポリシー</h1>
       <p className="mt-2 text-sm text-slate-400">最終改定日：{POLICY_UPDATED}</p>
 
       <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold">
