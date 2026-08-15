@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArticleConsultCta } from '@/components/ArticleConsultCta';
 import { ArticleCta } from '@/components/ArticleCta';
+import { ArticleFpConsultCta } from '@/components/ArticleFpConsultCta';
 import { JsonLd } from '@/components/JsonLd';
 import { getAllArticleMeta, getAllSlugs, getArticle } from '@/lib/content/articles';
 import { PEN_NAME, SITE_NAME, SITE_URL } from '@/lib/site';
@@ -119,6 +120,9 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       )}
 
       {article.category === '保険' && <ArticleConsultCta />}
+      {(article.category === 'NISA' ||
+        article.category === 'iDeCo' ||
+        article.category === '家計') && <ArticleFpConsultCta />}
       <ArticleCta />
 
       <JsonLd data={jsonLd} />

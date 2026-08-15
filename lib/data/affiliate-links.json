@@ -25,6 +25,14 @@
       "kind": "consultation",
       "note": "保険相談の2枚目。保険の無料相談サイト「ガーデン」。2026-08-07承認・接続。診断結果の保険レバーで life_review と併記（ユーザーが窓口を選べる）。"
     },
+    "life_review3": {
+      "id": "life_review3",
+      "provider": "ファイナンシャルプランナーに相談（A8.net）",
+      "label": "資産形成やライフリスクをFPに相談する",
+      "url": "https://px.a8.net/svt/ejp?a8mat=4B8COV+461982+5MAS+5ZEMQ",
+      "kind": "consultation",
+      "note": "2026-08-13承認・接続（案件名『安定した未来のため資産形成やライフリスクは【ファイナンシャルプランナーに相談】』・素材ID 24-0903）。診断結果の保険レバー（life_review/life_review2）とは別枠として、NISA/iDeCo/家計カテゴリ記事末尾の`ArticleFpConsultCta`（components/ArticleFpConsultCta.tsx）から getAffiliateById('life_review3') で参照・表示中。domainMap/secondaryDomainMapへの追加（診断結果画面への表示）は将来検討・未実施。"
+    },
     "fire_estimate": {
       "id": "fire_estimate",
       "provider": "保険スクエアbang!（ウェブクルー / A8.net）",
