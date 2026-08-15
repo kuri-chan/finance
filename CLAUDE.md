@@ -1,5 +1,7 @@
 # 世帯まるごと手取り最適化ツール — プロダクト仕様書 (PRD)
 
+> **🧭 新セッションの最初に読むこと**：このPRDは事業の「なぜ／何を」。**「今どう動いているか（運用スキーム・8つの定期タスク・アフィリ配管の状態・あなたの対応事項）」は [`docs/operation-scheme.md`](docs/operation-scheme.md) が最新の全体像**。壁打ち・実装の前に、まず operation-scheme.md（＋話題に応じた個別doc）に目を通してから始める。関連doc：`docs/sns-growth-playbook.md`（SNS戦略）／`docs/sns-reply-playbook.md`（リプ営業）／`docs/sns-metrics-log.md`（数値ログ）／`docs/seo-strategy.md`（SEO）／`docs/brand.md`（ブランド）。
+
 > このファイルは Claude Code プロジェクトの `CLAUDE.md` / `docs/spec.md` の種として使う。
 > 作った後、リポジトリ直下に置き、AIに「この仕様に沿って実装して」と渡す前提で書いている。
 
