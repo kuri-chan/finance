@@ -51,11 +51,11 @@
     },
     "furusato_portal": {
       "id": "furusato_portal",
-      "provider": "ふるなび（アイモバイル / バリューコマース）",
+      "provider": "ふるなび（アクセストレード）",
       "label": "ふるなびで寄附先を探す",
-      "url": "",
+      "url": "https://h.accesstrade.net/sp/cc?rk=0100ob7n00owhe",
       "kind": "estimate",
-      "note": "ふるさと納税ポータル（ふるなび）。2026-08-07時点でVCの提携審査が未了＝リンク無効のため url を空に戻し『準備中』表示。審査承認後に https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816 を再投入。"
+      "note": "ふるさと納税ポータル（ふるなび）。2026-08-20 アクセストレードで承認・接続。提携経路をVC（審査未了で無効化していた）からATへ切替。repo慣例に従いrr(ピクセル)は省略しcc(click)のみ。承認でfurusatoレバーの1枚目（診断結果＋ふるさと納税記事）に自動点灯。secondaryDomainMapの furusato_choice（ふるさとチョイス）は未承認のため空のまま。旧VCリンク: https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3777360&pid=892671816"
     },
     "furusato_choice": {
       "id": "furusato_choice",
