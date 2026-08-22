@@ -1,0 +1,390 @@
+/*
+ * 「結婚したら診断」の結果＝設計図シートの緑ブループリント調。
+ * 正典：docs/手取りラボ_スマホ無料診断_プロトタイプ.html の .sheet 系スタイルを移植。
+ * ここだけ緑(#16453A)をスコープ適用し、サイト全体（青系Tailwind）は汚さない。
+ * フォントはGoogle Fontsを新規読込せず、システムの明朝/等幅フォールバックで賄う。
+ */
+
+.scope {
+  --ink: #16453a;
+  --ink2: #2e8b6f;
+  --amber: #b5791a;
+  --clay: #c25b4a;
+  --card: #ffffff;
+  --line: #c9d3ce;
+  --muted: #5a6b64;
+  --grid: #e7ece9;
+  --mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  --mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  color: var(--ink);
+}
+
+/* 設計図シート本体 */
+.sheet {
+  position: relative;
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 22px 18px 16px;
+  overflow: hidden;
+}
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.sheet > * {
+  position: relative;
+}
+.corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--ink2);
+}
+.c1 {
+  top: 6px;
+  left: 6px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.c2 {
+  top: 6px;
+  right: 6px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.c3 {
+  bottom: 6px;
+  left: 6px;
+  border-right: 0;
+  border-top: 0;
+}
+.c4 {
+  bottom: 6px;
+  right: 6px;
+  border-left: 0;
+  border-top: 0;
+}
+.title {
+  font-family: var(--mincho);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* 設計タイプ（動物） */
+.type {
+  text-align: center;
+  margin: 10px 0 4px;
+}
+.emblem {
+  width: 128px;
+  height: 128px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.emoji {
+  font-size: 64px;
+  line-height: 1.2;
+}
+.name {
+  font-family: var(--mincho);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-top: 2px;
+}
+.sub2 {
+  font-size: 12px;
+  color: var(--ink2);
+  font-weight: 700;
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+.desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 7px;
+}
+
+/* 最初の一手 */
+.move {
+  background: #f1f7f4;
+  border-radius: 7px;
+  padding: 10px 12px;
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.moveTag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ink2);
+  border-radius: 4px;
+  padding: 3px 7px;
+  letter-spacing: 0.06em;
+  flex: none;
+}
+.moveTxt {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.rule {
+  height: 1px;
+  background: var(--line);
+  margin: 14px 0;
+}
+
+/* 明細行 */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 0;
+}
+.row + .row {
+  border-top: 1px dashed #dce4e0;
+}
+.k {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  flex: none;
+  padding-top: 3px;
+  width: 92px;
+}
+.v {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.fig {
+  font-family: var(--mono);
+}
+.v small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.flagOk {
+  color: var(--ink2);
+}
+.flagWarn {
+  color: var(--clay);
+}
+
+/* 将来teaser */
+.future {
+  background: #fbf7ee;
+  border: 1px solid #eadfc5;
+  border-radius: 7px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+.futureCap {
+  font-size: 11px;
+  color: var(--amber);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.futureBig {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 2px 0;
+}
+.future small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* 印章 */
+.seal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.stamp {
+  font-family: var(--mincho);
+  border: 1px solid var(--clay);
+  color: var(--clay);
+  border-radius: 4px;
+  padding: 2px 7px;
+  letter-spacing: 0.08em;
+  transform: rotate(-3deg);
+}
+
+/* 保存ボタン */
+.savebtn {
+  margin-top: 14px;
+  width: 100%;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+.savebtn:active {
+  background: #f1f7f4;
+}
+.savebtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* クリフハンガー＋ぼかしプレビュー */
+.cliff {
+  margin-top: 12px;
+  border: 1px dashed var(--ink2);
+  border-radius: 8px;
+  padding: 14px;
+  background: #f1f7f4;
+}
+.cliffT {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.cliffL {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 6px;
+}
+.preview {
+  position: relative;
+  margin-top: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.pvCard {
+  padding: 16px 16px 18px;
+  user-select: none;
+}
+.pvCard h3 {
+  font-family: var(--mincho);
+  font-size: 14px;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 10px;
+}
+.pvRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 6px 0;
+  border-top: 1px dashed #dce4e0;
+}
+.pvRow .pvV {
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--ink);
+  filter: blur(4.5px);
+}
+.pvBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 56px;
+  margin-top: 12px;
+  filter: blur(4.5px);
+}
+.pvBars span {
+  flex: 1;
+  background: var(--ink2);
+  border-radius: 3px 3px 0 0;
+  opacity: 0.85;
+}
+.pvLock {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px;
+  border-top: 1px dashed #dce4e0;
+  background: #f1f7f4;
+}
+.pvLockK {
+  font-size: 26px;
+}
+.pvLockT {
+  font-family: var(--mincho);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+.pvLockS {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* CTA（→改善余地診断 /diagnose 橋渡し） */
+.cta {
+  margin-top: 12px;
+  background: var(--ink);
+  color: #fff;
+  border: 0;
+  width: 100%;
+  border-radius: 8px;
+  padding: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+}
+.cta small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 3px;
+}
+.sharehint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+  line-height: 1.7;
+}
+.again {
+  display: block;
+  margin: 14px auto 0;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -37,10 +37,20 @@ export async function GET(req: Request) {
   const lt = Math.max(0, Number(searchParams.get('lt')) || 0);
   const top = (searchParams.get('top') ?? '').slice(0, 40);
   const articleTitle = (searchParams.get('t') ?? '').slice(0, 60);
+  // v=couple: 結婚したら診断の設計タイプカード（動物・タイプ名・フレーバー）
+  const coupleType = (searchParams.get('type') ?? '').slice(0, 24);
+  const coupleAnimal = (searchParams.get('animal') ?? '').slice(0, 24);
+  const coupleFlavor = (searchParams.get('flavor') ?? '').slice(0, 24);
+  // エンブレム画像キー。公開ファイル名のみ許可（パストラバーサル防止）。
+  const coupleEmblemRaw = searchParams.get('e') ?? '';
+  const coupleEmblem = /^tedori_\d{2}_[a-z]+$/.test(coupleEmblemRaw) ? coupleEmblemRaw : '';
+  const coupleEmblemUrl = coupleEmblem ? `${origin}/caractors/${coupleEmblem}.png` : '';
 
-  // t=記事タイトル: 記事カード。v=hero: 汎用カード。既定: 診断結果カード（数字あり）。
+  // t=記事タイトル: 記事カード。v=couple: 診断タイプカード。v=hero: 汎用カード。既定: 改善余地カード（数字あり）。
   const isArticle = articleTitle !== '';
-  const isHero = variant === 'hero' && !isArticle;
+  const isCouple = variant === 'couple' && !isArticle;
+  const isHero = variant === 'hero' && !isArticle && !isCouple;
+  const twoLine = isHero || isCouple;
 
   const label = '【手取りラボ】';
   const brand = '手取りラボ';
@@ -52,7 +62,14 @@ export async function GET(req: Request) {
         head: articleTitle,
         tail: '保険・ふるさと納税・NISAを、やさしく解説（元保険会社の営業）',
       }
-    : isHero
+    : isCouple
+      ? {
+          sub: '結婚したら診断・我が家のお金の設計図',
+          head: coupleAnimal ? `${coupleAnimal}型` : 'お金の設計',
+          head2: `${coupleType}${coupleFlavor}`,
+          tail: '二人のタイプは？あなたたちも30秒5問で無料診断',
+        }
+      : isHero
       ? {
           sub: '保険・ふるさと納税・iDeCo・NISAを、まとめて。',
           head: 'あなたの手取り、',
@@ -89,7 +106,9 @@ export async function GET(req: Request) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '64px',
-          background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+          background: isCouple
+            ? 'linear-gradient(135deg, #16453A, #0F3128)'
+            : 'linear-gradient(135deg, #2563eb, #1d4ed8)',
           color: 'white',
           fontFamily: 'Noto Sans JP',
         }}
@@ -120,10 +139,16 @@ export async function GET(req: Request) {
             <div style={{ display: 'flex', fontSize: 56, fontWeight: 700, lineHeight: 1.3 }}>
               {middle.head}
             </div>
-          ) : isHero ? (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', fontSize: 78, fontWeight: 700 }}>{middle.head}</div>
-              <div style={{ display: 'flex', fontSize: 78, fontWeight: 700 }}>{middle.head2}</div>
+          ) : twoLine ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+              {isCouple && coupleEmblemUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={coupleEmblemUrl} width={200} height={200} alt="" />
+              ) : null}
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', fontSize: isCouple ? 72 : 78, fontWeight: 700 }}>{middle.head}</div>
+                <div style={{ display: 'flex', fontSize: isCouple ? 72 : 78, fontWeight: 700 }}>{middle.head2}</div>
+              </div>
             </div>
           ) : (
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
@@ -136,7 +161,7 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        {!isHero && middle.action ? (
+        {!twoLine && middle.action ? (
           <div
             style={{
               display: 'flex',
