@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import { type Diagnosis, fmtMan } from '@/lib/couple';
+import { NoteDeepDiveCta } from '@/components/NoteDeepDiveCta';
 import { CoupleConsultCta } from './CoupleConsultCta';
 import { OptinCard } from './OptinCard';
 import s from './Result.module.css';
@@ -274,6 +275,9 @@ export default function Result({ diagnosis, onReset }: { diagnosis: Diagnosis; o
             </div>
           </div>
         </div>
+
+        {/* 深掘り版（有料note）＝クリフハンガー「深掘り版で解錠」の受け皿。URL未設定なら非表示 */}
+        <NoteDeepDiveCta from="couple" />
 
         {/* CTA①（主）：改善余地診断（/diagnose）への橋渡し＝全体最適・中立 */}
         <Link

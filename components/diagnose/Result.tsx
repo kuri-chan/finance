@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { CoverageCaseResult } from '@/lib/insurance';
 import type { HouseholdOptimization, LeverDomain } from '@/lib/optimize';
 import { BrushUnderline } from '@/components/BrushUnderline';
+import { NoteDeepDiveCta } from '@/components/NoteDeepDiveCta';
 import { Card } from '@/components/ui';
 import {
   getAffiliateForDomain,
@@ -621,6 +622,9 @@ export default function Result({
           </div>
         </section>
       )}
+
+      {/* 深掘り版（有料note）＝さらに自分の数字で詰めたい人へ。URL未設定なら非表示 */}
+      <NoteDeepDiveCta from="diagnose" />
 
       {/* シェアカード */}
       <section>

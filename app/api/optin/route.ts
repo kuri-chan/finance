@@ -142,6 +142,8 @@ export async function POST(req: Request): Promise<Response> {
       firstMove,
       diagnoseUrl: `${siteUrl()}/diagnose`,
       unsubscribeUrl: UNSUBSCRIBE,
+      // 有料「深掘り版」note。未設定ならメール本文に出さない（公開後にVercelで設定）。
+      noteUrl: process.env.NEXT_PUBLIC_NOTE_FUKABORI_URL || undefined,
     });
     const res = await fetch(`${BREVO_BASE}/smtp/email`, {
       method: 'POST',

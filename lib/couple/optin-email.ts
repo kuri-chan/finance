@@ -17,6 +17,8 @@ export interface OptinEmailInput {
   diagnoseUrl: string;
   /** 配信解除リンク（フッター必須・A-2/B-7） */
   unsubscribeUrl: string;
+  /** 有料「深掘り版」note のURL（未設定なら本文に出さない） */
+  noteUrl?: string;
 }
 
 export interface OptinEmail {
@@ -47,6 +49,9 @@ export function buildOptinEmail(i: OptinEmailInput): OptinEmail {
     'あなたの世帯だと、保険・ふるさと納税・iDeCo・NISAで“いくら”手取りを増やせるか、円で出せます。',
     '→ 改善余地を円で診断する（1分）',
     i.diagnoseUrl,
+    ...(i.noteUrl
+      ? ['', '自分の数字で回したい人は、深掘り版（先行1,480円）も。', i.noteUrl]
+      : []),
     '',
     '――――――――――',
     '手取りラボ（手取りの番人）',
@@ -78,7 +83,13 @@ export function buildOptinEmail(i: OptinEmailInput): OptinEmail {
         改善余地を“円”で診断する（1分）
       </a>
     </p>
-
+${
+  i.noteUrl
+    ? `    <p style="margin:0 0 24px;font-size:14px;color:#55605a;">
+      自分の数字で回したい人は、<a href="${esc(i.noteUrl)}" style="color:#0c5f40;">深掘り版（先行1,480円）</a>も。保険・ふるさと納税・iDeCo・NISA・住宅・家計を、あなたの数字で。
+    </p>\n`
+    : ''
+}
     <div style="border-top:1px solid #dfe3df;margin:24px 0 14px;"></div>
     <p style="margin:0;font-size:12px;color:#7b857e;line-height:1.7;">
       手取りラボ（手取りの番人）｜info@tedorilab.com<br>

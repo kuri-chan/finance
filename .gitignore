@@ -17,3 +17,6 @@ coverage/
 # TypeScript ビルドキャッシュ
 tsconfig.tsbuildinfo
 .DS_Store
+
+# 有料プロダクト資産（PUBLICリポジトリのため絶対にcommitしない）
+/products/
