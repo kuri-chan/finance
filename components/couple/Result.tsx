@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { trackEvent } from '@/lib/analytics';
 import { type Diagnosis, fmtMan } from '@/lib/couple';
+import { CoupleConsultCta } from './CoupleConsultCta';
 import { OptinCard } from './OptinCard';
 import s from './Result.module.css';
 
@@ -274,7 +275,7 @@ export default function Result({ diagnosis, onReset }: { diagnosis: Diagnosis; o
           </div>
         </div>
 
-        {/* CTA：第一弾は改善余地診断（/diagnose）への橋渡しに一本化 */}
+        {/* CTA①（主）：改善余地診断（/diagnose）への橋渡し＝全体最適・中立 */}
         <Link
           href="/diagnose"
           className={s.cta}
@@ -283,6 +284,9 @@ export default function Result({ diagnosis, onReset }: { diagnosis: Diagnosis; o
           改善余地を“円”で診断する
           <small>保険・ふるさと納税・iDeCo・NISAを横断｜無料・ログイン不要</small>
         </Link>
+
+        {/* CTA②（従）：保険の見直し・無料相談。全カップル対象／URL未設定なら非表示 */}
+        <CoupleConsultCta />
 
         <div className={s.sharehint}>保存した画像を、二人で共有・SNSでシェア</div>
         <button type="button" className={s.again} onClick={onReset}>

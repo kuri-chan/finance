@@ -29,6 +29,12 @@ export function SiteHeader() {
             お金のガイド
           </Link>
           <Link
+            href="/couple"
+            className="hidden whitespace-nowrap font-medium text-slate-700 hover:text-brand-700 min-[480px]:inline"
+          >
+            二人版
+          </Link>
+          <Link
             href="/diagnose"
             className="whitespace-nowrap rounded-lg bg-brand-600 px-3.5 py-1.5 font-semibold text-white transition hover:bg-brand-700"
           >

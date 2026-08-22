@@ -171,6 +171,17 @@ export default function Home() {
                 <span className="text-xs text-slate-400">ログイン不要・数分・ひとりでもOK</span>
               </div>
 
+              <p className="mt-3 text-sm text-slate-500">
+                結婚・同棲した二人は、
+                <Link
+                  href="/couple"
+                  className="font-medium text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800"
+                >
+                  二人版の30秒診断
+                </Link>
+                へ。
+              </p>
+
               <div className="mt-6 flex flex-wrap gap-2">
                 <Chip>
                   <span className="text-brand-500">●</span> 元保険会社の営業が設計

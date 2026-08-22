@@ -2,11 +2,27 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArticleConsultCta } from '@/components/ArticleConsultCta';
+import { ArticleCoupleCta } from '@/components/ArticleCoupleCta';
 import { ArticleCta } from '@/components/ArticleCta';
 import { ArticleFpConsultCta } from '@/components/ArticleFpConsultCta';
 import { JsonLd } from '@/components/JsonLd';
 import { getAllArticleMeta, getAllSlugs, getArticle } from '@/lib/content/articles';
 import { PEN_NAME, SITE_NAME, SITE_URL } from '@/lib/site';
+
+/**
+ * 結婚したら診断（/couple）への回遊導線を出す記事スラッグ。
+ * 結婚・同棲・出産・共働き・世帯設計など「二人でお金を合算する」文脈の記事に限定。
+ * 新しく該当記事を足したらここに追記する。
+ */
+const COUPLE_ARTICLE_SLUGS = new Set([
+  'kekkon-seimeihoken-minaoshi',
+  'kekkon-jidoshahoken-minaoshi',
+  'shinkon-okane-minaoshi-5step',
+  'shussan-okane-minaoshi',
+  'kyodoki-hitsuyo-hoshougaku',
+  'chintai-vs-kounyu',
+  'setai-nenshu-tedori',
+]);
 
 /** 同カテゴリを優先に関連記事を最大4件（自身を除く・不足分は新着で補完） */
 function relatedArticles(slug: string, category?: string) {
@@ -123,6 +139,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       {(article.category === 'NISA' ||
         article.category === 'iDeCo' ||
         article.category === '家計') && <ArticleFpConsultCta />}
+      {COUPLE_ARTICLE_SLUGS.has(article.slug) && <ArticleCoupleCta />}
       <ArticleCta />
 
       <JsonLd data={jsonLd} />
